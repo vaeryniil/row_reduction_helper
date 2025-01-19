@@ -1,0 +1,29 @@
+hello, I am working on writing a website for this
+rref helper. I do not know at what point I will be 
+able to stert implimenting your functions.
+
+If you want to fallow what I am doing though, here is
+ what you have to do:
+
+in the-carmen-project, type "python -m venv venv"
+this makes a virtual environment for the webserver i believe.
+there is also a chance this will make git upset, 
+so also in the-carmen-project you might want to make a 
+file called .gitignore, dk if you can see mine, if you can great
+if not make one on your side and put "\venv" in it. not with the
+quotes.
+then type 
+source venv/bin/activate
+bc thats how you activate it in apple
+
+then this 
+pip install -r requirements.txt
+downloads django 
+
+then this 
+python manage.py migrate
+fixes something idk
+
+then ...
+python manage.py runserver
+you can click on the website! assuming I have no errors on website.
