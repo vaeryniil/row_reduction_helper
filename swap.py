@@ -1,4 +1,6 @@
 #a function to swap two rows of a matrix
+#umm, and another one to scale a row
+#and, uh, another function to try to deal with fractions
 from math import gcd
 
 test_matrix = [[2,4,6],[0,-7,-4],[3,1,-1]]
