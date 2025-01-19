@@ -3,6 +3,9 @@
 #Question: can I represent fractions in the matrix as tuples? 
 #Answer; yes, but you need to account for them!
 
+#Another question: Would this be simpler if I represented _all_ elements in the matrix as tuples? (Integers would just be (x,1))?
+#Answer: I'm not sure. Will ponder
+
 
 from math import gcd
 
