@@ -1,6 +1,8 @@
-#a function to swap two rows of a matrix
-#umm, and another one to scale a row
-#and, uh, another function to try to deal with fractions
+#a function to do a basic row operation: swap two rows of a matrix
+
+# This function does _not_ require that fractions be represented in the matrix as tuples with the numerator in the first position and the 
+#denominator in the second position. However, to mesh this basic row operation with the others in this project, use that matrix format.
+
 from math import gcd
 
 test_matrix = [[2,4,6],[0,-7,-4],[3,1,-1]]
@@ -11,22 +13,5 @@ def row_swap (my_matrix: list, row1: int,row2: int) -> list:
     my_matrix[row2 - 1] = temp
     return (my_matrix)
 
-new_matrix = row_swap(test_matrix,3,2)
+new_matrix = row_swap(test_matrix,1,2)
 print(new_matrix)
-
-def row_scale (my_matrix: list, row1: int, multiplier: float) -> list:
-    for i in range (len(my_matrix[row1-1])):
-        my_matrix[row1-1][i] =  my_matrix[row1-1][i]* multiplier
-    return (my_matrix)
-
-scaled_matrix = row_scale (test_matrix,1,0.5)
-print (scaled_matrix)
-
-
-def reduce_frac (x,y):
-    g_c_d = gcd(x,y)
-    x = x // g_c_d
-    y = y // g_c_d
-    return ((x,y))
-
-reduce_frac(8,10)
