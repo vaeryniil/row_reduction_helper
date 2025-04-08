@@ -1,37 +1,51 @@
-#a function to do a basic row operation: multiply all entries in a row by a nonzero constant
+#a function to do a basic row operation: multiply or divide all entries in a row by a constant
 
-#Question: can I represent fractions in the matrix as tuples? 
-#Answer; yes, but you need to account for them!
+#All entries in the matrix are represented as tuples, with intgers having the form (x,1).
 
-#Another question: Would this be simpler if I represented _all_ elements in the matrix as tuples? (Integers would just be (x,1))?
-#Answer: I'm not sure. Will ponder
+#3.30.25 Basic funtionality complete. Later I'd like to take out the error messages and put them in the main. Whatever reaches this 
+#point would be in the proper format
 
 
 from math import gcd
 
-test_matrix = [[2,4,6],[0,-7,-4],[3,1,-1]]
+#test_matrix = [[2,4,6],[0,-7,-4],[3,1,-1]]
+test_matrix = [[(2,1),(4,1),(6,1)],[(0,1),(-7,1),(-4,1)],[(3,1),(1,1),(-1,1)]]
 
-def reduce_frac (x,y):
+
+#note: math.gcd only accepts integers
+def reduce_frac (x:int,y:int):
     g_c_d = gcd(x,y)
     x = x // g_c_d
     y = y // g_c_d
     return ((x,y))
 
-#this function cannot yet handle the case where there are fraction tuples in the incoming matrix
-def row_scale (my_matrix: list, row1: int, divider: float) -> list:
-    if divider == 0:
-        print("Entries cannot be divided by zero")
-        return 
+
+
+#operator: 0 = division, 1 = multiplication. operand: (numerator,denominator)
+def row_scale (my_matrix: list, row1: int, operator: int, operand: tuple) -> list:
+    if operator != 0 and operator != 1:
+        print("Scaling supports multilpicaton and division. Type 0 for division, 1 for multiplication.")
+        return
+    numerator = operand[0]
+    denominator = operand[1]
+    if operand[1] == 0:
+        print("Division by zero is not allowed")
+        return
+    if operator == 0:
+        if operand[0] == 0:
+            print("Entries cannot be divided by zero")
+            return
+        #flipping the numerator and denominator of the operand so that I can avoid division
+        operand = (denominator, numerator)
+        #print (operand) #scaffolding
+    #scaling the row
     for i in range (len(my_matrix[row1-1])):
-        temp_element = reduce_frac(my_matrix[row1-1][i],divider)
-        if temp_element[1] == 1:
-            my_matrix[row1-1][i] = temp_element[0]
-        else:
-            my_matrix[row1-1][i] = temp_element
+        #multiplying by the operand(or one over the operand for division - switched above)
+        placeholder_numerator = my_matrix[row1-1][i][0] * operand[0]
+        placeholder_denominator = my_matrix[row1-1][i][1] * operand[1]
+        #reducing the resulting fraction
+        new_tuple = reduce_frac(placeholder_numerator, placeholder_denominator)
+        my_matrix[row1-1][i] = (new_tuple[0], new_tuple[1])
     return (my_matrix)
 
-scaled_matrix = row_scale (test_matrix,2,2)
-print (scaled_matrix)
-
-# test_frac = reduce_frac(2,4)
-# print(type(test_frac))
+print (row_scale(test_matrix, 1,0,(2,1)))    
