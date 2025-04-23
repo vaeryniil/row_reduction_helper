@@ -51,8 +51,8 @@ def main(arg):
         log.debug("made it to not html 405")
         return render_template("405.html"), 405
 
-    if arg == "trivia.html":
-        return render_template("trivia.html")
+    if arg == "index.html":
+        return render_template("index.html")
 
     try:
         fp = os.path.join("templates", arg);
