@@ -96,10 +96,13 @@ class AJAX_app:
             except:
                 log.debug("made it to not found 404")
                 return render_template("404.html"), 404
-
+    
+    def run(self):
+        log.info("Starting web server on port %d", self.port)
+        self.app.run(port=self.port, host="0.0.0.0", debug=self.app.debug)
 
 if __name__ == "__main__":
         # Use the port number from the command line argument if provided
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 6005
-    log.debug("Starting web server on port %d", port)
-    app.run(debug=True, host="0.0.0.0", port=port)
+    config_path = Path(__file__).parent / "app.ini"
+    app = AJAX_app(config_path)
+    app.run()
