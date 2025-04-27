@@ -90,7 +90,7 @@
 }
 
 /* Success message styling */
-#response:contains("That's enough!") {
+#response:contains("that is great") {
     color: #28a745;
     font-weight: bold;
 }

@@ -1,19 +1,186 @@
-<!DOCTYPE html>
-<html>
-    <head>
-	<title>welcome!</title>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+
+<!-- Bootstrap requires the following three meta tags to appear first -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Type 5</title>
+
+<!-- Javascript and Cascading Style Sheets (css) libraries -->
+<!-- mostly from content delivery networks                 -->
+
+<!-- jquery; CDN load is usually quick because it's likely cached -->
+<script type="text/javascript"
+     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+
+<!-- Bootstrap stylesheet lets us have a 'responsive' layout; -->
+<!-- 12 column grid rearranges itself for smaller screens or windows. -->
+
+<!-- per http://getbootstrap.com/getting-started/  -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+ href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+ integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+  crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+ src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+ integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+ crossorigin="anonymous">
+</script>
+
+<!-- Our own css file.  Note how we can link directly here and not -->
+<!-- write any routing code in the Flask application. -->
+<link rel="stylesheet" href="/static/simple.css" />
+
 <style>
-body{
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 50px;
-}
-h1{
-    color: #336;
-}
+    /* Additional styling for the tiles display */
+    #tiles img {
+        margin: 5px;
+        transition: transform 0.2s;
+    }
+    #tiles img:hover {
+        transform: scale(1.1);
+    }
+    #response {
+        margin-top: 20px;
+        font-size: 1.2em;
+        min-height: 2em;
+    }
 </style>
-    </head>
-    <body>
-	<h1>you made it to our page wow</h1>
-    </body>
-</html>
+
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h1>Type 5 letters!</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <form id="entry">
+        <label for="attempt">Word:</label>
+        <input id="attempt" name="attempt" type="text" width="15"
+               autocomplete="off" autofocus />
+        <button type="button" id="reset" class="btn btn-default">Reset</button>
+      </form>
+    </div>
+  </div>
+
+  <p id="response"></p> <!-- JavaScript will insert the "response" text here -->
+  <p id="tiles"></p> <!-- Letter image tiles will be inserted here -->
+
+<script>
+
+// Suppress normal form submission
+$("#entry").submit( function(event) {
+   event.preventDefault();
+  });
+
+// Keep track of the current AJAX request
+var currentRequest = null;
+
+// Function to validate and update input
+function validateInput(input) {
+    // Convert input to uppercase and filter out non-letter characters
+    var txt = input.toUpperCase().replace(/[^A-Z]/g, '');
+    
+    // Limit input to 5 letters
+    if (txt.length > 5) {
+        txt = txt.substring(0, 5);
+    }
+    
+    // Update the input field with the filtered and truncated text
+    $("#attempt").val(txt);
+    return txt;
+}
+
+// Function to reset the display
+function resetDisplay() {
+    $("#attempt").val("");
+    $("#response").html("");
+    $("#tiles").html("");
+    $("#attempt").focus();
+}
+
+// Handle reset button click
+$("#reset").click(function() {
+    resetDisplay();
+});
+
+// Handle keyup events. Note that using keyup won't work properly for pasting text - 
+// it will miss text that is pasted via right-click or menu options since those don't 
+// trigger keyup events. The on('input') handler would be better for handling all input
+// methods. This is the main event handler for the input field.
+$("#attempt").on('keyup', function() {
+    var txt = validateInput($(this).val());
+    
+    // Cancel any pending request
+    if (currentRequest) {
+        currentRequest.abort();
+    }
+
+    // Make an AJAX request to the `/_countem` endpoint with the current text input.
+    // This sends a GET request with the `text` parameter containing the validated input.
+    // The server responds with JSON containing a `result` object that has a `long_enough` boolean.
+    // We use the response to update the UI - showing either a success message or letter count,
+    // and displaying the letter tiles.
+    // We store the AJAX request in `currentRequest` variable so we can cancel it if the user types 
+    // again before we get a response. This prevents race conditions where responses arrive 
+    // out of order.
+    currentRequest = $.getJSON( "/_countem", { text: txt }, 
+        function(data) {
+            resultValue = data.result.long_enough;
+            console.log("result from flask: " + resultValue)
+            if (resultValue && txt.length === 5) {  // Only show message when exactly 5 letters
+                $("#response").html("<span class='message'>That's enough!</span>");
+            } else {
+                $("#response").html(txt.length + " letters typed so far"); 
+            }
+            showTiles(txt);
+        }
+    );
+});
+
+// Demonstration of how we can insert graphical elements into a page, possibly
+// building up the URLs of the elements dynamically. In this case, we  have a set of
+// Scrabble tiles (images in the `static` folder) with different point values and
+// a consistent naming scheme that allows me to generate a URL for each letter.
+// Browsers should cache the graphics files so that http requests for the same
+// image are sent only the first time each element is encountered.
+//
+function showTiles(text) {
+   text = text.toUpperCase();  // tiles are letter-A.png, etc.
+   tiles_html = "";  // Build up the html text of links
+   for (var i=0; i < text.length; i++) {
+       letter = text.charAt(i);
+       if (! "ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(letter)) {
+          continue;
+       }
+       var tileURL = "/static/img/letter-" + letter + ".png";
+       var tileLink = "<img src='" + tileURL + "' alt='" + letter +
+           "' style='border: 0px; margin: 0px;'/>";
+       tiles_html = tiles_html + tileLink;
+    }
+    $("#tiles").html(tiles_html);
+
+    // To see console output, go to your browser's developer tools (e.g., in Chrome,
+    // View -> Developer -> JavaScript Console).
+    console.log("Inserted html: " + tiles_html);
+
+    // For debugging, popping up an alert is an alternative to console.log
+    // alert("Inserted html: " + tiles_html);
+}
+</script>
+
+
+ </div> <!-- container -->
+</body> </html>
