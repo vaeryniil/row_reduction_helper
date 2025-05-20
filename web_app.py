@@ -87,11 +87,10 @@ class rref_helper:
                 return flask.render_template("index.html")
 
             try:
-                fp = os.path.join("templates", arg);
+                fp = os.path.join("templates", arg)
                 log.debug("made it!")
                 return flask.render_template("/"), 200
             
-            # TODO: replace this bogus return
             except:
                 log.debug("made it to not found 404")
                 return flask.render_template("404.html"), 404
