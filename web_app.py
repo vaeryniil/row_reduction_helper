@@ -18,7 +18,7 @@ JsonResponse = Dict[str, Dict[str, bool]]
 
 # Symbols that raise a 403 error if found in the url
 FORBIDDEN_SYMBOLS = ["//", "..", "~"]
-class rrefHelper:
+class rref_helper:
     """still learning what AJAX is"""
 
     def __init__(self, config_path: Union[str, Path]) -> None:
@@ -103,5 +103,5 @@ class rrefHelper:
 if __name__ == "__main__":
         # Use the port number from the command line argument if provided
     config_path = Path(__file__).parent / "app.ini"
-    app = AJAX_app(config_path)
+    app = rref_helper(config_path)
     app.run()
