@@ -51,7 +51,7 @@ class rref_helper:
         @self.app.route("/")
         def index():
             """Return the welcome message for the root URL, (http://127.0.0.1:<PORT>/)"""
-            return "Welcome to rref helper!"
+            return flask.render_template("index.html"), 200
 
 
         @self.app.route("/<path:arg>")

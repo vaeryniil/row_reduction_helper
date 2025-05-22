@@ -10,7 +10,6 @@
     color: #6f42c1;
     /* Bootstrap purple */
     font-weight: 500;
-    font-size: 2rem;
 }
 
 /* Container styling */
@@ -34,26 +33,23 @@
 }
 
 /* Input field styling */
-#attempt {
+#rows, #cols {
     font-size: 1.2rem;
     padding: 0.5rem;
     border: 2px solid #dee2e6;
     border-radius: 4px;
-    width: 200px;
+    width: 50px;
     text-align: center;
     transition: border-color 0.3s;
     margin: 0 auto;
-    /* Center the input */
     display: inline-block;
-    /* Keep on same line as label */
 }
 
-#attempt:focus {
+#rows:focus, #cols:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-
 /* Form styling */
 #entry {
     display: inline-block;
