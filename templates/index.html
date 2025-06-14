@@ -34,6 +34,9 @@
  crossorigin="anonymous">
 </script>
 
+<script src="{{ url_for('static', filename='js/entry.js') }}"></script>
+
+
 <!-- Our own css file.  Note how we can link directly here and not -->
 <!-- write any routing code in the Flask application. -->
 <link rel="stylesheet" href="/static/simple.css" />
@@ -80,43 +83,6 @@
     </div>
   </div>
 
-
-<script>
-
-// Suppress normal form submission
-$("#entry").submit( function(event) {
-   event.preventDefault();
-  });
-
-// Keep track of the current AJAX request
-var currentRequest = null;
-
-// Function to validate and update input
-function validateInput(inputId) {
-    var input = $(`#${inputId}`).val();
-    var num = input.replace(/[^0-9]/g, '');
-    
-    if (parseInt(num, 10) > 25) {
-        num = "24";
-    }
-    
-    $(`#${inputId}`).val(num);
-    return num;
-}
-
-// Function to reset the display
-function resetDisplay() {
-    $("#rows").val("");
-    $("#cols").val("");
-}
-
-$("#reset").click(function() {
-    resetDisplay();
-});
-
-
-
-</script>
 
 
  </div> <!-- container -->
