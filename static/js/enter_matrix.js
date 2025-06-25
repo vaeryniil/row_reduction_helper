@@ -4,7 +4,7 @@
 
 // Suppress normal form submission
 $("#entry").submit( function(event) {
-   event.preventDefault();
+   event.validateInput();
   });
 
 // Keep track of the current AJAX request
