@@ -4,6 +4,7 @@
 
 // Suppress normal form submission
 $("#entry").submit( function(event) {
+    console.log("in entry js");
    event.validateInput();
   });
 
@@ -12,6 +13,7 @@ var currentRequest = null;
 
 // Function to validate and update input
 function validateInput(inputId) {
+    console.log("Validating input for:", inputId);
     var input = $(`#${inputId}`).val();
     var num = input.replace(/[^0-9]/g, '');
     
@@ -30,6 +32,7 @@ function resetDisplay() {
 }
 
 $("#reset").click(function() {
+    console.log("pressed reset button");
     resetDisplay();
 });
 
