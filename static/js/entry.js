@@ -25,7 +25,21 @@ function validateInput(inputId) {
     return num;
 }
 
-
+function generateTable(rows, cols) {
+    console.log("Generating table with rows:", rows, "and cols:", cols);
+    var table = "<table class='table table-bordered'>";
+    
+    for (var i = 0; i < rows; i++) {
+        table += "<tr>";
+        for (var j = 0; j < cols; j++) {
+            table += `<td>Row ${i + 1}, Col ${j + 1}</td>`;
+        }
+        table += "</tr>";
+    }
+    
+    table += "</table>";
+    $("#display").html(table);
+}
 
 // Function to reset the display
 function resetDisplay() {
