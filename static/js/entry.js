@@ -3,9 +3,9 @@
 
 
 // Suppress normal form submission
-$("#entry").submit( function(event) {
+$("#entry").submit( function(e) {
     console.log("in entry js");
-   event.validateInput();
+   e.preventDefault();
   });
 
 // Keep track of the current AJAX request
@@ -25,14 +25,30 @@ function validateInput(inputId) {
     return num;
 }
 
+
+
 // Function to reset the display
 function resetDisplay() {
     $("#rows").val("");
     $("#cols").val("");
 }
 
-$("#reset").click(function() {
-    console.log("pressed reset button");
-    resetDisplay();
+$(document).ready(function() {
+    console.log("trying to fix entries");
+    
+    //check the input fields
+    $("#rows").on("input", function() {
+        validateInput("rows");
+    });
+
+    $("#cols").on("input", function() {
+        validateInput("cols");
+    }); 
+    
+    $("#reset").click(function() {
+        console.log("pressed reset button");
+        resetDisplay();
+    });
 });
+
 
