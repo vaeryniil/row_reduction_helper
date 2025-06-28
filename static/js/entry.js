@@ -51,14 +51,23 @@ $(document).ready(function() {
     console.log("trying to fix entries");
     
     //check the input fields
-    $("#rows").on("input", function() {
+    $("#rows").on("keyup", function() {
         validateInput("rows");
     });
 
-    $("#cols").on("input", function() {
+    $("#cols").on("keyup", function() {
         validateInput("cols");
     }); 
     
+    $("#submit").click(function() {
+        console.log("pressed submit button");
+        var rows = $("#rows").val();
+        var cols = $("#cols").val();
+        console.log("Rows:", rows, "Cols:", cols);
+        generateTable(rows, cols);
+    });
+
+
     $("#reset").click(function() {
         console.log("pressed reset button");
         resetDisplay();
