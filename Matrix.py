@@ -15,6 +15,12 @@ def reduce_frac (x:int,y:int):
     y = y // g_c_d
     return ((x,y))
 
+def fraction_multiplier(no_1: tuple,no_2: tuple) -> tuple: #multiplies two tuples with numerator in position 0 and denominator in pos. 1
+    numerator = no_1[0] * no_2[0]
+    denominator = no_1[1] * no_2[1]
+    solution = reduce_frac(numerator, denominator)
+    return solution
+
 class Matrix:
     """A matrix has a size mxn and entries represented as tuples, with numerator as the first entry and denominator as the second.
     Entries are a list with a list of tuples for each row.
