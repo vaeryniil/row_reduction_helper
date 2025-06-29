@@ -22,7 +22,7 @@ function validateInput(inputId) {
     var input = $(`#${inputId}`).val();
     var num = input.replace(/[^0-9]/g, '');
     
-    if (parseInt(num, 10) > 25) {
+    if (parseInt(num, 10) > 24) {
         num = "24";
     }
     else if (parseInt(num, 10) < 1) {
