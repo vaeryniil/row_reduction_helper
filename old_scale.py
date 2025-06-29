@@ -20,7 +20,6 @@ def reduce_frac (x:int,y:int):
     return ((x,y))
 
 
-
 #operator: 0 = division, 1 = multiplication. operand: (numerator,denominator)
 def row_scale (my_matrix: list, row1: int, operator: int, operand: tuple) -> list:
     if operator != 0 and operator != 1:
