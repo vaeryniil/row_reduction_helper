@@ -43,7 +43,7 @@ function generateTable(rows, cols) {
         table += "<tr>";
         for (var j = 0; j < cols; j++) {
             //this initializes the table with input text boxes
-            table += `<td style='padding: 2px; margin: 0;'>
+            table += `<td style='padding: 2px; margin: 2px;'>
                         <input type="text" 
                         class="matrix-box" 
                         style="text-align: center;" /></td>`;
