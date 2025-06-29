@@ -3,11 +3,14 @@
 
 
 // Suppress normal form submission
-$("#entry").submit( function(e) {
-    console.log("in entry js");
-   e.preventDefault();
-  });
+// ie when you press enter it doesnt reload the page
+$(document).ready(function () {
 
+    $("#entry").on( "submit", function(e) {
+    e.preventDefault();
+        $("#submit").click();         // Simulates the submit button
+    });
+});
 // Keep track of the current AJAX request
 var currentRequest = null;
 
