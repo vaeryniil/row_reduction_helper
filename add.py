@@ -15,6 +15,7 @@ def reduce_frac (x,y):
 
 def fraction_multiplier(no_1: tuple,no_2: tuple) -> tuple: #multiplies two tuples with numerator in position 0 and denominator in pos. 1
     numerator = no_1[0] * no_2[0]
+    
     denominator = no_1[1] * no_2[1]
     solution = reduce_frac(numerator, denominator)
     return solution
