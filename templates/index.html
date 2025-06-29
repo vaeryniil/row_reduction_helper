@@ -34,28 +34,14 @@
  crossorigin="anonymous">
 </script>
 
+<!-- Our own js file.  Note how we can link directly here and not -->
+<!-- write any routing code in the Flask application. -->
 <script src="{{ url_for('static', filename='/js/entry.js') }}"></script>
 
 
-<!-- Our own css file.  Note how we can link directly here and not -->
-<!-- write any routing code in the Flask application. -->
+<!-- Our own css file. -->
 <link rel="stylesheet" href="/static/css/simple.css" />
 
-<!-- <style>
-    /* Additional styling for the tiles display */
-    #tiles img {
-        margin: 5px;
-        transition: transform 0.2s;
-    }
-    #tiles img:hover {
-        transform: scale(1.1);
-    }
-    #response {
-        margin-top: 20px;
-        font-size: 1.2em;
-        min-height: 2em;
-    }
-</style> -->
 
 </head>
 
@@ -83,6 +69,9 @@
 
 
         <button type="button" id="reset" class="btn btn-default"> reset </button>
+        <div class="row">
+          <div id="display" class="col-xs-12 text-center" style="margin-top: 20px;"></div>
+        </div>
       </form>
     </div>
   </div>

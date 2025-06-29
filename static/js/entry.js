@@ -20,6 +20,9 @@ function validateInput(inputId) {
     if (parseInt(num, 10) > 25) {
         num = "24";
     }
+    else if (parseInt(num, 10) < 1) {
+        num = "1";
+    }
     
     $(`#${inputId}`).val(num);
     return num;
