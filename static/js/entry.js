@@ -77,7 +77,6 @@ function resetDisplay() {
 }
 
 
-
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
     console.log("trying to fix entries");
@@ -98,12 +97,12 @@ $(document).ready(function() {
         var rows = $("#rows").val();
         var cols = $("#cols").val();
         if (rows === "") {
-            alert("please enter column value");
-            return;
+            $("#error-message").html('<div class="error-message">please enter row value</div>');
+            return;    
         }
         if (cols === "") {
-            alert("please enter row value");
-            return;
+            $("#error-message").html('<div class="error-message">please enter collumn value</div>');
+            return;  
         }
         console.log("Rows:", rows, "Cols:", cols);
         generateTable(rows, cols);
