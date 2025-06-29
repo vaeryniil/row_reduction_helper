@@ -13,7 +13,8 @@ $(document).ready(function () {
 });
 // Keep track of the current AJAX request
 var currentRequest = null;
-isToggleMode = true; // Default is fraction
+var isFractionMode = true; // Default mode is fraction
+
 
 // Function to validate and update input for rows and cols
 function validateInput(inputId) {
@@ -55,16 +56,16 @@ function generateTable(rows, cols) {
 }
 
     // Toggle mode on button click
-function toggleInputType() {
+function toggleInputType(button){
     isFractionMode = !isFractionMode;
-    $(this).text(isFractionMode ? "fraction" : "decimal");
+    $(button).text(isFractionMode ? "decimal" : "fraction");
 
 // Update button text
     $(".matrix-input").each(function () {
         $(this).attr("placeholder", isFractionMode ? "a/b" : "0.0");
     });
 
-    console.log("Mode changed to:", isFractionMode ? "fraction" : "decimal");
+    console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
 }
 
 
@@ -111,9 +112,9 @@ $(document).ready(function() {
     //this toggles the input type between fraction and decimal
     $("#toggleMode").click(function() {
         console.log("pressed toggle button");
-        toggleInputType();
+        toggleInputType(this);
     });
-    
+
     //reset from above clears the rows/cols initial input boxes and table
     $("#reset").click(function() {
         console.log("pressed reset button");
