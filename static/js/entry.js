@@ -22,13 +22,14 @@ function validateInput(inputId) {
     var input = $(`#${inputId}`).val();
     var num = input.replace(/[^0-9]/g, '');
     
-    if (parseInt(num, 10) > 25) {
+    if (parseInt(num, 10) > 24) {
         num = "24";
     }
     else if (parseInt(num, 10) < 1) {
         num = "1";
     }
     
+
     $(`#${inputId}`).val(num);
     return num;
 }
@@ -43,7 +44,8 @@ function generateTable(rows, cols) {
         for (var j = 0; j < cols; j++) {
             //this initializes the table with input text boxes
             table += `<td><input type="text" 
-                         style="width: 40px; text-align: center;" /></td>`;
+                        class="matrix-box" 
+                        style="width: 50px; text-align: center;" /></td>`;
         }
         table += "</tr>";
     }
@@ -77,7 +79,6 @@ function resetDisplay() {
 }
 
 
-
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
     console.log("trying to fix entries");
@@ -97,13 +98,16 @@ $(document).ready(function() {
         console.log("pressed submit button");
         var rows = $("#rows").val();
         var cols = $("#cols").val();
+        $("#error-message").html("");  
+
+
         if (rows === "") {
-            alert("please enter column value");
-            return;
+            $("#error-message").html('<div class="error-message">please enter row value</div>');
+            return;    
         }
         if (cols === "") {
-            alert("please enter row value");
-            return;
+            $("#error-message").html('<div class="error-message">please enter collumn value</div>');
+            return;  
         }
         console.log("Rows:", rows, "Cols:", cols);
         generateTable(rows, cols);
@@ -120,6 +124,11 @@ $(document).ready(function() {
         console.log("pressed reset button");
         resetDisplay();
     });
+    
+    $("#rows, #cols").on("input", function() {
+        $("#error-message").html("");
+    });
+
 });
 
 
