@@ -37,15 +37,16 @@ function validateInput(inputId) {
 // function to bring up a matrix table given rows and cols
 function generateTable(rows, cols) {
     console.log("Generating table with rows:", rows, "and cols:", cols);
-    var table = "<table class='table table-bordered'>";
+    var table = "<table class='table table-not-bordered text-center'>";
     
     for (var i = 0; i < rows; i++) {
         table += "<tr>";
         for (var j = 0; j < cols; j++) {
             //this initializes the table with input text boxes
-            table += `<td><input type="text" 
+            table += `<td style='padding: 2px; margin: 0;'>
+                        <input type="text" 
                         class="matrix-box" 
-                        style="width: 50px; text-align: center;" /></td>`;
+                        style="text-align: center;" /></td>`;
         }
         table += "</tr>";
     }

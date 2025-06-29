@@ -33,7 +33,7 @@
 }
 
 /* Input field styling */
-#rows, #cols, #matrix-box input{
+#rows, #cols{
     font-size: 1.2rem;
     padding: 0.5rem;
     border: 2px solid #dee2e6;
@@ -45,7 +45,7 @@
     display: inline-block;
 }
 
-#rows:focus, #cols:focus, #matrix-box:focus {
+#rows:focus, #cols:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
@@ -91,3 +91,45 @@
     font-weight: bold;
 }
 
+/* Matrix Table Styling */
+.table-not-bordered {
+    border-collapse: seperate;
+    border-spacing: 0;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.table-not-bordered td {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border: none !important;
+}
+
+#matrix {
+    display: inline-block;
+    padding: 0;
+    margin: 0 auto;
+}
+
+/* Matrix Input Styling */
+.matrix-box {
+    width: 50px !important;
+    height: 40px;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border: 2px solid #dee2e6;
+    border-radius: 2px;
+    text-align: center;
+    transition: border-color 0.3s;
+    display: block;
+    margin: 0 auto;
+    padding: 0.3rem;
+
+}
+
+.matrix-box:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
