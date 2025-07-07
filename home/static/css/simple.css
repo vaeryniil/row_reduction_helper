@@ -124,12 +124,15 @@
     padding: 1rem;
     border: 2px solid #dcdcdc;
     border-radius: 4px;
+    display: inline-flex;
     background-color:  #4950579e;
     height: 39px;
     width: 49px;
     margin: 2px auto;
     color: rgb(255, 255, 255);
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .button-group {
