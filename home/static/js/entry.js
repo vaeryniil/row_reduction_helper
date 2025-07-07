@@ -106,11 +106,11 @@ $(document).ready(function() {
             return;    
         }
 
-        if (rows === "") {
+        else if (rows === "") {
             $("#error-message").html('<div class="error-message">please enter row value</div>');
             return;    
         }
-        if (cols === "") {
+        else if (cols === "") {
             $("#error-message").html('<div class="error-message">please enter collumn value</div>');
             return;  
         }
