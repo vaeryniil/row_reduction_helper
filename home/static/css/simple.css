@@ -93,7 +93,7 @@
 
 /* Matrix Table Styling */
 .table-not-bordered {
-    border-collapse: seperate;
+    border-collapse: separate;
     border-spacing: 5px;
     margin: 5px;
     padding: 5px;
