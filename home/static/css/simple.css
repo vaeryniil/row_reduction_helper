@@ -85,12 +85,6 @@
     transform: scale(1.1);
 }
 
-/* Success message styling */
-#response:contains("that is great") {
-    color: #28a745;
-    font-weight: bold;
-}
-
 /* Matrix Table Styling */
 .table-not-bordered {
     border-collapse: separate;
@@ -113,7 +107,6 @@
 #matrix {
     display: grid;
     place-items: center;
-
     padding: 5px;
     margin: 5px auto;
 }
@@ -125,7 +118,7 @@
     font-size: 1.2rem;
     padding: 0.5rem;
     border: 2px solid #dee2e6;
-    border-radius: 2px;
+    border-radius: 4px;
     text-align: center;
     transition: border-color 0.3s;
     display: block;
