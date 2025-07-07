@@ -111,7 +111,7 @@
 }
 
 #matrix {
-    display: flex;
+    display: grid;
     justify-content: center;
     width: 75%;
     padding: 5px;
