@@ -82,6 +82,7 @@ function resetDisplay() {
 }
 
 
+
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
     console.log("trying to fix entries");
