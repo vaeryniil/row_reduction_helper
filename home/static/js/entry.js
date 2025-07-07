@@ -141,4 +141,18 @@ $(document).ready(function() {
 
 });
 
-
+function validateTable(inputId) {
+    console.log("Validating table:", inputId);
+    var input = $(`#${inputId}`).val();
+    var num = input.replace(/[^0-9]/g, '');
+    
+    if (parseInt(num, 10) > 10000) {
+        num = "24";
+    }
+    else if (parseInt(num, 10) < -10000) {
+        num = "-10000";
+    }
+    
+    $(`#${inputId}`).val(num);
+    return num;
+}

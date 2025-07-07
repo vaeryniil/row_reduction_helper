@@ -131,3 +131,7 @@
     color: rgb(255, 255, 255);
     text-align: center;
 }
+
+#submit + #reset {
+  margin-left: 2px; /* Adds 2px space to the left of "Reset" */
+}
