@@ -37,7 +37,7 @@ function validateInput(inputId) {
 // function to bring up a matrix table given rows and cols
 function generateTable(rows, cols) {
     console.log("Generating table with rows:", rows, "and cols:", cols);
-    var table = "<table class='table table-not-bordered text-center'>";
+    var table = "<table class='table table-not-bordered'>";
     
     for (var i = 0; i < rows; i++) {
         table += "<tr>";

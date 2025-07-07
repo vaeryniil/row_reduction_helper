@@ -121,10 +121,10 @@
 #submit, #reset {
 
     font-size: 1.2rem;
-    padding: 0.5rem;
+    padding: 1rem;
     border: 2px solid #dcdcdc;
     border-radius: 4px;
-    background-color: rgba(0, 123, 255, .25);
+    background-color:  #dcdcdc0e;
     height: 40px;
     width: 50px;
     margin: 2px auto;
