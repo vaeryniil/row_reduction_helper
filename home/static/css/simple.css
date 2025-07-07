@@ -124,12 +124,11 @@
     padding: 0.5rem;
     border: 2px solid #dee2e6;
     border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
+    background-color: #80bdff;
+    height: 40px;
+    width: 50px;
+    margin: 2px auto;
+    color: rgb(238, 236, 236);
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
 }

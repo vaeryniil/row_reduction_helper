@@ -76,7 +76,9 @@ function toggleInputType(button){
 function resetDisplay() {
     $("#rows").val("");
     $("#cols").val("");
-    $("#matrix").html("");
+    $("#matrix").html("");        
+    $("#error-message").html("");  
+    $("#toggleMode").hide();
 }
 
 
@@ -114,6 +116,7 @@ $(document).ready(function() {
             $("#error-message").html('<div class="error-message">please enter collumn value</div>');
             return;  
         }
+
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
     });
@@ -128,6 +131,7 @@ $(document).ready(function() {
     $("#reset").click(function() {
         console.log("pressed reset button");
         resetDisplay();
+
     });
     
     $("#rows, #cols").on("input", function() {
