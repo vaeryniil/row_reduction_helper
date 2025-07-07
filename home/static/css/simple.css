@@ -132,6 +132,8 @@
     text-align: center;
 }
 
-#submit, #reset {
-  margin-left: 4px; /* Adds 2px space to the left of "Reset" */
+.button-group {
+  display: flex;
+  gap: 2px; /* Consistent 2px spacing */
+  justify-content: center;
 }
