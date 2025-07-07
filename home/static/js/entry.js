@@ -101,6 +101,10 @@ $(document).ready(function() {
         var cols = $("#cols").val();
         $("#error-message").html("");  
 
+        if (rows === "" && cols === "") {
+            $("#error-message").html('<div class="error-message">please enter row and collumn values</div>');
+            return;    
+        }
 
         if (rows === "") {
             $("#error-message").html('<div class="error-message">please enter row value</div>');
@@ -110,7 +114,7 @@ $(document).ready(function() {
             $("#error-message").html('<div class="error-message">please enter collumn value</div>');
             return;  
         }
-        console.log("Rows:", rows, "Cols:", cols);
+        console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
     });
 
