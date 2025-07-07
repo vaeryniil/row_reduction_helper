@@ -112,8 +112,8 @@
 
 #matrix {
     display: grid;
-    justify-content: center;
-    width: 75%;
+    place-items: center;
+
     padding: 5px;
     margin: 5px auto;
 }
