@@ -128,15 +128,9 @@
     background-color:  #4950579e;
     height: 39px;
     width: 49px;
-    margin: 2px auto;
+    margin: 4px auto;
     color: rgb(255, 255, 255);
     text-align: center;
     align-items: center;
     justify-content: center;
-}
-
-.button-group {
-  display: flex;
-  gap: 2px; /* Consistent 2px spacing */
-  justify-content: center;
 }
