@@ -63,7 +63,7 @@ function toggleInputType(button){
     isFractionMode = !isFractionMode;
     $(button).text(isFractionMode ? "decimal" : "fraction");
 
-// Update button text
+    // Update button text
     $(".matrix-input").each(function () {
         $(this).attr("placeholder", isFractionMode ? "a/b" : "0.0");
     });
@@ -156,3 +156,5 @@ function validateTable(inputId) {
     $(`#${inputId}`).val(num);
     return num;
 }
+
+
