@@ -121,6 +121,8 @@ $(document).ready(function() {
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
 
+        buildMatrix()
+
     });
 
     //this toggles the input type between fraction and decimal
@@ -142,7 +144,7 @@ $(document).ready(function() {
 
 });
 
-function validateMatrix(InputId){
+function BuildMatrix(InputId){
 //this will worry about indexing and such 
     console.log("now validating matrix input");
     const matrix = [];
@@ -153,13 +155,29 @@ function validateMatrix(InputId){
     for (let i = 0; i < rows; i++) {
         let row = [];
         for (let j = 0; j < cols; j++) {
-            validateBox(`matrix-input-${i}-${j}`);
+            
+            const $box = $(`#${containerId}`);
+
+                $("#rows").on("keyup", function() {
+                    checkBox(`matrix-input-${i}-${j}`);
+                });
         }
         matrix.push(row);
 
     }
     return matrix;
 }
+
+function checkBox(containerId) {
+    const $container = $(`#${containerId}`);
+    
+    // Event delegation for all matrix inputs
+    $container.on('keyup', '.matrix-box', function() {
+        const id = $(this).attr('id');
+        validateBox(id);
+    });
+}
+
 
 function validateBox(inputId) {
     console.log("Validating a box:", inputId);
