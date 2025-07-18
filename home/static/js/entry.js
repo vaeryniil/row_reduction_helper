@@ -144,6 +144,7 @@ $(document).ready(function() {
 
 function validateMatrix(InputId){
 //this will worry about indexing and such 
+    console.log("now validating matrix input");
     const matrix = [];
 
     const rows = parseInt$("#rows").val();
@@ -163,7 +164,10 @@ function validateMatrix(InputId){
 function validateBox(inputId) {
     console.log("Validating a box:", inputId);
     var input = $(`#${inputId}`).val();
-    var num = input.replace(/[^0-9]/g, '');
+    var num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
+    if (input.startsWith('-')) {
+
+    //var num = input.replace(/[^0-9]/g, '');
     
     if (num === '' || num === '-') {
         num = '0';
@@ -177,4 +181,10 @@ function validateBox(inputId) {
     return num;
 }
 
+function checkNegative(inputId) {
+    console.log("Checking if negative for:", inputId);
+    var input = $(`#${inputId}`).val(); 
+    if (input.startsWith('-')) {
 
+    }
+}
