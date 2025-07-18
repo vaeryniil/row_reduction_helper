@@ -120,6 +120,7 @@ $(document).ready(function() {
 
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
+
     });
 
     //this toggles the input type between fraction and decimal
@@ -141,19 +142,38 @@ $(document).ready(function() {
 
 });
 
-function validateTable(inputId) {
-    console.log("Validating table:", inputId);
+function validateMatrix(InputId){
+//this will worry about indexing and such 
+    const matrix = [];
+
+    const rows = parseInt$("#rows").val();
+    const cols = parseInt$("#cols").val();    
+
+    for (let i = 0; i < rows; i++) {
+        let row = [];
+        for (let j = 0; j < cols; j++) {
+            validateBox(`matrix-input-${i}-${j}`);
+        }
+        matrix.push(row);
+
+    }
+    return matrix;
+}
+
+function validateBox(inputId) {
+    console.log("Validating a box:", inputId);
     var input = $(`#${inputId}`).val();
     var num = input.replace(/[^0-9]/g, '');
     
-    if (parseInt(num, 10) > 10000) {
-        num = "24";
+    if (num === '' || num === '-') {
+        num = '0';
     }
-    else if (parseInt(num, 10) < -10000) {
-        num = "-10000";
-    }
+
+    // Convert to number and clamp values
+    num = Math.max(-10000, Math.min(Number(num), 10000));
     
-    $(`#${inputId}`).val(num);
+    // Update input field
+    $input.val(num.toString());
     return num;
 }
 
