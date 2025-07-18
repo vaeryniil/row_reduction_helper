@@ -171,7 +171,7 @@ function validateBox(inputId) {
     
     if (num === '' || num === '-') {
         num = '0';
-    }
+    }}
 
     // Convert to number and clamp values
     num = Math.max(-10000, Math.min(Number(num), 10000));
