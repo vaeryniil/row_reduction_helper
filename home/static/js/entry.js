@@ -144,7 +144,7 @@ $(document).ready(function() {
 
 });
 
-function BuildMatrix(InputId){
+function buildMatrix(InputId){
 //this will worry about indexing and such 
     console.log("in build matrix meow");
     const matrix = [];
