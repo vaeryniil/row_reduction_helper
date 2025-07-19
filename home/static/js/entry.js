@@ -156,8 +156,8 @@ $(document).ready(function() {
 
 function validateBox(inputId) {
     console.log("Validating a box:", inputId);
-    var input = $(`#${inputId}`).val();
-    var num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
+    var $input = $(`#${inputId}`).val();
+    var num = $input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
     if (input.startsWith('-')) {
 
     //var num = input.replace(/[^0-9]/g, '');
