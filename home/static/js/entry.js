@@ -146,7 +146,7 @@ $(document).ready(function() {
 
 function BuildMatrix(InputId){
 //this will worry about indexing and such 
-    console.log("now validating matrix input");
+    console.log("in build matrix meow");
     const matrix = [];
 
     const rows = parseInt$("#rows").val();
