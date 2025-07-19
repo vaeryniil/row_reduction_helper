@@ -75,6 +75,7 @@ function generateTable(rows, cols) {
     // Then this adds the new live validation handler
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
+        console.log("Validating box with ID:", id);
         validateBox(id);
     });
 
@@ -166,19 +167,16 @@ function validateBox(inputId) {
 
     let num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
     
+    //if (num === '' || num === '-') {
+    //    num = '0';
+    //}
     if (num.startsWith('-')) {
 
-    //var num = input.replace(/[^0-9]/g, '');
-    
-    if (num === '' || num === '-') {
-        num = '0';
-    }}
+    }
 
-    // Convert to number and clamp values, idk about this though
-    num = Math.max(-10000, Math.min(Number(num), 10000));
     
     // Update input field
-    input.val(num.toString());
+    //input.val(num.toString());
     return num;
 }
 
