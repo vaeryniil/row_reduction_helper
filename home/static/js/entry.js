@@ -34,6 +34,18 @@ function validateInput(inputId) {
 }
 
 
+
+// Function to reset the display
+function resetDisplay() {
+    $("#rows").val("");
+    $("#cols").val("");
+    $("#matrix").html("");        
+    $("#error-message").html("");  
+    $("#toggleMode").hide();
+}
+
+
+
 // function to bring up a matrix table given rows and cols
 function generateTable(rows, cols) {
     console.log("Generating table with rows:", rows, "and cols:", cols);
@@ -58,7 +70,7 @@ function generateTable(rows, cols) {
 
     $("#toggleMode").show();
     // gets rid of other existin handlers if any
-    $('#matrix').off('keyup', '.matrix-box');
+    $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
 
     // Then this adds the new live validation handler
     $('#matrix').on('keyup', '.matrix-box', function () {
@@ -79,16 +91,6 @@ function toggleInputType(button){
     });
 
     console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
-}
-
-
-// Function to reset the display
-function resetDisplay() {
-    $("#rows").val("");
-    $("#cols").val("");
-    $("#matrix").html("");        
-    $("#error-message").html("");  
-    $("#toggleMode").hide();
 }
 
 
@@ -155,10 +157,14 @@ $(document).ready(function() {
 
 
 function validateBox(inputId) {
-    console.log("Validating a box:", inputId);
-    var $input = $(`#${inputId}`).val();
-    var num = $input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
-    if (input.startsWith('-')) {
+    
+    console.log("in validate box");
+    const $input = $(`#${inputId}`).val();
+
+    let input = $input.val();
+    let num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
+    
+    if (num.startsWith('-')) {
 
     //var num = input.replace(/[^0-9]/g, '');
     
