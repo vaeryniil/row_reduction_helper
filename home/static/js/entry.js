@@ -117,15 +117,18 @@ $(document).ready(function() {
         $("#error-message").html("");  
 
         if (rows === "" && cols === "") {
+            $("#matrix").html("");
             $("#error-message").html('<div class="error-message">please enter row and collumn values</div>');
             return;    
         }
 
         else if (rows === "") {
+            $("#matrix").html("");
             $("#error-message").html('<div class="error-message">please enter row value</div>');
             return;    
         }
         else if (cols === "") {
+            $("#matrix").html("");
             $("#error-message").html('<div class="error-message">please enter collumn value</div>');
             return;  
         }
