@@ -187,9 +187,7 @@ function buildMatrix(){
         let row = [];
         for (let j = 0; j < cols; j++) {
             
-                $("#matrix-box").on("keyup", function() {
-                    checkBox(`matrix-input-${i}-${j}`);
-                });
+               
         }
         matrix.push(row);
 
@@ -197,20 +195,3 @@ function buildMatrix(){
     return matrix;
 }
 
-/*function checkBox(containerId) {
-    const $container = $(`#${containerId}`);
-    
-    // Event delegation for all matrix inputs
-    $container.on('keyup', '.matrix-box', function() {
-        const id = $(this).attr('id');
-        validateBox(id);
-    });
-}
-
-/*function checkNegative(inputId) {
-    console.log("Checking if negative for:", inputId);
-    var input = $(`#${inputId}`).val(); 
-    if (input.startsWith('-')) {
-
-    }
-}*/
