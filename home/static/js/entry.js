@@ -157,11 +157,10 @@ $(document).ready(function() {
 
 
 function validateBox(inputId) {
-    
-    console.log("in validate box");
-    const $input = $(`#${inputId}`).val();
 
-    let input = $input.val();
+    console.log("in validate box");
+    const input = $(`#${inputId}`).val();
+
     let num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
     
     if (num.startsWith('-')) {
@@ -176,7 +175,7 @@ function validateBox(inputId) {
     num = Math.max(-10000, Math.min(Number(num), 10000));
     
     // Update input field
-    $input.val(num.toString());
+    input.val(num.toString());
     return num;
 }
 
