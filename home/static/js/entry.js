@@ -46,7 +46,10 @@ function generateTable(rows, cols) {
             table += `<td style='padding: 2px; margin: 2px;'>
                         <input type="text" 
                         class="matrix-box" 
+                        id="matrix-input-${i}-${j}"
                         style="text-align: center;" /></td>`;
+
+
         }
         table += "</tr>";
     }
@@ -55,6 +58,14 @@ function generateTable(rows, cols) {
     $("#matrix").html(table);
 
     $("#toggleMode").show();
+    // gets rid of other existin handlers if any
+    $('#matrix').off('keyup', '.matrix-box');
+
+    // Then this adds the new live validation handler
+    $('#matrix').on('keyup', '.matrix-box', function () {
+        const id = $(this).attr('id');
+        validateBox(id);
+    });
 
 }
 
@@ -120,7 +131,6 @@ $(document).ready(function() {
 
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
-
         buildMatrix()
 
     });
@@ -144,21 +154,19 @@ $(document).ready(function() {
 
 });
 
-function buildMatrix(InputId){
+function buildMatrix(){
 //this will worry about indexing and such 
     console.log("in build matrix meow");
     const matrix = [];
 
-    const rows = parseInt$("#rows").val();
-    const cols = parseInt$("#cols").val();    
+    const rows = parseInt($("#rows").val());
+    const cols = parseInt($("#cols").val());    
 
     for (let i = 0; i < rows; i++) {
         let row = [];
         for (let j = 0; j < cols; j++) {
             
-            const $box = $(`#${containerId}`);
-
-                $("#rows").on("keyup", function() {
+                $("#matrix-box").on("keyup", function() {
                     checkBox(`matrix-input-${i}-${j}`);
                 });
         }
@@ -191,7 +199,7 @@ function validateBox(inputId) {
         num = '0';
     }}
 
-    // Convert to number and clamp values
+    // Convert to number and clamp values, idk about this though
     num = Math.max(-10000, Math.min(Number(num), 10000));
     
     // Update input field
@@ -199,7 +207,7 @@ function validateBox(inputId) {
     return num;
 }
 
-function checkNegative(inputId) {
+/*function checkNegative(inputId) {
     console.log("Checking if negative for:", inputId);
     var input = $(`#${inputId}`).val(); 
     if (input.startsWith('-')) {
