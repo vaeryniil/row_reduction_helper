@@ -78,7 +78,6 @@ function generateTable(rows, cols) {
         console.log("Validating box with ID:", id);
         validateBox(id);
     });
-
 }
 
     // Toggle mode on button click
@@ -164,12 +163,9 @@ function validateBox(inputId) {
 
     console.log("in validate box");
     const input = $(`#${inputId}`).val();
-
+    console.log("Validating input:", input);
     let num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
-    
-    //if (num === '' || num === '-') {
-    //    num = '0';
-    //}
+    console.log("Cleaned input:", num);
     if (num.startsWith('-')) {
 
     }
