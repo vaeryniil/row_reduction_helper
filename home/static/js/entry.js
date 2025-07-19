@@ -27,12 +27,12 @@ function validateInput(inputId) {
     }
     else if (parseInt(num, 10) < 1) {
         num = "1";
-    }
-    
+    } 
 
     $(`#${inputId}`).val(num);
     return num;
 }
+
 
 // function to bring up a matrix table given rows and cols
 function generateTable(rows, cols) {
@@ -48,7 +48,6 @@ function generateTable(rows, cols) {
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
                         style="text-align: center;" /></td>`;
-
 
         }
         table += "</tr>";
@@ -131,7 +130,7 @@ $(document).ready(function() {
 
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
-        buildMatrix()
+        //buildMatrix()
 
     });
 
@@ -153,6 +152,28 @@ $(document).ready(function() {
     });
 
 });
+
+
+function validateBox(inputId) {
+    console.log("Validating a box:", inputId);
+    var input = $(`#${inputId}`).val();
+    var num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
+    if (input.startsWith('-')) {
+
+    //var num = input.replace(/[^0-9]/g, '');
+    
+    if (num === '' || num === '-') {
+        num = '0';
+    }}
+
+    // Convert to number and clamp values, idk about this though
+    num = Math.max(-10000, Math.min(Number(num), 10000));
+    
+    // Update input field
+    $input.val(num.toString());
+    return num;
+}
+
 
 function buildMatrix(){
 //this will worry about indexing and such 
@@ -176,7 +197,7 @@ function buildMatrix(){
     return matrix;
 }
 
-function checkBox(containerId) {
+/*function checkBox(containerId) {
     const $container = $(`#${containerId}`);
     
     // Event delegation for all matrix inputs
@@ -186,31 +207,10 @@ function checkBox(containerId) {
     });
 }
 
-
-function validateBox(inputId) {
-    console.log("Validating a box:", inputId);
-    var input = $(`#${inputId}`).val();
-    var num = input.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
-    if (input.startsWith('-')) {
-
-    //var num = input.replace(/[^0-9]/g, '');
-    
-    if (num === '' || num === '-') {
-        num = '0';
-    }}
-
-    // Convert to number and clamp values, idk about this though
-    num = Math.max(-10000, Math.min(Number(num), 10000));
-    
-    // Update input field
-    $input.val(num.toString());
-    return num;
-}
-
 /*function checkNegative(inputId) {
     console.log("Checking if negative for:", inputId);
     var input = $(`#${inputId}`).val(); 
     if (input.startsWith('-')) {
 
     }
-}
+}*/
