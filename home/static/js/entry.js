@@ -165,13 +165,58 @@ function validateBox(inputId) {
     const $input = $(`#${inputId}`);
     let value = $input.val();
     console.log("Validating input:", value);
-    let num = value.replace(/[^0-9/./-/\/]/g, ''); // Allow negative sign and decimal point
+    let num = value.replace(/[^-/0-9/./\/]/g, ''); // Allow negative sign and decimal point
     console.log("Cleaned input:", num);
+    
+    if (num.includes('/') && num.includes('.')) {
+        $(`#${inputId}`).val(""); // not valid input field
+        $("#error-message").html('<div class="error-message">no dude</div>');
+    }
+    else if (num.includes('/')) {
+        num = toLatexFraction(num); // Convert to LaTeX fraction
+        //if (!isFractionMode){
+            
+        //}
+    }
     if (num.startsWith('-')) {
 
+
     }
+
     $(`#${inputId}`).val(num.toString()); // Update input field
 }
+
+
+
+    // Match a simple fraction like "3/4" or "-2/5"
+function toLatexFraction(input) {
+    const match = input.match(/^(-?\d+)\s*\/\s*(-?\d+)$/);
+
+    if (match) {
+        const numerator = match[1];
+        const denominator = match[2];
+        return `\\frac{${numerator}}{${denominator}}`;
+    }
+    // If not a fraction, return w/ no change
+    return input;
+}
+
+
+
+//herlper greatest common divisor function
+function gcd(a, b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    
+    while (b !== 0) {
+        const temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
 
 
 function buildMatrix(){
