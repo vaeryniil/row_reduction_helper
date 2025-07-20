@@ -170,10 +170,7 @@ function validateBox(inputId) {
     if (num.startsWith('-')) {
 
     }
-
-    
-    // Update input field
-    //input.val(num.toString());
+    $(`#${inputId}`).val(num);
     return num;
 }
 
