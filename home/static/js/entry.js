@@ -170,14 +170,13 @@ function validateBox(inputId) {
     if (num.startsWith('-')) {
 
     }
-    $(`#${inputId}`).val(num);
-    return num;
+    $(`#${inputId}`).val(num.toString()); // Update input field
 }
 
 
 function buildMatrix(){
 //this will worry about indexing and such 
-    console.log("in build matrix meow");
+    console.log("in build matrix");
     const matrix = [];
 
     const rows = parseInt($("#rows").val());
