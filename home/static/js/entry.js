@@ -195,7 +195,7 @@ function toLatexFraction(input) {
     if (match) {
         const numerator = match[1];
         const denominator = match[2];
-        return `\\( \\frac{${numerator}}{${denominator}} \\)`;
+        return `\( \frac{${numerator}}{${denominator}} \)`;
     }
     // If not a fraction, return w/ no change
     return input;
