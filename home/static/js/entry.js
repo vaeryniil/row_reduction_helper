@@ -59,7 +59,7 @@ function generateTable(rows, cols) {
                         <input type="text" 
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
-                        style="text-align: center;" /></td>
+                        style="text-align: center;" />
                         
                         <div id="latex-display-${i}-${j}" class="latex-overlay"></div>
                         </td>`;
@@ -78,7 +78,7 @@ function generateTable(rows, cols) {
     // Then this adds the new live validation handler
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
-        const latex_id = $(this).next('.latex-overlay').attr('id');
+        const latex_id = $(this).siblings('.latex-overlay').attr('id');
         console.log("Validating box with ID:", id , latex_id);
 
         validateBox(id, latex_id);
@@ -179,7 +179,7 @@ function validateBox(inputId, latexId) {
     }
     else if (num.includes('/')) {
         num = toLatexFraction(num); // Convert to LaTeX fraction
-        $(`#${latexIdId}`).html(num); // Update the LaTeX display
+        $(`#${latexId}`).html(num); // Update the LaTeX display
         MathJax.typeset(); // Re-render MathJax
         return;
     }
