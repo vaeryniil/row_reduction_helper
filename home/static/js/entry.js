@@ -59,8 +59,11 @@ function generateTable(rows, cols) {
                         <input type="text" 
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
-                        style="text-align: center;" /></td>`;
-
+                        style="text-align: center;" /></td>
+                        
+                        <div id="latex-display-${i}-${j}" class="latex-overlay"></div>
+                        </td>`;
+                        //this is the html latex renderer since input does not.
         }
         table += "</tr>";
     }
@@ -75,8 +78,10 @@ function generateTable(rows, cols) {
     // Then this adds the new live validation handler
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
-        console.log("Validating box with ID:", id);
-        validateBox(id);
+        const latex_id = $(this).next('.latex-overlay').attr('id');
+        console.log("Validating box with ID:", id , latex_id);
+
+        validateBox(id, latex_id);
     });
 }
 
@@ -159,7 +164,7 @@ $(document).ready(function() {
 });
 
 
-function validateBox(inputId) {
+function validateBox(inputId, latexId) {
 
     console.log("in validate box");
     const $input = $(`#${inputId}`);
@@ -174,13 +179,12 @@ function validateBox(inputId) {
     }
     else if (num.includes('/')) {
         num = toLatexFraction(num); // Convert to LaTeX fraction
-        //if (!isFractionMode){
-            
-        //}
+        $(`#${latexIdId}`).html(num); // Update the LaTeX display
+        MathJax.typeset(); // Re-render MathJax
+        return;
     }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
-    MathJax.typeset(); // Re-render MathJax
 }
 
 

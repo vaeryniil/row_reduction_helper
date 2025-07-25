@@ -117,6 +117,17 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
+
+/* LaTeX Overlay Styling */
+.latex-overlay {
+  position: relative;        /* flows like normal content */
+  text-align: center;
+  font-size: 1em;
+  color: #444;
+  margin-top: 4px;           
+  pointer-events: none;      /* ensures user can still select/click input */
+}
+
 /* Button Styling */
 #submit, #reset {
 
