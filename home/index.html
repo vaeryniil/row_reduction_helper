@@ -1,0 +1,67 @@
+<!DOCTYPE html> <!-- Modern HTML5 DOCTYPE -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Input matrix</title>
+
+    <!-- CDN Links (these are correct) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- mathjax Links (i believe these are also correct) -->
+    <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <!-- YOUR LOCAL FILES - CORRECTED PATHS -->
+    <link rel="stylesheet" href="static/css/simple.css"> <!-- No leading slash! -->
+    <script src="static/js/entry.js"></script> <!-- No leading slash! -->
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h1>what dimension is your matrix?</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      
+      <form id="entry">
+        <label for="rows">rows:</label>
+        <input id="rows" name="rows" type="text" width="15"
+               autocomplete="off" autofocus />
+
+        <label for="cols" style="margin-left: 10px;">cols:</label>
+        <input id="cols" name="cols" type="text" width="15"
+               autocomplete="off" autofocus />
+
+        <button type="button" id="submit" class="btn btn-default">submit</button>
+
+
+        <button type="button" id="reset" class="btn btn-default"> reset </button>
+
+        <div class="row">
+
+          <div id="matrix" class="col-xs-12 text-center" style="margin-top: 20px;"></div>
+        </div>
+        
+        <div id="error-message"></div>
+
+        <button id="toggleMode" class="btn btn-info" style="display: none;">
+        fraction <!-- default togglebtn starts as fractional-->
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+
+
+ </div> <!-- container -->
+</body> </html>
