@@ -117,9 +117,17 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
+.mjx-chtml {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+
+    font-size: 1.2rem;
+    /* Ensure MathJax text is readable */
+    color: #495057;
+}
 
 /* LaTeX Overlay Styling */
 .latex-overlay {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   position: relative;        /* flows like normal content */
   text-align: center;
   font-size: 1em;
