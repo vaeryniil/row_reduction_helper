@@ -101,13 +101,13 @@ class Matrix {
 
 
 
-let test_matrix = new Matrix ([3,2], [0,1], [[[2,1],[4,1]],[[0,1],[-7,1]],[[3,1],[1,2]]])
+//let test_matrix = new Matrix ([3,2], [0,1], [[[2,1],[4,1]],[[0,1],[-7,1]],[[3,1],[1,2]]])
 
 //console.log(test_matrix)
 
-console.log("Testing...");
-console.log("Original matrix");
-console.log(test_matrix.entries);
+//console.log("Testing...");
+//console.log("Original matrix");
+//console.log(test_matrix.entries);
 
 // testing swap
 //console.log("Swapped Rows 2 and 3")
