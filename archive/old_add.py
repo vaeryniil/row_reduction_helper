@@ -44,9 +44,9 @@ def add(my_matrix: list, change_row: int, scale_row: int, multiplier: tuple )-> 
 
             print("boop")
             large_den_temp1 = (my_matrix[change_row - 1][i][0] * temp_tuple[1],my_matrix[change_row - 1][i][1] * temp_tuple[1])
-            #print(large_den_temp1)
+            print(large_den_temp1)
             large_den_temp2 = (temp_tuple[0] * my_matrix[change_row - 1][i][1],temp_tuple[1] * my_matrix[change_row - 1][i][1])
-            #print(large_den_temp2)
+            print(large_den_temp2)
             new_tuple_temp = reduce_frac(large_den_temp1[0] + large_den_temp2[0],large_den_temp1[1])
             my_matrix[change_row-1][i] = new_tuple_temp
 
@@ -62,18 +62,18 @@ step3 = add(step2, 2,3,(-3,1))
 step4 = add(step3, 1,3,(-2,1))
 print(step4) """
 
-#the fraction test (with different denominators) now works
+"""#the fraction test (with different denominators) now works
 fraction_test = [[(1,1),(2,1),(3,1),(0,1),(4,1)],[(0,1),(3,1),(-7,1),(1,1),(-9,1)],[(0,1),(0,1),(6,1),(0,1),(31,3)],[(0,1),(0,1),(-6,1),(0,1),(-15,2)]]
 #for i in range(4):
     #print(fraction_test[i])
 fstep1 = add(fraction_test,4,3,(1,1))
 for i in range(4):
-    print(fstep1[i])
+    print(fstep1[i])"""
 
 #testing with a smaller matrix
-""" fraction_test = [[(1,1),(31,3)],[(0,1),(-15,2)]]
+fraction_test = [[(1,1),(31,3)],[(0,1),(-15,2)]]
 #for i in range(2):
    # print(fraction_test[i])
 frac_test_step1 = add(fraction_test,2,1,(1,1))
 for i in range(2):
-    print(frac_test_step1[i]) """
+    print(frac_test_step1[i])
