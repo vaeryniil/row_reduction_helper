@@ -3,12 +3,7 @@ body {
     color: #212529;
     font-family: Arial, sans-serif;
 }
-/* Message class styling */
-.message {
-    color: #6f42c1;
-    /* Bootstrap purple */
-    font-weight: 500;
-}
+
 
 #light-dark{
     position: fixed;
@@ -16,6 +11,19 @@ body {
     right: 20px;
     padding: 5px 10px;
     color: #f9fafb;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: 2px solid #dcdcdc;
+    border-radius: 4px;
+    display: inline-flex;
+    background-color:  #fffefe9e;
+    height: 33px;
+    width: 49px;
+    margin: 4px auto;
+    color: rgba(255, 255, 255, 0.097);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Container styling */
@@ -24,7 +32,7 @@ body {
     margin: 2rem auto;
     /* Center horizontally */
     padding: 1rem;
-    background-color: #f8f9fa;
+    background-color: #fcfcfd;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -91,7 +99,6 @@ body {
     text-align: center;
     border: none !important;
     width: auto;
-    
 }
 
 
@@ -129,8 +136,8 @@ body {
 
 }*/
 
-.matrix-box:focus, #submit:focus, #reset:focus, 
-#toggleMode:focus, #latex-input:focus {
+.matrix-box:focus, #submit:focus, #reset:focus, #light-dark:focus,
+#toggleMode:focus, #latex-input:focus, .input-overlay-container:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
