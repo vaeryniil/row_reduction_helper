@@ -1,15 +1,21 @@
-/* 
- * Styles for the minijax example program. This may be used in combination with Bootstrap
- * style sheets (https://getbootstrap.com/docs/3.3/), which provide responsive design for
- * mobile devices, so we don't want to mess up layout and text sizes here. Use this style
- * sheet mainly for minor attributes like text color, italics, etc.
- */
-
+body {
+    background-color: #ffffff;
+    color: #212529;
+    font-family: Arial, sans-serif;
+}
 /* Message class styling */
 .message {
     color: #6f42c1;
     /* Bootstrap purple */
     font-weight: 500;
+}
+
+#light-dark{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 5px 10px;
+    color: #f9fafb;
 }
 
 /* Container styling */
@@ -123,7 +129,8 @@
 
 }*/
 
-.matrix-box:focus, #submit:focus, #reset:focus, #toggleMode:focus {
+.matrix-box:focus, #submit:focus, #reset:focus, 
+#toggleMode:focus, #latex-input:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
@@ -153,25 +160,25 @@
 }
 
 /* LaTeX Overlay Styling */
+
 .latex-overlay {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
   position: absolute;
-  pointer-events: none;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  text-align: center;
-  font-size: 1em;
-  color: #444;
-  margin-top: 4px;           
-  pointer-events: none;     
   display: flex;
+  text-align: center;
+  color: #444;
+  z-index: 1;
   align-items: center;
   justify-content: center;
-  z-index: 1;
-
+  pointer-events: none;
+  overflow: hidden;
 }
+
 
 /* Button Styling */
 #submit, #reset {

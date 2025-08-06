@@ -1,0 +1,21 @@
+body {
+    background-color: #292929;
+    color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+#light-dark{
+    color: #f0f0f0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    /* Center horizontally */
+    padding: 1rem;
+    background-color: #313131;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    /* Center text content */
+}

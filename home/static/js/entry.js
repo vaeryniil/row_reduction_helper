@@ -1,6 +1,14 @@
 
 
-
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    throwOnError: false
+  });
+});
 
 // Suppress normal form submission
 // ie when you press enter it doesnt reload the page
@@ -181,12 +189,20 @@ function validateBox(inputId, latexId) {
         $(`#${inputId}`).val(""); // not valid input field
         $("#error-message").html('<div class="error-message">no dude</div>');
     }
+
     else if (num.includes('/')) {
-        num = toLatexFraction(num); // Convert to LaTeX fraction
-        $(`#${latexId}`).html(num); // Update LaTeX display
-        $(`#${inputId}`).val(""); // Clear input box
-        MathJax.typeset(); // Re-render MathJax
+        try {
+            katex.render(
+                `\\frac{${num.split('/')[0]}}{${num.split('/')[1]}}`,
+                $(`#${latexId}`)[0],
+                { throwOnError: false }
+            );
+            $(`#${inputId}`).val(""); // Clear input box
+            return;
+        } catch (e) {
+            $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
         return;
+        }
     }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
