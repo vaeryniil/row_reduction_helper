@@ -60,10 +60,13 @@ function generateTable(rows, cols) {
                         <input type="text" 
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
-                        style="text-align: center;" />
-                        
-                        <div id="latex-display-${i}-${j}" class="latex-overlay"></div>
-                        </td>`;
+                        style="text-align: center;"
+                        aria-label="Matrix cell ${i+1},${j+1}"/>
+                    
+                        <div id="latex-display-${i}-${j}" 
+                         class="latex-overlay katex-render"></div>
+                    </div>
+                </td>`;
                         //this is the html latex renderer since input does not.
         }
         table += "</tr>";
