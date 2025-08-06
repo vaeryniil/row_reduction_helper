@@ -56,7 +56,6 @@ function generateTable(rows, cols) {
         for (var j = 0; j < cols; j++) {
             //this initializes the table with input text boxes
             table += `<td style='padding: 2px; margin: 2px;'>
-                <div class="input-overlay-container">
                         <input type="text" 
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
@@ -180,8 +179,7 @@ function validateBox(inputId, latexId) {
     }
     else if (num.includes('/')) {
         num = toLatexFraction(num); // Convert to LaTeX fraction
-        $(`#${latexId}`).html(num); // Update LaTeX display
-        $(`#${inputId}`).val(""); // Clear input box
+        $(`#${latexId}`).html(num); // Update the LaTeX display
         MathJax.typeset(); // Re-render MathJax
         return;
     }
