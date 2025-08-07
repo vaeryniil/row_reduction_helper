@@ -54,49 +54,6 @@ function resetDisplay() {
 
 
 
-// function to bring up a matrix table given rows and cols
-function generateTable(rows, cols) {
-    console.log("Generating table with rows:", rows, "and cols:", cols);
-    var table = "<table class='table table-not-bordered'>";
-    
-    for (var i = 0; i < rows; i++) {
-        table += "<tr>";
-        for (var j = 0; j < cols; j++) {
-            //this initializes the table with input text boxes
-            table += `<td style='padding: 2px; margin: 2px;'>
-                <div class="input-overlay-container">
-                        <input type="text" 
-                        class="matrix-box" 
-                        id="matrix-input-${i}-${j}"
-                        style="text-align: center;"
-                        aria-label="Matrix cell ${i+1},${j+1}"/>
-                    
-                        <div id="latex-display-${i}-${j}" 
-                         class="latex-overlay katex-render"></div>
-                    </div>
-                </td>`;
-                        //this is the html latex renderer since input does not.
-        }
-        table += "</tr>";
-    }
-    
-    table += "</table>";
-    $("#matrix").html(table);
-
-    $("#toggleMode").show();
-    // gets rid of other existin handlers if any
-    $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
-
-    // Then this adds the new live validation handler
-    $('#matrix').on('keyup', '.matrix-box', function () {
-        const id = $(this).attr('id');
-        const latex_id = $(this).siblings('.latex-overlay').attr('id');
-        console.log("Validating box with ID:", id , latex_id);
-
-        validateBox(id, latex_id);
-    });
-}
-
     // Toggle mode on button click
 function toggleInputType(button){
     isFractionMode = !isFractionMode;
@@ -176,7 +133,54 @@ $(document).ready(function() {
 });
 
 
-function validateBox(inputId, latexId) {
+// function to bring up a matrix table given rows and cols
+function generateTable(rows, cols) {
+    console.log("Generating table with rows:", rows, "and cols:", cols);
+    var table = "<table class='table table-not-bordered'>";
+    
+    for (var i = 0; i < rows; i++) {
+        table += "<tr>";
+        for (var j = 0; j < cols; j++) {
+            //this initializes the table with input text boxes
+            table += `<td style='padding: 2px; margin: 2px;'>
+                <div class="input-overlay-container">
+                        <input type="text" 
+                        class="matrix-box" 
+                        id="matrix-input-${i}-${j}"
+                        style="text-align: center;"
+                        aria-label="Matrix cell ${i+1},${j+1}"/>
+                    
+                        <div id="latex-display-${i}-${j}" 
+                         class="latex-overlay katex-render"></div>
+                    </div>
+                </td>`;
+                        //this is the html latex renderer since input does not.
+        }
+        table += "</tr>";
+    }
+    
+    table += "</table>";
+    $("#matrix").html(table);
+
+    $("#toggleMode").show();
+    // gets rid of other existin handlers if any
+    $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
+
+    // Then this adds the new live validation handler
+    $('#matrix').on('keyup', '.matrix-box', function () {
+        const id = $(this).attr('id');
+        const latex_id = $(this).siblings('.latex-overlay').attr('id');
+        const katexed = $(`#${latex_id}`);
+        console.log("already katexed is " + katexed);
+        const numerator = $(katexed[0]).find('.mfrac .numerator').text();
+        console.log("numerator is " + numerator);
+        console.log("Validating box with ID:", id , latex_id, numerator);
+
+        validateBox(id, latex_id);
+    });
+}
+
+function validateBox(inputId, latexId, katexed) {
 
     console.log("in validate box");
     const $input = $(`#${inputId}`);
@@ -206,21 +210,6 @@ function validateBox(inputId, latexId) {
     }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
-}
-
-
-
-    // Match a simple fraction like "3/4" or "-2/5"
-function toLatexFraction(input) {
-    const match = input.match(/^(-?\d+)\s*\/\s*(-?\d+)$/);
-
-    if (match) {
-        const numerator = match[1];
-        const denominator = match[2];
-        return `\\( \\frac{${numerator}}{${denominator}} \\)`;
-    }
-    // If not a fraction, return w/ no change
-    return input;
 }
 
 

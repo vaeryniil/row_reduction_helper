@@ -12,17 +12,16 @@ body {
     padding: 5px 10px;
     font-size: 1.2rem;
     padding: 1rem;
-    border: 2px solid #dcdcdcb8;
-    border-radius: 4px;
+    border: 2px solid #dcdcdc7c;
+    border-radius: 3px;
     display: inline-flex;
     background-color:  #fffefef7;
     height: 28px;
     width: 45px;
-    margin: 4px auto;
+    margin: 8px auto;
     color: rgba(255, 255, 255, 0.097);
     text-align: center;
     align-items: center;
-    justify-content: center;
 }
 
 /* Container styling */
@@ -59,7 +58,7 @@ body {
     display: inline-block;
 }
 
-#rows:focus, #cols:focus {
+#rows:focus, #cols:focus, #reset:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
@@ -135,7 +134,7 @@ body {
 
 }*/
 
-.matrix-box:focus, #submit:focus, #reset:focus, #light-dark:focus,#toggleMode:focus, #latex-input:focus, .input-overlay-container:focus {
+.matrix-box:focus, #submit:focus, #light-dark:focus, #toggleMode:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
