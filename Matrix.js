@@ -45,11 +45,38 @@ function fraction_multiplier(no_1,no_2) {///multiplies two arrays with numerator
     */
 
 class Matrix {
-    constructor(size,state,entries) {
+    constructor(size, state = 0, entries) {
         this.size = size;
         this.state = state;
         this.entries = entries;
     }
+
+    //im adding init entries to help me
+    init_entries() {
+        let rows = this.size[0];
+        let cols = this.size[1];
+        let temp = [];
+
+        for (let i = 0; i < rows; i++) {
+            let row = [];
+            for (let j = 0; j < cols; j++) {
+                row.push([0,1]); //initializing all entries to 0/1
+            }
+            temp.push(row);
+        }   
+        entries = temp;//no return here, just setting space for entries
+    }
+
+
+    //also need an add entry function
+    add_entry(row, col, value) { //value is an array [numerator, denominator]
+        this.entries[row-1][col-1] = value; 
+    }
+
+    //way to grab an entry
+    get_entry(row, col) {
+        return this.entries[row-1][col-1]; 
+    }   
 
     swap(row1,row2) { //this method works. 7.30.25
         let temp = this.entries[row1-1]

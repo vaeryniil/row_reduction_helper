@@ -161,6 +161,8 @@ function generateTable(rows, cols) {
     
     table += "</table>";
     $("#matrix").html(table);
+    const matrix = new Matrix([rows,cols]);
+
 
     $("#toggleMode").show();
     // gets rid of other existin handlers if any
@@ -170,26 +172,25 @@ function generateTable(rows, cols) {
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
-        const katex_element = document.getElementById(latex_id);
-        console.log("already katexed 0 is" + katex_element);
-
- 
-           
+  
         console.log("Validating box with ID:", id , latex_id);
+        print("matrix:", matrix);
 
-        validateBox(id, latex_id);
+        validateBox(id, latex_id, matrix);
     });
+
+    return matrix;
 }
 
-function validateBox(inputId, latexId, katexed) {
+function validateBox(inputId, latexId, matrix) {
 
-    console.log("in validate box");
     const $input = $(`#${inputId}`);
     let value = $input.val();
     console.log("Validating input:", value);
     let num = value.replace(/[^-/0-9/./\/]/g, ''); // Allow negative sign and decimal point
-    console.log("Cleaned input:", num);
+    console.log("Cleaned input:", num, "also matrix", matrix);
     
+
     if (num.includes('/') && num.includes('.')) {
         $(`#${inputId}`).val(""); // not valid input field
         $("#error-message").html('<div class="error-message">no dude</div>');
