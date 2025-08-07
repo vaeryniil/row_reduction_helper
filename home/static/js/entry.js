@@ -170,11 +170,12 @@ function generateTable(rows, cols) {
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
-        const katexed = $(`#${latex_id}`);
-        console.log("already katexed is " + katexed);
-        const numerator = $(katexed[0]).find('.mfrac .numerator').text();
-        console.log("numerator is " + numerator);
-        console.log("Validating box with ID:", id , latex_id, numerator);
+        const katex_element = document.getElementById(latex_id);
+        console.log("already katexed 0 is" + katex_element);
+
+ 
+           
+        console.log("Validating box with ID:", id , latex_id);
 
         validateBox(id, latex_id);
     });
