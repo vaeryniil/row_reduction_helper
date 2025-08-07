@@ -175,28 +175,28 @@ function generateTable(rows, cols) {
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
   
         console.log("Validating box with ID:", id , latex_id);
-        console.log("matrix:", matrix);
+        console.log("matrix:", matrix.print());
 
         validateBox(id, latex_id, matrix);
     });
 
 
-    $('#matrix').on('keydown', '.matrix-box', function(e) {
-    if (e.key === 'Delete') {
-        const id = $(this).attr('id').split('-');
-        const [i, j] = [id[2], id[3]];
-        $(this).val('');
-        $(`#latex-display-${i}-${j}`).html('');
-        matrix.entries[i][j] = [0, 1];
-    }
-    });
+    // $('#matrix').on('keydown', '.matrix-box', function(e) {
+    // if (e.key === 'Delete') {
+    //     const id = $(this).attr('id').split('-');
+    //     const [i, j] = [id[2], id[3]];
+    //     $(this).val('');
+    //     $(`#latex-display-${i}-${j}`).html('');
+    //     matrix.entries[i][j] = [0, 1];
+    // }
+    // });
 
 
 
-    return matrix;
+    //return matrix;
 }
 
-function validateBox(inputId, latexId, matrix) {
+/*function validateBox(inputId, latexId, matrix) {
 
     const $input = $(`#${inputId}`);
     let value = $input.val();
@@ -228,10 +228,18 @@ function validateBox(inputId, latexId, matrix) {
                     denominator = ' ';
                     
             }
-            return;//still entering a fraction or sth so leave till above step is done
+            else{
+                 return;//still entering a fraction or sth so leave till above step is done
+            }
+           
         }
         else{
         let denominator = num;
+        console.log("the numerator is " + numerator + " and denominator is " + denominator);
+        if (denominator === 0) {
+            $(`#${inputId}`).val('');
+            return;
+        }
         matrix.add_value(row, col, [numerator, parseInt(denominator,10)]);
         }
 
@@ -252,4 +260,38 @@ function validateBox(inputId, latexId, matrix) {
                 }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
+}*/
+
+
+function validateBox(inputId, latexId, matrix) {
+    const $input = $(`#${inputId}`);
+    const value = $input.val().trim();
+    
+    // Extract row/col from ID (matrix-input-0-0 => row 0, col 0)
+    const [i, j] = inputId.match(/\d+/g).map(Number); 
+    
+    if (value === "") {
+        matrix.entries[i][j] = [0, 1]; // Reset to 0/1
+        $(`#${latexId}`).html('');
+        return;
+    }
+
+    const num = value.replace(/[^-/0-9.]/g, ''); // Clean input
+
+    if (num.includes('/')) {
+        const [n, d] = num.split('/').map(Number);
+        if (!isNaN(n) && !isNaN(d) && d !== 0) {
+            matrix.entries[i][j] = [n, d];
+            katex.render(`\\frac{${n}}{${d}}`, $(`#${latexId}`)[0], { 
+                throwOnError: false 
+            });
+            $input.val('');
+        } else {
+            $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+        }
+    } 
+    else if (!isNaN(num)) {
+        matrix.entries[i][j] = [Number(num), 1];
+        katex.render(num, $(`#${latexId}`)[0], { throwOnError: false });
+    }
 }
