@@ -161,11 +161,12 @@ function generateTable(rows, cols) {
     
     table += "</table>";
     $("#matrix").html(table);
-    const matrix = new Matrix([rows,cols]);
 
+    const matrix = new Matrix([rows,cols]);
+    matrix.init_entries();
 
     $("#toggleMode").show();
-    // gets rid of other existin handlers if any
+    // gets rid of other existing handlers if any
     $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
 
     // Then this adds the new live validation handler
@@ -174,10 +175,23 @@ function generateTable(rows, cols) {
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
   
         console.log("Validating box with ID:", id , latex_id);
-        print("matrix:", matrix);
+        console.log("matrix:", matrix);
 
         validateBox(id, latex_id, matrix);
     });
+
+
+    $('#matrix').on('keydown', '.matrix-box', function(e) {
+    if (e.key === 'Delete') {
+        const id = $(this).attr('id').split('-');
+        const [i, j] = [id[2], id[3]];
+        $(this).val('');
+        $(`#latex-display-${i}-${j}`).html('');
+        matrix.entries[i][j] = [0, 1];
+    }
+    });
+
+
 
     return matrix;
 }
@@ -188,67 +202,50 @@ function validateBox(inputId, latexId, matrix) {
     let value = $input.val();
     console.log("Validating input:", value);
     let num = value.replace(/[^-/0-9/./\/]/g, ''); // Allow negative sign and decimal point
-    console.log("Cleaned input:", num, "also matrix", matrix);
+    console.log("Cleaned input:", num);
     
+    let row = matrix.size[0];
+    let col = matrix.size[1];   
+
+    const full_entry = matrix.get_entry(row, col);
+    let numerator = full_entry[0];
+    console.log("entry before is " + entry);
 
     if (num.includes('/') && num.includes('.')) {
         $(`#${inputId}`).val(""); // not valid input field
         $("#error-message").html('<div class="error-message">no dude</div>');
     }
 
-    else if (num.includes('/')) {
-        try {
-            katex.render(
-                `\\frac{${num.split('/')[0]}}{${num.split('/')[1]}}`,
-                $(`#${latexId}`)[0],
-                { throwOnError: false }
-            );
-            $(`#${inputId}`).val(""); // Clear input box
-            return;
-        } catch (e) {
-            $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
-        return;
+    if (isFractionMode){ //looking at fractions
+
+        if (numerator === 0) {
+            if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
+                    numerator = $input.split('/');
+                    console.log("numerator updated to " + numerator);
+                    matrix.add_value(row, col, [parseInt(numerator[0],10), 1]);
+            }
         }
+                    try {
+                katex.render(
+                    `\\frac{${num.split('/')[0]}}{${num.split('/')[1]}}`,
+                    $(`#${latexId}`)[0],
+                    { throwOnError: false }
+                );
+
+                $(`#${inputId}`).val(""); //here clears input box
+                
+                return;
+                
+                } catch (e) {//catch errors
+                    $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+                return;
+                }
+            }
+    }
+
+    else{//they want in decimals
+
     }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
 }
-
-
-
-//herlper greatest common divisor function
-function gcd(a, b) {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    
-    while (b !== 0) {
-        const temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    return a;
-}
-
-
-
-function buildMatrix(){
-//this will worry about indexing and such 
-    console.log("in build matrix");
-    const matrix = [];
-
-    const rows = parseInt($("#rows").val());
-    const cols = parseInt($("#cols").val());    
-
-    for (let i = 0; i < rows; i++) {
-        let row = [];
-        for (let j = 0; j < cols; j++) {
-            
-               
-        }
-        matrix.push(row);
-
-    }
-    return matrix;
-}
-
