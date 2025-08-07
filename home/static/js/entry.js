@@ -211,23 +211,28 @@ function validateBox(inputId, latexId, matrix) {
     let numerator = full_entry[0];
     console.log("entry before is " + entry);
 
+    if (num == "") {
+        return;
+    }
+
     if (num.includes('/') && num.includes('.')) {
         $(`#${inputId}`).val(""); // not valid input field
         $("#error-message").html('<div class="error-message">no dude</div>');
     }
 
-    if (isFractionMode){ //looking at fractions
-
         if (numerator === 0) {
             if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
-                    numerator = $input.split('/');
+                    numerator = num.split('/');
                     console.log("numerator updated to " + numerator);
                     matrix.add_value(row, col, [parseInt(numerator[0],10), 1]);
+                    denominator = '';
             }
         }
+        let denominator = num;
+
                     try {
                 katex.render(
-                    `\\frac{${num.split('/')[0]}}{${num.split('/')[1]}}`,
+                    `\\frac{${numerator}}{${denominator}}`,
                     $(`#${latexId}`)[0],
                     { throwOnError: false }
                 );
@@ -240,12 +245,6 @@ function validateBox(inputId, latexId, matrix) {
                     $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
                 return;
                 }
-            }
-    }
-
-    else{//they want in decimals
-
-    }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
 }

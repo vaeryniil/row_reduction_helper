@@ -60,11 +60,11 @@ class Matrix {
         for (let i = 0; i < rows; i++) {
             let row = [];
             for (let j = 0; j < cols; j++) {
-                row.push([0,1]); //initializing all entries to 0/1
+                row.push([0,1]); //initializing all entries to nuthin
             }
             temp.push(row);
         }   
-        entries = temp;//no return here, just setting space for entries
+        this.entries = temp;//no return here, just setting space for entries
     }
 
 
