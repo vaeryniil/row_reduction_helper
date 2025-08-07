@@ -225,10 +225,15 @@ function validateBox(inputId, latexId, matrix) {
                     numerator = num.split('/');
                     console.log("numerator updated to " + numerator);
                     matrix.add_value(row, col, [parseInt(numerator[0],10), 1]);
-                    denominator = '';
+                    denominator = ' ';
+                    
             }
+            return;//still entering a fraction or sth so leave till above step is done
         }
+        else{
         let denominator = num;
+        matrix.add_value(row, col, [numerator, parseInt(denominator,10)]);
+        }
 
                     try {
                 katex.render(
