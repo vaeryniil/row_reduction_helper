@@ -76,7 +76,6 @@ class Matrix {
     }
     
 
-
     //also need an add entry function
     add_value(row, col, value) { //value is an array [numerator, denominator]
         this.entries[row-1][col-1] = value; 

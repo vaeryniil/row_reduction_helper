@@ -196,7 +196,7 @@ function generateTable(rows, cols) {
     //return matrix;
 }
 
-/*function validateBox(inputId, latexId, matrix) {
+function validateBox(inputId, latexId, matrix) {
 
     const $input = $(`#${inputId}`);
     let value = $input.val();
@@ -204,10 +204,9 @@ function generateTable(rows, cols) {
     let num = value.replace(/[^-/0-9/./\/]/g, ''); // Allow negative sign and decimal point
     console.log("Cleaned input:", num);
     
-    let row = matrix.size[0];
-    let col = matrix.size[1];   
+    const [i, j] = inputId.match(/\d+/g).map(Number); 
 
-    const full_entry = matrix.get_entry(row, col);
+    const full_entry = matrix.get_entry(i+1, j+1);
     let numerator = full_entry[0];
     console.log("entry before is " + entry);
 
@@ -217,53 +216,52 @@ function generateTable(rows, cols) {
 
     if (num.includes('/') && num.includes('.')) {
         $(`#${inputId}`).val(""); // not valid input field
-        $("#error-message").html('<div class="error-message">no dude</div>');
+        $("#error-message").html('<div class="error-message">nope</div>');
     }
 
-        if (numerator === 0) {
-            if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
-                    numerator = num.split('/');
-                    console.log("numerator updated to " + numerator);
-                    matrix.add_value(row, col, [parseInt(numerator[0],10), 1]);
-                    denominator = ' ';
-                    
-            }
-            else{
-                 return;//still entering a fraction or sth so leave till above step is done
-            }
-           
+    if (numerator === 0) {
+        if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
+                numerator = num.split('/');
+                console.log("numerator updated to " + numerator);
+                matrix.add_value(i+1, j+1, [parseInt(numerator[0],10), 1]);
+                denominator = ' ';      
         }
+
         else{
-        let denominator = num;
-        console.log("the numerator is " + numerator + " and denominator is " + denominator);
-        if (denominator === 0) {
-            $(`#${inputId}`).val('');
+                return;//still entering a fraction or sth so leave till above step is done
+        }  
+    }
+    else{
+    let denominator = num;
+    console.log("the numerator is " + numerator + " and denominator is " + denominator);
+    if (denominator === 0) {
+        $(`#${inputId}`).val('');
+        return;
+    }
+    matrix.add_value(i+1, j+1, [numerator, parseInt(denominator,10)]);
+    }
+
+                try {
+            katex.render(
+                `\\frac{${numerator}}{${denominator}}`,
+                $(`#${latexId}`)[0],
+                { throwOnError: false }
+            );
+
+            $(`#${inputId}`).val(""); //here clears input box
+            
             return;
-        }
-        matrix.add_value(row, col, [numerator, parseInt(denominator,10)]);
-        }
-
-                    try {
-                katex.render(
-                    `\\frac{${numerator}}{${denominator}}`,
-                    $(`#${latexId}`)[0],
-                    { throwOnError: false }
-                );
-
-                $(`#${inputId}`).val(""); //here clears input box
-                
-                return;
-                
-                } catch (e) {//catch errors
-                    $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
-                return;
-                }
+            
+            } catch (e) {//catch errors
+                $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+            return;
+            }
 
     $(`#${inputId}`).val(num.toString()); // Update input field
-}*/
+}
 
 
-function validateBox(inputId, latexId, matrix) {
+/*function validateBox(inputId, latexId, matrix) {
     const $input = $(`#${inputId}`);
     const value = $input.val().trim();
     
@@ -287,11 +285,11 @@ function validateBox(inputId, latexId, matrix) {
             });
             $input.val('');
         } else {
-            $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+            //$(`#${latexId}`).html('<span style="color:red">Invalid</span>');
         }
     } 
     else if (!isNaN(num)) {
         matrix.entries[i][j] = [Number(num), 1];
         katex.render(num, $(`#${latexId}`)[0], { throwOnError: false });
     }
-}
+}*/
