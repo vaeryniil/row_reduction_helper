@@ -193,56 +193,72 @@ function generateTable(rows, cols) {
 
 
 
-function deleteFraction(id, latex_id, matrix){
-        const $input = $(`#${id}`);
-        let value = $input.val();
+function deleteFraction(id, latexId, matrix){
+    console.log("in delete");    
+    const [i, j] = id.match(/\d+/g).map(Number); 
+    let n = matrix.get_entry(i+1, j+1)[0];
+    let d = matrix.get_entry(i+1, j+1)[1];
+
+        //if (value === '' && 
+        //($(`#${latex_id}`).is(':empty') || $(`#${latex_id}`).text().trim() === '')){
+            //then you have a Katex element but no input, special delete
         
-        const [i, j] = id.match(/\d+/g).map(Number); 
-        let n = matrix.get_entry(i+1, j+1)[0];
-        let d = matrix.get_entry(i+1, j+1)[1];
-
-        if (value === '' && 
-            ($(`#${latex_id}`).is(':empty') || $(`#${latex_id}`).text().trim() === '')){
-                //then you have a Katex element but no input, special delete
-            
-                if (d !== 1){
-                    //delete denominator first
-                    if (d < 10){d = 1}
-                    else { 
-                        let d_str = d.toString();
-                        d_str = d_str.slice(0, -1);
-                        d = parseInt(d_str);   
-                    } 
+            if (d !== 1){console.log("d is " , d);
+                //delete denominator first
+                if (d < 10){
+                    matrix.add_value(i+1, j+1, n, 1); 
+                    d = '';}
+                else { 
+                    let d_str = d.toString();
+                    d_str = d_str.slice(0, -1);
+                    d = parseInt(d_str);  
+                    matrix.add_value(i+1, j+1, n, d);
+                } 
+                try {
+                    katex.render(
+                        `\\frac{${n}}{${d}}`,
+                        $(`#${latexId}`)[0],
+                        { throwOnError: false }
+                );  
+                return;
+                
+                } catch (e) {//catch errors
+                    $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+                return;
                 }
-                //else if () how to delete the fraction?
-                else if (n !== 0){
-                    if (n < 10){n = 0}
-                    else { 
-                        let n_str = n.toString();
-                        n_str = n_str.slice(0, -1);
-                        n = parseInt(n_str);   
-                    } 
-                }
-                else{// [0, 1]
-                    $(`#${latex_id}`).text('');
-                    return;
-                    }//clear Katex
-
-
-            try {
-                katex.render(
-                    `\\frac{${n}}{${d}}`,
-                    $(`#${latexId}`)[0],
-                    { throwOnError: false }
-            );            
-            return;
-            
-            } catch (e) {//catch errors
-                $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
-            return;
             }
+
+            else if(n !== 0){
+                $(`#${latexId}`).empty();
+                $(`#${latexId}`).hide();
+                 $(`#${id}`).val(n);
             }
-            
+
+            // else if (n !== 0){console.log("n is " , n);
+            //     if (n < 10){
+            //         n = 0;
+            //         matrix.add_value(i+1, j+1, n, d);
+            //         n = ''; 
+            //     }
+            //     else { 
+            //         let n_str = n.toString();
+            //         n_str = n_str.slice(0, -1);
+            //         n = parseInt(n_str);
+            //         matrix.add_value(i+1, j+1, n, d); 
+   
+            //     } 
+            // }
+
+            // else{// [0, 1]
+            //     $(`#${latexId}`).empty();
+            //     return;
+            //     }//clear Katex
+
+        console.log("n is ", n, "d is " , d);
+         //matrix.add_value(i+1, j+1, n, d);
+
+        //}
+        
 
 }
 
