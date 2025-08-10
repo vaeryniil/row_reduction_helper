@@ -310,9 +310,9 @@ function validateBox(inputId, latexId, matrix) {
 
     if (d !== 1){
         denominator = d;
-        if (val !== ''){
+        if (num !== ''){
             let d_str = d.toString();
-            d_str += val.toString();
+            d_str += num.toString();
             denominator = parseInt(d_str);
             matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
         }
@@ -320,7 +320,7 @@ function validateBox(inputId, latexId, matrix) {
 
             //ready update it
     //so it keeps rendering
-
+ 
         try {
     katex.render(
         `\\frac{${numerator}}{${denominator}}`,
