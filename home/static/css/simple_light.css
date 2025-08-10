@@ -19,7 +19,7 @@ body {
     height: 28px;
     width: 45px;
     margin: 8px auto;
-    color: rgba(255, 255, 255, 0.097);
+    color: rgba(67, 67, 67, 0.834);
     text-align: center;
     align-items: center;
 }
@@ -58,7 +58,7 @@ body {
     display: inline-block;
 }
 
-#rows:focus, #cols:focus, #reset:focus {
+#rows:focus, #cols:focus, #reset:focus, #submit:focus, #light-dark:focus, #toggleMode:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
@@ -134,7 +134,7 @@ body {
 
 }*/
 
-.matrix-box:focus, #submit:focus, #light-dark:focus, #toggleMode:focus {
+.matrix-box:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);

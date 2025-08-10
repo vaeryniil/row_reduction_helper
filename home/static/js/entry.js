@@ -256,7 +256,7 @@ function validateBox(inputId, latexId, matrix) {
                 $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
             return;
             }
-
+ 
     $(`#${inputId}`).val(num.toString()); // Update input field
 }
 
