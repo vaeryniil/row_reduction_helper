@@ -173,28 +173,81 @@ function generateTable(rows, cols) {
     $('#matrix').on('keyup', '.matrix-box', function () {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
-  
-        console.log("Validating box with ID:", id , latex_id);
-        console.log("matrix:", matrix.print());
-
+        //console.log("Validating box with ID:", id , latex_id);
+        //console.log("matrix:", matrix.print());
         validateBox(id, latex_id, matrix);
     });
 
 
-    // $('#matrix').on('keydown', '.matrix-box', function(e) {
-    // if (e.key === 'Delete') {
-    //     const id = $(this).attr('id').split('-');
-    //     const [i, j] = [id[2], id[3]];
-    //     $(this).val('');
-    //     $(`#latex-display-${i}-${j}`).html('');
-    //     matrix.entries[i][j] = [0, 1];
-    // }
-    // });
+    $('#matrix').on('keydown', '.matrix-box', function(e) {
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+        const id = $(this).attr('id');
+        const latex_id = $(this).siblings('.latex-overlay').attr('id');
+        //console.log("Validating box with ID:", id , latex_id);
+        deleteFraction(id, latex_id, matrix);
+    }
+    });
 
-
-
-    //return matrix;
+    return matrix;
 }
+
+
+
+function deleteFraction(id, latex_id, matrix){
+        const $input = $(`#${id}`);
+        let value = $input.val();
+        
+        const [i, j] = id.match(/\d+/g).map(Number); 
+        let n = matrix.get_entry(i+1, j+1)[0];
+        let d = matrix.get_entry(i+1, j+1)[1];
+
+        if (value === '' && 
+            ($(`#${latex_id}`).is(':empty') || $(`#${latex_id}`).text().trim() === '')){
+                //then you have a Katex element but no input, special delete
+            
+                if (d !== 1){
+                    //delete denominator first
+                    if (d < 10){d = 1}
+                    else { 
+                        let d_str = d.toString();
+                        d_str = d_str.slice(0, -1);
+                        d = parseInt(d_str);   
+                    } 
+                }
+                //else if () how to delete the fraction?
+                else if (n !== 0){
+                    if (n < 10){n = 0}
+                    else { 
+                        let n_str = n.toString();
+                        n_str = n_str.slice(0, -1);
+                        n = parseInt(n_str);   
+                    } 
+                }
+                else{// [0, 1]
+                    $(`#${latex_id}`).text('');
+                    return;
+                    }//clear Katex
+
+
+            try {
+                katex.render(
+                    `\\frac{${n}}{${d}}`,
+                    $(`#${latexId}`)[0],
+                    { throwOnError: false }
+            );            
+            return;
+            
+            } catch (e) {//catch errors
+                $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+            return;
+            }
+            }
+            
+
+}
+
+
+
 
 function validateBox(inputId, latexId, matrix) {
 
@@ -245,22 +298,24 @@ function validateBox(inputId, latexId, matrix) {
     }//if you have a divisor in already update it
     //so it keeps rendering
 
-                try {
-            katex.render(
-                `\\frac{${numerator}}{${denominator}}`,
-                $(`#${latexId}`)[0],
-                { throwOnError: false }
-            );
+        try {
+    katex.render(
+        `\\frac{${numerator}}{${denominator}}`,
+        $(`#${latexId}`)[0],
+        { throwOnError: false }
+    );
 
-            $(`#${inputId}`).val(""); //here clears input box
-            
-            return;
-            
-            } catch (e) {//catch errors
-                $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
-            return;
-            }
+    $(`#${inputId}`).val(""); //here clears input box
+    
+    return;
+    
+    } catch (e) {//catch errors
+        $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
+    return;
+    }
  
     $(`#${inputId}`).val(num.toString()); // Update input field
 }
+
+
 
