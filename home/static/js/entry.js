@@ -219,8 +219,7 @@ function deleteFraction(id, latexId, matrix){
                         `\\frac{${n}}{${d}}`,
                         $(`#${latexId}`)[0],
                         { throwOnError: false }
-                );  
-                return;
+                    );  
                 
                 } catch (e) {//catch errors
                     $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
@@ -311,7 +310,15 @@ function validateBox(inputId, latexId, matrix) {
 
     if (d !== 1){
         denominator = d;
-    }//if you have a divisor in already update it
+        if (val !== ''){
+            let d_str = d.toString();
+            d_str += val.toString();
+            denominator = parseInt(d_str);
+            matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
+        }
+        }
+
+            //ready update it
     //so it keeps rendering
 
         try {

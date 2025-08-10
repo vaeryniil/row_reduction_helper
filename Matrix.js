@@ -78,7 +78,7 @@ class Matrix {
 
     //also need an add entry function
     add_value(row, col, n, d) { //value is an array [numerator, denominator]
-        let value = [n, d]
+        let value = [n,d]
         this.entries[row-1][col-1] = value; 
     }
 
