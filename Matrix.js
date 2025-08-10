@@ -77,7 +77,8 @@ class Matrix {
     
 
     //also need an add entry function
-    add_value(row, col, value) { //value is an array [numerator, denominator]
+    add_value(row, col, n, d) { //value is an array [numerator, denominator]
+        let value = [n, d]
         this.entries[row-1][col-1] = value; 
     }
 
@@ -86,7 +87,7 @@ class Matrix {
         return this.entries[row-1][col-1]; 
     }   
 
-    swap(row1,row2) { //this method works. 7.30.25
+    swap(row1, row2) { //this method works. 7.30.25
         let temp = this.entries[row1-1]
         //console.log(temp);
         this.entries[row1-1] = this.entries[row2-1];  

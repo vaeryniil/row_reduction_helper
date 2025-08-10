@@ -71,7 +71,7 @@ function toggleInputType(button){
 
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
-    console.log("trying to fix entries");
+    //console.log("trying to fix entries");
     
     //check the input on rows
     $("#rows").on("keyup", function() {
@@ -85,7 +85,7 @@ $(document).ready(function() {
     
     //this makes a table when the submit button is pressed
     $("#submit").click(function() {
-        console.log("pressed submit button");
+        //console.log("pressed submit button");
         var rows = $("#rows").val();
         var cols = $("#cols").val();
         $("#error-message").html("");  
@@ -115,13 +115,13 @@ $(document).ready(function() {
 
     //this toggles the input type between fraction and decimal
     $("#toggleMode").click(function() {
-        console.log("pressed toggle button");
+        //console.log("pressed toggle button");
         toggleInputType(this);
     });
 
     //reset from above clears the rows/cols initial input boxes and table
     $("#reset").click(function() {
-        console.log("pressed reset button");
+        //console.log("pressed reset button");
         resetDisplay();
 
     });
@@ -135,7 +135,7 @@ $(document).ready(function() {
 
 // function to bring up a matrix table given rows and cols
 function generateTable(rows, cols) {
-    console.log("Generating table with rows:", rows, "and cols:", cols);
+    //console.log("Generating table with rows:", rows, "and cols:", cols);
     var table = "<table class='table table-not-bordered'>";
     
     for (var i = 0; i < rows; i++) {
@@ -200,15 +200,11 @@ function validateBox(inputId, latexId, matrix) {
 
     const $input = $(`#${inputId}`);
     let value = $input.val();
-    console.log("Validating input:", value);
-    let num = value.replace(/[^-/0-9/./\/]/g, ''); // Allow negative sign and decimal point
-    console.log("Cleaned input:", num);
-    
+    //console.log("Validating input:", value);
+    let num = value.replace(/[^-/0-9/./\/]/g, ''); // allows negative sign and decimal and fraction
+    //console.log("Cleaned input:", num);
     const [i, j] = inputId.match(/\d+/g).map(Number); 
-
-    const full_entry = matrix.get_entry(i+1, j+1);
-    let numerator = full_entry[0];
-    console.log("entry before is " + entry);
+    let numerator = matrix.get_entry(i+1, j+1)[0];
 
     if (num == "") {
         return;
@@ -221,25 +217,33 @@ function validateBox(inputId, latexId, matrix) {
 
     if (numerator === 0) {
         if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
-                numerator = num.split('/');
-                console.log("numerator updated to " + numerator);
-                matrix.add_value(i+1, j+1, [parseInt(numerator[0],10), 1]);
-                denominator = ' ';      
+                numerator = num.replace('/', '');
+                console.log("numerator updated to " + numerator); //getting a wierd comma here
+                matrix.add_value(i+1, j+1, parseInt(numerator[0], 10), 1);
+                denominator = ' ';   
         }
-
         else{
                 return;//still entering a fraction or sth so leave till above step is done
         }  
     }
+
     else{
+
     let denominator = num;
-    console.log("the numerator is " + numerator + " and denominator is " + denominator);
-    if (denominator === 0) {
+
+    if (denominator === 0 || !Number.isInteger(parseInt(denominator))) {
         $(`#${inputId}`).val('');
         return;
     }
-    matrix.add_value(i+1, j+1, [numerator, parseInt(denominator,10)]);
+    matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
     }
+
+    let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
+
+    if (d !== 1){
+        denominator = d;
+    }//if you have a divisor in already update it
+    //so it keeps rendering
 
                 try {
             katex.render(
@@ -260,36 +264,3 @@ function validateBox(inputId, latexId, matrix) {
     $(`#${inputId}`).val(num.toString()); // Update input field
 }
 
-
-/*function validateBox(inputId, latexId, matrix) {
-    const $input = $(`#${inputId}`);
-    const value = $input.val().trim();
-    
-    // Extract row/col from ID (matrix-input-0-0 => row 0, col 0)
-    const [i, j] = inputId.match(/\d+/g).map(Number); 
-    
-    if (value === "") {
-        matrix.entries[i][j] = [0, 1]; // Reset to 0/1
-        $(`#${latexId}`).html('');
-        return;
-    }
-
-    const num = value.replace(/[^-/0-9.]/g, ''); // Clean input
-
-    if (num.includes('/')) {
-        const [n, d] = num.split('/').map(Number);
-        if (!isNaN(n) && !isNaN(d) && d !== 0) {
-            matrix.entries[i][j] = [n, d];
-            katex.render(`\\frac{${n}}{${d}}`, $(`#${latexId}`)[0], { 
-                throwOnError: false 
-            });
-            $input.val('');
-        } else {
-            //$(`#${latexId}`).html('<span style="color:red">Invalid</span>');
-        }
-    } 
-    else if (!isNaN(num)) {
-        matrix.entries[i][j] = [Number(num), 1];
-        katex.render(num, $(`#${latexId}`)[0], { throwOnError: false });
-    }
-}*/
