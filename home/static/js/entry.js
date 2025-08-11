@@ -194,6 +194,7 @@ function generateTable(rows, cols) {
 
 
 function deleteFraction(id, latexId, matrix){
+
     console.log("in delete");    
     const [i, j] = id.match(/\d+/g).map(Number); 
     let n = matrix.get_entry(i+1, j+1)[0];
@@ -230,7 +231,8 @@ function deleteFraction(id, latexId, matrix){
             else if(n !== 0){
                 $(`#${latexId}`).empty();
                 $(`#${latexId}`).hide();
-                 $(`#${id}`).val(n);
+                console.log("remaining numerator is " + n);
+                $(`#${id}`).val(n);
             }
 
         console.log("n is ", n, "d is " , d);
@@ -248,7 +250,7 @@ function validateBox(inputId, latexId, matrix) {
     //console.log("Cleaned input:", num);
     const [i, j] = inputId.match(/\d+/g).map(Number); 
     let numerator = matrix.get_entry(i+1, j+1)[0];
-
+    let denominator = 1;
     if (num == "") {
         return;
     }
@@ -269,26 +271,23 @@ function validateBox(inputId, latexId, matrix) {
     }
 
     else{//numerator already entered/saved
-        let denominator = num;
+        denominator = parseInt(num, 10);
         let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
         console.log("denominator is " + denominator, " d is ", d);
 
         if (denominator === 0 || !Number.isInteger(parseInt(denominator))) {
+            console.log("deleting input");
             $(`#${inputId}`).val('');
             return;}
         
         if (d !== 1){
-        denominator = d;}
-        console.log(" check 2 denominator is " + denominator, " d is ", d);
-
-        if ( d!== 1 && num !== ''){
+            console.log(" check 2 denominator is " + denominator, " d is ", d);
             let d_str = d.toString();
             d_str += num.toString();
-            denominator = parseInt(d_str, 10);
             console.log("denominator is " + denominator, " dstr is ", d_str);
-            //matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));}
-        }
-    matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
+            denominator = parseInt(d_str, 10);}
+        
+        matrix.add_value(i+1, j+1, numerator, denominator);
     }
     console.log("for render\ndenominator is " + denominator, " numerator is ", numerator);
     try {
@@ -298,6 +297,7 @@ function validateBox(inputId, latexId, matrix) {
         { throwOnError: false }
     );
 
+    $(`#${latexId}`).show();
     $(`#${inputId}`).val(""); //here clears input box
     return;
     
