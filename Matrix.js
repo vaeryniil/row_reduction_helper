@@ -78,6 +78,20 @@ class Matrix {
 
     //also need an add entry function
     add_value(row, col, n, d) { //value is an array [numerator, denominator]
+        //type checks
+        if (typeof n !== 'number' || isNaN(n)) {
+            throw new Error(`Numerator must be a valid number (got ${n})`);
+        }
+        
+        if (typeof d !== 'number' || isNaN(d) || d === 0) {
+            throw new Error(`Denominator must be a non-zero number (got ${d})`);
+        }
+
+        // Ensure they are integers (optional, depending on your use case)
+        if (!Number.isInteger(n) || !Number.isInteger(d)) {
+            throw new Error('Numerator and denominator must be integers');
+        }
+
         let value = [n,d]
         this.entries[row-1][col-1] = value; 
     }

@@ -26,7 +26,7 @@ var isFractionMode = true; // Default mode is fraction
 
 // Function to validate and update input for rows and cols
 function validateInput(inputId) {
-    console.log("Validating input for:", inputId);
+    //console.log("Validating input for:", inputId);
     var input = $(`#${inputId}`).val();
     var num = input.replace(/[^0-9]/g, '');
     
@@ -109,7 +109,6 @@ $(document).ready(function() {
 
         console.log("rows:", rows, "cols:", cols);
         generateTable(rows, cols);
-        //buildMatrix()
 
     });
 
@@ -178,6 +177,7 @@ function generateTable(rows, cols) {
         validateBox(id, latex_id, matrix);
     });
 
+    $('#matrix').off('keydown', '.matrix-box');
 
     $('#matrix').on('keydown', '.matrix-box', function(e) {
     if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -233,32 +233,7 @@ function deleteFraction(id, latexId, matrix){
                  $(`#${id}`).val(n);
             }
 
-            // else if (n !== 0){console.log("n is " , n);
-            //     if (n < 10){
-            //         n = 0;
-            //         matrix.add_value(i+1, j+1, n, d);
-            //         n = ''; 
-            //     }
-            //     else { 
-            //         let n_str = n.toString();
-            //         n_str = n_str.slice(0, -1);
-            //         n = parseInt(n_str);
-            //         matrix.add_value(i+1, j+1, n, d); 
-   
-            //     } 
-            // }
-
-            // else{// [0, 1]
-            //     $(`#${latexId}`).empty();
-            //     return;
-            //     }//clear Katex
-
         console.log("n is ", n, "d is " , d);
-         //matrix.add_value(i+1, j+1, n, d);
-
-        //}
-        
-
 }
 
 
@@ -286,59 +261,50 @@ function validateBox(inputId, latexId, matrix) {
     if (numerator === 0) {
         if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
                 numerator = num.replace('/', '');
-                console.log("numerator updated to " + numerator); //getting a wierd comma here
+                //console.log("numerator updated to " + numerator); //^fixed getting a wierd comma here
                 matrix.add_value(i+1, j+1, parseInt(numerator[0], 10), 1);
-                denominator = ' ';   
-        }
+                denominator = ' ';}  
         else{
-                return;//still entering a fraction or sth so leave till above step is done
-        }  
+                return;}//still entering a fraction or sth so leave till above step is done    
     }
 
-    else{
+    else{//numerator already entered/saved
+        let denominator = num;
+        let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
+        console.log("denominator is " + denominator, " d is ", d);
 
-    let denominator = num;
+        if (denominator === 0 || !Number.isInteger(parseInt(denominator))) {
+            $(`#${inputId}`).val('');
+            return;}
+        
+        if (d !== 1){
+        denominator = d;}
+        console.log(" check 2 denominator is " + denominator, " d is ", d);
 
-    if (denominator === 0 || !Number.isInteger(parseInt(denominator))) {
-        $(`#${inputId}`).val('');
-        return;
-    }
-    matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
-    }
-
-    let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
-
-    if (d !== 1){
-        denominator = d;
-        if (num !== ''){
+        if ( d!== 1 && num !== ''){
             let d_str = d.toString();
             d_str += num.toString();
-            denominator = parseInt(d_str);
-            matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
+            denominator = parseInt(d_str, 10);
+            console.log("denominator is " + denominator, " dstr is ", d_str);
+            //matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));}
         }
-        }
-
-            //ready update it
-    //so it keeps rendering
- 
-        try {
-    katex.render(
+    matrix.add_value(i+1, j+1, numerator, parseInt(denominator,10));
+    }
+    console.log("for render\ndenominator is " + denominator, " numerator is ", numerator);
+    try {
+        katex.render(
         `\\frac{${numerator}}{${denominator}}`,
         $(`#${latexId}`)[0],
         { throwOnError: false }
     );
 
     $(`#${inputId}`).val(""); //here clears input box
-    
     return;
     
     } catch (e) {//catch errors
         $(`#${latexId}`).html('<span style="color:red">Invalid</span>');
     return;
     }
- 
-    $(`#${inputId}`).val(num.toString()); // Update input field
 }
-
 
 
