@@ -163,7 +163,7 @@ function generateTable(rows, cols) {
 
     const matrix = new Matrix([rows,cols]);
     matrix.init_entries();
-    let delete_flag = false;
+    const flags = { delete_flag: false };
     $("#toggleMode").show();
     // gets rid of other existing handlers if any
     $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
@@ -173,8 +173,7 @@ function generateTable(rows, cols) {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
         //console.log("Validating box with ID:", id , latex_id);
-        validateBox(id, latex_id, matrix, delete);
-        delete_flag = false;
+        validateBox(id, latex_id, matrix, flags);
     });
 
     $('#matrix').off('keydown', '.matrix-box');
@@ -184,8 +183,8 @@ function generateTable(rows, cols) {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
         //console.log("Validating box with ID:", id , latex_id);
-        deleteFraction(id, latex_id, matrix, delete_flag);
-    }
+        flags.delete_flag = deleteFraction(id, latex_id, matrix, flags);
+        }
     });
 
     return matrix;
@@ -193,12 +192,13 @@ function generateTable(rows, cols) {
 
 
 
-function deleteFraction(id, latex_id, matrix, delete_flag){
+function deleteFraction(id, latex_id, matrix, flags){
 
     console.log("in delete");    
     const [i, j] = id.match(/\d+/g).map(Number); 
     let n = matrix.get_entry(i+1, j+1)[0];
     let d = matrix.get_entry(i+1, j+1)[1];
+    //console.log("delete flag is " + flags.delete_flag);
 
             if (d !== 1){console.log("d is " , d);
                 //delete denominator first
@@ -233,23 +233,20 @@ function deleteFraction(id, latex_id, matrix, delete_flag){
                 console.log("remaining numerator is " + n);
                 matrix.add_value(i+1, j+1, n, 1); 
 
-                const n_str = n.toString();
-                $(`#${id}`).val(n_str).show();
-                delte_flag = true;
-            }
-            //$(`#${id}`).prop("readonly", false);
+                $(`#${id}`).val(n.toString());
+                flags.delete_flag = true;
+                console.log("DB and n!== 0\ndelete flag is " + flags.delete_flag);
+                return flags.delete_flag;}
 
-            //$(`#${id}`).val("1351").show();
-            //console.log("id is " + id);
-            //$(`#${id}`).val(`${n}`);
 
         console.log("n is ", n, "d is " , d);
+        console.log("DB delete flag is " + flags.delete_flag);
+        return flags.delete_flag;
 }
 
 
 
-
-function validateBox(input_id, latex_id, matrix, delete_flag) {
+function validateBox(input_id, latex_id, matrix, flags) {
 
     const $input = $(`#${input_id}`);
     let value = $input.val();
@@ -260,32 +257,32 @@ function validateBox(input_id, latex_id, matrix, delete_flag) {
     let numerator = matrix.get_entry(i+1, j+1)[0];
     let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
     let denominator = 1;
+    console.log(" VB delete flag is " + flags.delete_flag);
 
     if (num == "") {
         return;
     }
 
-    else if (!num.includes('/') && d === 1 && delete_flag){
-         return;
-    }
-
-    if (num.includes('/') && num.includes('.')) {
+    else if (num.includes('/') && num.includes('.')) {
         $(`#${input_id}`).val(""); // not valid input field
         $("#error-message").html('<div class="error-message">nope</div>');
     }
 
-    if (numerator === 0) {
+    if (numerator === 0 || (numerator !== 1 && flags.delete_flag)) {
         if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
+                flags.delete_flag = false;
                 numerator = num.replace('/', '');
-                //console.log("numerator updated to " + numerator); //^fixed getting a wierd comma here
+                console.log("flags updated to " + flags.delete_flag); //^fixed getting a wierd comma here
                 matrix.add_value(i+1, j+1, parseInt(numerator[0], 10), 1);
                 denominator = ' ';}  
         else{
                 return;}//still entering a fraction or sth so leave till above step is done    
     }
-    //else if (numerator !== 0 && d === 1 && denominator === 1) {return;}
 
-    else{//numerator already entered/saved
+    else if (d === 1 && flags.delete_flag) {        
+        $(`#${input_id}`).val(num.toString());return;}
+
+    else {//numerator already entered/saved
         denominator = parseInt(num, 10);
         console.log("denominator is " + denominator, " d is ", d);
 
@@ -303,6 +300,8 @@ function validateBox(input_id, latex_id, matrix, delete_flag) {
         
         matrix.add_value(i+1, j+1, numerator, denominator);
     }
+
+
     console.log("for render\ndenominator is " + denominator, " numerator is ", numerator);
     try {
         katex.render(
