@@ -273,7 +273,7 @@ function validateBox(input_id, latex_id, matrix, flags) {
                 flags.delete_flag = false;
                 numerator = num.replace('/', '');
                 console.log("flags updated to " + flags.delete_flag); //^fixed getting a wierd comma here
-                matrix.add_value(i+1, j+1, parseInt(numerator[0], 10), 1);
+                matrix.add_value(i+1, j+1, parseInt(numerator, 10), 1);
                 denominator = ' ';}  
         else{
                 return;}//still entering a fraction or sth so leave till above step is done    
