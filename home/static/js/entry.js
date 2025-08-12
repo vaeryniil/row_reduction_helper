@@ -252,7 +252,7 @@ function validateBox(input_id, latex_id, matrix, flags) {
     let value = $input.val();
     console.log("Validating input:", value);
     let num = value.replace(/[^-/0-9/./\/]/g, ''); // allows negative sign and decimal and fraction
-    //console.log("Cleaned input:", num);
+    console.log("Cleaned input:", num);
     const [i, j] = input_id.match(/\d+/g).map(Number); 
     let numerator = matrix.get_entry(i+1, j+1)[0];
     let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
@@ -276,13 +276,14 @@ function validateBox(input_id, latex_id, matrix, flags) {
                 matrix.add_value(i+1, j+1, parseInt(numerator, 10), 1);
                 denominator = ' ';}  
         else{
-                return;}//still entering a fraction or sth so leave till above step is done    
+                $(`#${input_id}`).val(num.toString());return;}//still entering a fraction or sth so leave till above step is done    
     }
 
     else if (d === 1 && flags.delete_flag) {        
         $(`#${input_id}`).val(num.toString());return;}
 
     else {//numerator already entered/saved
+        //num = num.replace(/[^-/0-9/./\/]/g, ''); // allows negative sign and decimal and fraction
         denominator = parseInt(num, 10);
         console.log("denominator is " + denominator, " d is ", d);
 
