@@ -50,6 +50,8 @@ function resetDisplay() {
     $("#matrix").html("");        
     $("#error-message").html("");  
     $("#toggleMode").hide();
+    $("#submit-matrix").hide();
+
 }
 
 
@@ -124,6 +126,12 @@ $(document).ready(function() {
         resetDisplay();
 
     });
+
+    $("#submit-matrix").click(function() {
+        //console.log("pressed reset button");
+        //return html;
+
+    });
     
     $("#rows, #cols").on("input", function() {
         $("#error-message").html("");
@@ -165,6 +173,8 @@ function generateTable(rows, cols) {
     matrix.init_entries();
     const flags = { delete_flag: false };
     $("#toggleMode").show();
+    $("#submit-matrix").show();
+
     // gets rid of other existing handlers if any
     $('#matrix').off('keyup', '.matrix-box');// .matrix-box means selecting all matrix-box elements
     
