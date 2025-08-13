@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>rref helper</title>
+            
+        <!-- CDN Links (these are correct) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+        <!-- KaTeX CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+        <!-- KaTeX Core JS -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+        <!-- Auto-render extension -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+        <!-- YOUR LOCAL FILES - CORRECTED PATHS -->
+        <link rel="stylesheet" href="static/css/calc_light.css"> <!-- No leading slash! -->
+        <script src="static/js/entry.js"></script> <!-- No leading slash! -->
+        <script src="../Matrix.js"></script> 
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <button id="light-dark" class="light-dark">light</button>
+
+         
+            <div class="row"><!-- i dont know what this is doing-->
+
+                <div id="matrix" class="col-xs-12 text-center" style="margin-top: 20px;"></div>
+            </div> 
+            
+            <div id="error-message"></div>
+
+            <div style="height: 40px;"></div>
+
+            <button id="toggleMode" class="btn btn-info" style="display: none;">fraction</button>
+           
+
+        </div>
+    </body>
+
+</html>
