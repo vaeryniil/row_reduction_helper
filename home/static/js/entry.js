@@ -22,7 +22,7 @@ $(document).ready(function () {
 // Keep track of the current AJAX request
 var currentRequest = null;
 var isFractionMode = true; // Default mode is fraction
-
+var isDark = false; 
 
 // Function to validate and update input for rows and cols
 function validateInput(inputId) {
@@ -69,11 +69,47 @@ function toggleInputType(button){
     console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
 }
 
+function toggleLightDark(button){
+    isDark = !isDark;
+    $(button).text(isDark ? "dark" : "light");
+
+    $('link[data-theme]').remove();
+    const theme_path = isDark ? "static/css/simple_dark.css" : "static/css/simple_light.css";
+    
+    $('<link>', {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: theme_path,
+        'data-theme': isDark ? 'dark' : 'light'
+    }).appendTo('head');
+
+    localStorage.setItem('themePreference', isDark ? 'dark' : 'light');
+
+    console.log("Mode changed to:", isDark ? "dark" : "light");
+}
 
 
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
     //console.log("trying to fix entries");
+    if (localStorage.getItem('themePreference') === 'dark') {
+        $('<link>', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: "static/css/simple_dark.css",
+            'data-theme': 'dark'
+        }).appendTo('head');
+        $("#light-dark").text("light");
+    }
+    else {
+        $('<link>', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: "static/css/simple_light.css",
+            'data-theme': 'light'
+        }).appendTo('head');
+        $("#light-dark").text("dark");
+    }
     
     //check the input on rows
     $("#rows").on("keyup", function() {
@@ -120,6 +156,11 @@ $(document).ready(function() {
         toggleInputType(this);
     });
 
+    $("#light-dark").click(function() {
+        //console.log("pressed toggle button");
+        toggleLightDark(this);
+    });
+
     //reset from above clears the rows/cols initial input boxes and table
     $("#reset").click(function() {
         //console.log("pressed reset button");
@@ -128,7 +169,7 @@ $(document).ready(function() {
     });
 
     $("#submit-matrix").click(function() {
-        //console.log("pressed reset button");
+        console.log("pressed go rref button");
         //return html;
 
     });
