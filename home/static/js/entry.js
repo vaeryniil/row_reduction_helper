@@ -147,12 +147,17 @@ $(document).ready(function() {
         }
 
         console.log("rows:", rows, "cols:", cols);
-        matrix = generateTable(rows, cols);
+        const matrix = generateTable(rows, cols);
+
         //save with local storage
         $("#submit-matrix").click(function() {
-        console.log("pressed go rref button");
-        console.log("matrix is " + matrix.print());
-        window.open("../calc/calc.html", "_blank");
+                
+            console.log("pressed go rref button");
+            console.log("matrix is " + matrix.print());
+            
+            localStorage.setItem('matrixData', JSON.stringify(matrix));
+
+            window.open("../calc/calc.html", "_blank");
     });
 
     });
@@ -289,12 +294,12 @@ function deleteFraction(id, latex_id, matrix, flags){
 
                 $(`#${id}`).val(n.toString());
                 flags.delete_flag = true;
-                console.log("DB and n!== 0\ndelete flag is " + flags.delete_flag);
+                //console.log("DB and n!== 0\ndelete flag is " + flags.delete_flag);
                 return flags.delete_flag;}
 
 
         console.log("n is ", n, "d is " , d);
-        console.log("DB delete flag is " + flags.delete_flag);
+        //console.log("DB delete flag is " + flags.delete_flag);
         return flags.delete_flag;
 }
 
@@ -311,9 +316,10 @@ function validateBox(input_id, latex_id, matrix, flags) {
     let numerator = matrix.get_entry(i+1, j+1)[0];
     let d = matrix.get_entry(i+1, j+1)[1];  // to sync latest denominator
     let denominator = 1;
-    console.log(" VB delete flag is " + flags.delete_flag);
+    //console.log(" VB delete flag is " + flags.delete_flag);
 
     if (num == "") {
+        $(`#${input_id}`).val(num.toString());
         return;
     }
 
@@ -326,7 +332,7 @@ function validateBox(input_id, latex_id, matrix, flags) {
         if (num.includes('/')) {//i only want to add numerator if they trigger this fraction pipeline
                 flags.delete_flag = false;
                 numerator = num.replace('/', '');
-                console.log("flags updated to " + flags.delete_flag); //^fixed getting a wierd comma here
+                //console.log("flags updated to " + flags.delete_flag); //^fixed getting a wierd comma here
                 matrix.add_value(i+1, j+1, parseInt(numerator, 10), 1);
                 denominator = ' ';}  
         else{
@@ -347,10 +353,10 @@ function validateBox(input_id, latex_id, matrix, flags) {
             return;}
         
         if (d !== 1){
-            console.log(" check 2 denominator is " + denominator, " d is ", d);
+            //console.log(" check 2 denominator is " + denominator, " d is ", d);
             let d_str = d.toString();
             d_str += num.toString();
-            console.log("denominator is " + denominator, " dstr is ", d_str);
+            //console.log("denominator is " + denominator, " dstr is ", d_str);
             denominator = parseInt(d_str, 10);}
         
         matrix.add_value(i+1, j+1, numerator, denominator);
