@@ -91,7 +91,7 @@ function toggleLightDark(button){
 
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
-    let matrix;
+    //let matrix;
     //console.log("trying to fix entries");
     if (localStorage.getItem('themePreference') === 'dark') {
         $('<link>', {
@@ -155,7 +155,7 @@ $(document).ready(function() {
             console.log("pressed go rref button");
             console.log("matrix is " + matrix.print());
             
-            localStorage.setItem('matrixData', JSON.stringify(matrix));
+            localStorage.setItem('Matrix', JSON.stringify(matrix));
 
             window.open("../calc/calc.html", "_blank");
     });

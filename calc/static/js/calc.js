@@ -10,3 +10,56 @@ document.addEventListener('DOMContentLoaded', function() {
     output: 'html'        // Preferred output format
   });
 });
+
+function loadMatrix(){
+  const matrix = localStorage.getItem("Matrix");
+  console.log(matrix.print());
+  
+
+}
+
+$(document).ready(function() {
+    //let matrix;
+    //console.log("trying to fix entries");
+    if (localStorage.getItem('themePreference') === 'dark') {
+        $('<link>', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: "static/css/calc_dark.css",
+            'data-theme': 'dark'
+        }).appendTo('head');
+        $("#light-dark").text("light");
+    }
+    else {
+        $('<link>', {
+            rel: 'stylesheet',
+            type: 'text/css',
+            href: "static/css/calc_light.css",
+            'data-theme': 'light'
+        }).appendTo('head');
+        $("#light-dark").text("dark");
+    }
+
+    loadMatrix();
+
+});
+
+
+function toggleLightDark(button){
+    isDark = !isDark;
+    $(button).text(isDark ? "dark" : "light");
+
+    $('link[data-theme]').remove();
+    const theme_path = isDark ? "static/css/calc_dark.css" : "static/css/calc_light.css";
+    
+    $('<link>', {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: theme_path,
+        'data-theme': isDark ? 'dark' : 'light'
+    }).appendTo('head');
+
+    localStorage.setItem('themePreference', isDark ? 'dark' : 'light');
+
+    console.log("Mode changed to:", isDark ? "dark" : "light");
+}
