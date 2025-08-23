@@ -25,32 +25,82 @@ function loadMatrix(){
 
 
     var table = "<table class='table table-not-bordered'>";
+    // Build the table HTML
     
     for (var i = 0; i < rows; i++) {
         table += "<tr>";
         for (var j = 0; j < cols; j++) {
-            //this initializes the table with input text boxes
+            const entry = matrix.entries[i][j];
+            const numerator = entry[0];
+            const denominator = entry[1];
+            
+            // Determine what to show in the input box
+            let inputValue = '';
+            if (denominator === 1) {
+                inputValue = numerator; // Show integer
+            } else {
+                inputValue = `${numerator}/${denominator}`; // Show fraction
+            }
+            
             table += `<td style='padding: 2px; margin: 2px;'>
                 <div class="input-overlay-container">
-                        <input type="text" 
+                    <input type="text" 
                         class="matrix-box" 
                         id="matrix-input-${i}-${j}"
+                        value="${inputValue}"
                         style="text-align: center;"
                         aria-label="Matrix cell ${i+1},${j+1}"/>
                     
-                        <div id="latex-display-${i}-${j}" 
+                    <div id="latex-display-${i}-${j}" 
                          class="latex-overlay katex-render"></div>
-                    </div>
-                </td>`;
-                        //this is the html latex renderer since input does not.
+                </div>
+            </td>`;
         }
         table += "</tr>";
     }
     
     table += "</table>";
     $("#matrix").html(table);
-
+    
+    // Now render the LaTeX for each cell
+    renderMatrixLatex(matrix);
   }
+}
+
+function renderMatrixLatex(matrix) {
+    const rows = matrix.rows;
+    const cols = matrix.cols;
+    
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            const entry = matrix.entries[i][j];
+            const numerator = entry[0];
+            const denominator = entry[1];
+            const latexId = `latex-display-${i}-${j}`;
+            
+            try {
+                if (denominator === 1) {
+                    // Render as simple number
+                    katex.render(
+                        numerator.toString(),
+                        document.getElementById(latexId),
+                        { throwOnError: false }
+                    );
+                } else {
+                    // Render as fraction
+                    katex.render(
+                        `\\frac{${numerator}}{${denominator}}`,
+                        document.getElementById(latexId),
+                        { throwOnError: false }
+                    );
+                }
+            } catch (error) {
+                console.error("KaTeX rendering error:", error);
+                document.getElementById(latexId).innerHTML = 
+                    '<span style="color:red">Error</span>';
+            }
+        }
+    }
 }
 
 $(document).ready(function() {

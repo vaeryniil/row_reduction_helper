@@ -4,3 +4,109 @@ body {
     font-family: Arial, sans-serif;
 }
 
+
+
+
+/* Matrix Table Styling */
+.table-not-bordered {
+    border-collapse: separate;
+    display: grid;
+    place-items: center;
+    border-spacing: 2px;
+    margin: 2px auto;
+    padding: 2px;
+}
+
+.table-not-bordered td {
+    padding: 2px;
+    margin: 2px auto;
+    min-height: 50px;
+    min-width: 33px;
+    text-align: center;
+    border: none !important;
+    width: auto;
+}
+
+
+.input-overlay-container {
+  position: relative;
+  display: inline-block;
+  width: 50px;  /* Match the input size */
+  height: 33px; /* Match the input height */
+}
+
+
+#matrix {
+    display: grid;
+    place-items: center;
+    padding: 2px;
+    margin: 2px auto;
+}
+
+
+/* Matrix Input Styling */
+.matrix-box {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    width: 50px !important;
+    height: 33px;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+    text-align: center;
+    transition: border-color 0.3s;
+    margin: 2px;
+    padding: 0.3rem;
+
+}
+
+.matrix-box:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.katex, .katex-display {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: 1.2rem !important;
+  color: #495057 !important;
+}
+
+/* Additional KaTeX-specific refinements */
+.katex .katex-mathml {
+  /* Hide MathML fallback */
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.katex .katex-html {
+  /* Ensures proper alignment */
+  display: inline-block;
+}
+
+/* LaTeX Overlay Styling */
+
+.latex-overlay {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  color: #444;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
