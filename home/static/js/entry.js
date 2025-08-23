@@ -155,6 +155,7 @@ $(document).ready(function() {
     $("#submit-matrix").click(function() {
                 
             console.log("pressed go rref button");
+            matrix = finalValidate(matrix);
             console.log("matrix is " + matrix.print());
             
             localStorage.setItem('Matrix', JSON.stringify(matrix));
@@ -232,7 +233,8 @@ function generateTable(rows, cols) {
         const id = $(this).attr('id');
         const latex_id = $(this).siblings('.latex-overlay').attr('id');
         //console.log("Validating box with ID:", id , latex_id);
-        validateBox(id, latex_id, matrix, flags);
+        validateFraction(id, latex_id, matrix, flags);
+    
     });
 
     $('#matrix').off('keydown', '.matrix-box');
@@ -249,7 +251,31 @@ function generateTable(rows, cols) {
     return matrix;
 }
 
+function finalValidate(matrix){
+    console.log("in final validate")
+    let size = matrix.size;
+    rows = size[0];
+    cols = size[1];
+    for (let i = 0; i < rows; i++){
+        for (let j = 0; j < cols; j++){
+            const inputId = `matrix-input-${i}-${j}`;
+            const $input = $(`#${inputId}`);
+            const curr_val = matrix.entries[i][j];
+            console.log("input is " + $input.val(), " matrix has " + curr_val);
 
+            if ($input.val() === ''){$input.val(0);}//they put nothing, assume zero
+            
+            else if (parseFloat($input.val()) !== curr_val[0]){
+                let numerator = parseFloat($input.val());
+                //for ints, come back and do this for decimal vals with gcd
+                matrix.add_value(i + 1, j + 1, parseInt(numerator), 1);
+            }
+        
+        } 
+    }
+    return matrix;
+
+};
 
 function deleteFraction(id, latex_id, matrix, flags){
 
@@ -305,7 +331,8 @@ function deleteFraction(id, latex_id, matrix, flags){
 
 
 
-function validateBox(input_id, latex_id, matrix, flags) {
+//validate box was misdleading because it only saves/validates fractions
+function validateFraction(input_id, latex_id, matrix, flags) {
 
     const $input = $(`#${input_id}`);
     let value = $input.val();
@@ -361,7 +388,7 @@ function validateBox(input_id, latex_id, matrix, flags) {
         
         matrix.add_value(i+1, j+1, numerator, denominator);
     }
-
+    //grrr
 
     console.log("for render\ndenominator is " + denominator, " numerator is ", numerator);
     try {

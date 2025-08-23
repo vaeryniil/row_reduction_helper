@@ -12,11 +12,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadMatrix(){
-  const matrix = localStorage.getItem("Matrix");
-  console.log(matrix.print());
-  console.print("in loadMatrix()")
-  
+  const raw_matrix = JSON.parse(localStorage.getItem('Matrix'));
+  if (raw_matrix) {
+    rows = raw_matrix.rows;
+    cols = raw_matrix.cols;
+    // Create a new Matrix instance and restore the data
+    const matrix = new Matrix([rows, cols]);
+    matrix.entries = raw_matrix.entries; // Restore the data
+    
+    // Now you can use the methods
+    console.log(matrix.print()); 
 
+
+    var table = "<table class='table table-not-bordered'>";
+    
+    for (var i = 0; i < rows; i++) {
+        table += "<tr>";
+        for (var j = 0; j < cols; j++) {
+            //this initializes the table with input text boxes
+            table += `<td style='padding: 2px; margin: 2px;'>
+                <div class="input-overlay-container">
+                        <input type="text" 
+                        class="matrix-box" 
+                        id="matrix-input-${i}-${j}"
+                        style="text-align: center;"
+                        aria-label="Matrix cell ${i+1},${j+1}"/>
+                    
+                        <div id="latex-display-${i}-${j}" 
+                         class="latex-overlay katex-render"></div>
+                    </div>
+                </td>`;
+                        //this is the html latex renderer since input does not.
+        }
+        table += "</tr>";
+    }
+    
+    table += "</table>";
+    $("#matrix").html(table);
+
+  }
 }
 
 $(document).ready(function() {

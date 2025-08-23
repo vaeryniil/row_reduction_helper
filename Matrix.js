@@ -71,9 +71,11 @@ class Matrix {
     print() {
         console.log("debug entries = " + this.entries);
         console.log("Matrix Values:");
+        let print = '';
         this.entries.forEach(row => {
-        console.log(row.map(entry => `[${entry[0]},${entry[1]}]`).join(' '));
+            print += row.map(entry => `[${entry[0]},${entry[1]}]`).join(' ')+"\n";
         });
+        return print;
     }
     
 
