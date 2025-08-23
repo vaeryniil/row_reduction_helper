@@ -69,6 +69,7 @@ class Matrix {
 
 
     print() {
+        console.log("debug entries = " + this.entries);
         console.log("Matrix Values:");
         this.entries.forEach(row => {
         console.log(row.map(entry => `[${entry[0]},${entry[1]}]`).join(' '));

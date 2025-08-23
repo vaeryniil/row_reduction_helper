@@ -91,7 +91,7 @@ function toggleLightDark(button){
 
 //this is setting all my functions to run with client interaction
 $(document).ready(function() {
-    //let matrix;
+    let matrix = null;
     //console.log("trying to fix entries");
     if (localStorage.getItem('themePreference') === 'dark') {
         $('<link>', {
@@ -147,10 +147,12 @@ $(document).ready(function() {
         }
 
         console.log("rows:", rows, "cols:", cols);
-        const matrix = generateTable(rows, cols);
+        matrix = generateTable(rows, cols);
 
-        //save with local storage
-        $("#submit-matrix").click(function() {
+    });
+
+            //save with local storage
+    $("#submit-matrix").click(function() {
                 
             console.log("pressed go rref button");
             console.log("matrix is " + matrix.print());
@@ -158,8 +160,6 @@ $(document).ready(function() {
             localStorage.setItem('Matrix', JSON.stringify(matrix));
 
             window.open("../calc/calc.html", "_blank");
-    });
-
     });
 
     //this toggles the input type between fraction and decimal

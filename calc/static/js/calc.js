@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadMatrix(){
   const matrix = localStorage.getItem("Matrix");
   console.log(matrix.print());
+  console.print("in loadMatrix()")
   
 
 }
@@ -46,6 +47,7 @@ $(document).ready(function() {
 
 
 function toggleLightDark(button){
+    //this runs when the dark/light button is pressed
     isDark = !isDark;
     $(button).text(isDark ? "dark" : "light");
 
