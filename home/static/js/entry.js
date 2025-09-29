@@ -221,7 +221,7 @@ function generateTable(rows, cols) {
 
     const matrix = new Matrix([rows,cols]);
     matrix.init_entries();
-    const flags = { delete_flag: false };
+    const flags = { delete_flag: false, tens_flag: false };
     $("#toggleMode").show();
     $("#submit-matrix").show();
 
@@ -379,14 +379,18 @@ function validateFraction(input_id, latex_id, matrix, flags) {
             $(`#${input_id}`).val('');
             return;}
         
-        if (d !== 1){
+        if (d !== 1 || flags.tens_flag){
             //console.log(" check 2 denominator is " + denominator, " d is ", d);
             let d_str = d.toString();
             d_str += num.toString();
             //console.log("denominator is " + denominator, " dstr is ", d_str);
-            denominator = parseInt(d_str, 10);}
+            denominator = parseInt(d_str, 10);
+            if (flags.tens_flag){flags.tens_flag = false;}}
         
+
         matrix.add_value(i+1, j+1, numerator, denominator);
+        if(denominator === 1){flags.tens_flag = true; return flags.tens_flag}//trying to enter a tens place fraction
+
     }
     //grrr
 
