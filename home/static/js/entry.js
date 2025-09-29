@@ -160,7 +160,18 @@ $(document).ready(function() {
             
             localStorage.setItem('Matrix', JSON.stringify(matrix));
 
-            window.open("../calc/calc.html", "_blank");
+            $.ajax({
+                url: "../calc/calc.html",
+                success: function(data) {
+                    // Replace the entire page content with calc.html content
+                    $("html").html(data);
+                    // Re-initialize any scripts
+                    //initializeCalcScripts();
+                },
+                error: function() {
+                    console.error("Failed to load calc.html");
+                }    });
+
     });
 
     //this toggles the input type between fraction and decimal

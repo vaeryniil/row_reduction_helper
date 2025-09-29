@@ -110,7 +110,7 @@ $(document).ready(function() {
         $('<link>', {
             rel: 'stylesheet',
             type: 'text/css',
-            href: "static/css/calc_dark.css",
+            href: "..static/css/calc_dark.css",
             'data-theme': 'dark'
         }).appendTo('head');
         $("#light-dark").text("light");
@@ -119,7 +119,7 @@ $(document).ready(function() {
         $('<link>', {
             rel: 'stylesheet',
             type: 'text/css',
-            href: "static/css/calc_light.css",
+            href: "..static/css/calc_light.css",
             'data-theme': 'light'
         }).appendTo('head');
         $("#light-dark").text("dark");
@@ -136,7 +136,7 @@ function toggleLightDark(button){
     $(button).text(isDark ? "dark" : "light");
 
     $('link[data-theme]').remove();
-    const theme_path = isDark ? "static/css/calc_dark.css" : "static/css/calc_light.css";
+    const theme_path = isDark ? "../static/css/calc_dark.css" : "../static/css/calc_light.css";
     
     $('<link>', {
         rel: 'stylesheet',
