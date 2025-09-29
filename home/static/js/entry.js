@@ -389,8 +389,8 @@ function validateFraction(input_id, latex_id, matrix, flags) {
         
 
         matrix.add_value(i+1, j+1, numerator, denominator);
-        if(denominator === 1){flags.tens_flag = true; return flags.tens_flag}//trying to enter a tens place fraction
-
+        if(denominator === 1){flags.tens_flag = true;}//trying to enter a tens place fraction
+        console.log("tens flag is " + flags.tens_flag);
     }
     //grrr
 
