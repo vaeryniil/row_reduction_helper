@@ -189,31 +189,6 @@ $(document).ready(function() {
 });
 
 
-// function loadScriptsSequentially() {
-//     const scripts = [
-//         "../Matrix.js",
-//         "../calc/static/js/calc.js"
-//     ];
-    
-//     function loadScript(index) {
-//         if (index >= scripts.length) {
-//             console.log("All scripts loaded, calculator ready!");
-//             return;
-//         }
-        
-//         $.getScript(scripts[index])
-//             .done(function() {
-//                 console.log("Loaded:", scripts[index]);
-//                 loadScript(index + 1);
-//             })
-//             .fail(function() {
-//                 console.error("Failed to load:", scripts[index]);
-//                 loadScript(index + 1); // Continue anyway
-//             });
-//     }
-    
-//     loadScript(0);
-// }
 
 
 // function to bring up a matrix table given rows and cols

@@ -6,25 +6,25 @@ let isDark = false;
 console.log('Current URL:', window.location.href);
 console.log('Project structure check:');
 
-// Test CSS path
-fetch('static/css/calc_light.css')
-  .then(response => {
-    console.log('CSS Response status:', response.status, response.statusText);
-    console.log('CSS Response type:', response.headers.get('content-type'));
-    return response.text();
-  })
-  .then(text => console.log('CSS First 100 chars:', text.substring(0, 100)))
-  .catch(err => console.error('CSS Fetch error:', err));
+// // Test CSS path
+// fetch('static/css/calc_light.css')
+//   .then(response => {
+//     console.log('CSS Response status:', response.status, response.statusText);
+//     console.log('CSS Response type:', response.headers.get('content-type'));
+//     return response.text();
+//   })
+//   .then(text => console.log('CSS First 100 chars:', text.substring(0, 100)))
+//   .catch(err => console.error('CSS Fetch error:', err));
 
-// Test JS path  
-fetch('static/js/calc.js')
-  .then(response => {
-    console.log('JS Response status:', response.status, response.statusText);
-    console.log('JS Response type:', response.headers.get('content-type'));
-    return response.text();
-  })
-  .then(text => console.log('JS First 100 chars:', text.substring(0, 100)))
-  .catch(err => console.error('JS Fetch error:', err));
+// // Test JS path  
+// fetch('static/js/calc.js')
+//   .then(response => {
+//     console.log('JS Response status:', response.status, response.statusText);
+//     console.log('JS Response type:', response.headers.get('content-type'));
+//     return response.text();
+//   })
+//   .then(text => console.log('JS First 100 chars:', text.substring(0, 100)))
+//   .catch(err => console.error('JS Fetch error:', err));
 
 
 
@@ -54,9 +54,10 @@ function loadMatrix(){
 
     try {
         const raw_matrix = JSON.parse(raw_matrix_data);
-        const rows = raw_matrix.rows;
-        const cols = raw_matrix.cols;
-        
+        const rows = raw_matrix.size[0];
+        const cols = raw_matrix.size[1];
+        console.log("Raw matrix data:", raw_matrix);
+
         console.log(`Creating ${rows}x${cols} matrix`);
         
         // Check if Matrix class is available
@@ -80,9 +81,10 @@ function loadMatrix(){
 }
 
 function renderMatrixTable(matrix) {
-    const rows = matrix.rows;
-    const cols = matrix.cols;
-    
+    const rows = matrix.size[0];
+    const cols = matrix.size[1];
+    console.log("rows:", rows, "cols:", cols);
+
     var table = "<table class='table table-not-bordered'>";
     
     for (var i = 0; i < rows; i++) {
@@ -118,12 +120,9 @@ function renderMatrixTable(matrix) {
     }
     
     table += "</table>";
+    console.log(table);
     $("#matrix").html(table);
-    
-    // Render LaTeX after a short delay to ensure DOM is updated
-    setTimeout(() => {
-        renderMatrixLatex(matrix);
-    }, 100);
+    console.log("Matrix table maybe?");
 }
 
 function renderMatrixLatex(matrix) {
@@ -168,8 +167,10 @@ function renderMatrixLatex(matrix) {
 
 // Use loadTheme function instead of duplicating code
 $(document).ready(function() {
-    console.log("Document ready, initializing calculator...");
+    console.log("Document ready, init calc");
+
     loadTheme();
+
     loadMatrix();
     
     // Set up event listener for light/dark button
@@ -212,7 +213,5 @@ function toggleLightDark(button){
 
     localStorage.setItem('themePreference', isDark ? 'dark' : 'light');
     console.log("Mode changed to:", isDark ? "dark" : "light");
-    
-    // Re-render matrix to ensure proper styling
-    loadMatrix();
+
 }
