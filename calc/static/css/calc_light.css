@@ -26,14 +26,6 @@ body {
 }
 
 
-.input-overlay-container {
-  position: relative;
-  display: inline-block;
-  width: 50px;  /* Match the input size */
-  height: 33px; /* Match the input height */
-}
-
-
 #matrix {
     display: grid;
     place-items: center;
@@ -41,6 +33,11 @@ body {
     margin: 2px auto;
 }
 
+
+h1 {
+    font-size: 1.5rem;  
+    margin-bottom: 0.5rem; /* Adjust spacing if needed */
+}
 
 /* Matrix Input Styling */
 .matrix-box {

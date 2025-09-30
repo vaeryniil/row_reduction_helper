@@ -51,12 +51,11 @@ function resetDisplay() {
     $("#error-message").html("");  
     $("#toggleMode").hide();
     $("#submit-matrix").hide();
-
 }
 
 
 
-    // Toggle mode on button click
+// Toggle mode on button click
 function toggleInputType(button){
     isFractionMode = !isFractionMode;
     $(button).text(isFractionMode ? "decimal" : "fraction");
@@ -65,9 +64,11 @@ function toggleInputType(button){
     $(".matrix-input").each(function () {
         $(this).attr("placeholder", isFractionMode ? "a/b" : "0.0");
     });
+    localStorage.setItem('fractionMode', isFractionMode);
 
     console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
 }
+
 
 function toggleLightDark(button){
     isDark = !isDark;
@@ -93,6 +94,9 @@ function toggleLightDark(button){
 $(document).ready(function() {
     let matrix = null;
     //console.log("trying to fix entries");
+    localStorage.setItem('fractionMode', isFractionMode);
+
+
     if (localStorage.getItem('themePreference') === 'dark') {
         $('<link>', {
             rel: 'stylesheet',

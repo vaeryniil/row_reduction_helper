@@ -1,34 +1,23 @@
-console.log("=== CALC.JS LOADING ===");
+// calc/static/js/calc.js
+// Carmen Park and Jennifer Linea
 
 let isDark = false;
+let isFractionMode = localStorage.getItem('fractionMode');
+
+// Use loadTheme function instead of duplicating code
+$(document).ready(function() {
+    console.log("Document ready, init calc");
+
+    loadTheme();
+
+    loadMatrix();
+    
+    $("#light-dark").click(function() {
+        toggleLightDark(this);
+    });
+});
 
 
-console.log('Current URL:', window.location.href);
-console.log('Project structure check:');
-
-// // Test CSS path
-// fetch('static/css/calc_light.css')
-//   .then(response => {
-//     console.log('CSS Response status:', response.status, response.statusText);
-//     console.log('CSS Response type:', response.headers.get('content-type'));
-//     return response.text();
-//   })
-//   .then(text => console.log('CSS First 100 chars:', text.substring(0, 100)))
-//   .catch(err => console.error('CSS Fetch error:', err));
-
-// // Test JS path  
-// fetch('static/js/calc.js')
-//   .then(response => {
-//     console.log('JS Response status:', response.status, response.statusText);
-//     console.log('JS Response type:', response.headers.get('content-type'));
-//     return response.text();
-//   })
-//   .then(text => console.log('JS First 100 chars:', text.substring(0, 100)))
-//   .catch(err => console.error('JS Fetch error:', err));
-
-
-
-// Initialize KaTeX when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof renderMathInElement !== 'undefined') {
         renderMathInElement(document.body, {
@@ -83,7 +72,7 @@ function loadMatrix(){
 function renderMatrixTable(matrix) {
     const rows = matrix.size[0];
     const cols = matrix.size[1];
-    console.log("rows:", rows, "cols:", cols);
+    //console.log("rows:", rows, "cols:", cols);
 
     var table = "<table class='table table-not-bordered'>";
     
@@ -94,48 +83,40 @@ function renderMatrixTable(matrix) {
             const numerator = entry[0];
             const denominator = entry[1];
             
-            // Determine what to show in the input box
-            let inputValue = '';
+            // Generate LaTeX directly
+            let latexString;
             if (denominator === 1) {
-                inputValue = numerator.toString(); // Convert to string
+                latexString = numerator.toString();
             } else {
-                inputValue = `${numerator}/${denominator}`;
+                latexString = `\\frac{${numerator}}{${denominator}}`;
             }
             
             table += `<td style='padding: 2px; margin: 2px;'>
-                <div class="input-overlay-container">
-                    <input type="text" 
-                        class="matrix-box" 
-                        id="matrix-input-${i}-${j}"
-                        value="${inputValue}"
-                        style="text-align: center;"
-                        aria-label="Matrix cell ${i+1},${j+1}"/>
-                    
+                <div class="matrix-box">
                     <div id="latex-display-${i}-${j}" 
-                         class="latex-overlay katex-render"></div>
+                         class="latex-overlay katex-render">${latexString}</div>
                 </div>
             </td>`;
         }
         table += "</tr>";
     }
     
+    
     table += "</table>";
     console.log(table);
     $("#matrix").html(table);
     console.log("Matrix table maybe?");
+
+    if (isFractionMode) {
+    renderMatrixLateX(matrix);}
 }
 
-function renderMatrixLatex(matrix) {
-    const rows = matrix.rows;
-    const cols = matrix.cols;
-    
-    console.log("Rendering LaTeX for matrix...");
-    
+function renderMatrixLateX(matrix) {
+    const rows = matrix.size[0];
+    const cols = matrix.size[1];
+        
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            const entry = matrix.entries[i][j];
-            const numerator = entry[0];
-            const denominator = entry[1];
             const latexId = `latex-display-${i}-${j}`;
             const element = document.getElementById(latexId);
             
@@ -145,39 +126,20 @@ function renderMatrixLatex(matrix) {
             }
             
             try {
-                let latexString;
-                if (denominator === 1) {
-                    latexString = numerator.toString();
-                } else {
-                    latexString = `\\frac{${numerator}}{${denominator}}`;
-                }
-                
-                katex.render(latexString, element, { 
+                // Just render the LaTeX that's already in the element
+                katex.render(element.textContent, element, { 
                     throwOnError: false,
                     displayMode: false
                 });
                 
             } catch (error) {
                 console.error("KaTeX rendering error:", error);
-                element.innerHTML = '<span style="color:red">Error</span>';
+                //element.innerHTML = '<span style="color:red">Error</span>';
             }
         }
     }
 }
 
-// Use loadTheme function instead of duplicating code
-$(document).ready(function() {
-    console.log("Document ready, init calc");
-
-    loadTheme();
-
-    loadMatrix();
-    
-    // Set up event listener for light/dark button
-    $("#light-dark").click(function() {
-        toggleLightDark(this);
-    });
-});
 
 function loadTheme() {
     const themePreference = localStorage.getItem('themePreference') || 'light';
@@ -213,5 +175,17 @@ function toggleLightDark(button){
 
     localStorage.setItem('themePreference', isDark ? 'dark' : 'light');
     console.log("Mode changed to:", isDark ? "dark" : "light");
+}
 
+// Toggle mode on button click
+function toggleInputType(button){
+    isFractionMode = !isFractionMode;
+    $(button).text(isFractionMode ? "decimal" : "fraction");
+
+    // Update button text
+    $(".matrix-input").each(function () {
+        $(this).attr("placeholder", isFractionMode ? "a/b" : "0.0");
+    });
+
+    console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
 }
