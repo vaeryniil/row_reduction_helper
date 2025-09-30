@@ -1,31 +1,63 @@
-//initialization script for katex
+console.log("=== CALC.JS LOADING ===");
 
+let isDark = false;
+
+// Initialize KaTeX when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-  renderMathInElement(document.body, {
-    delimiters: [
-      {left: '\\[', right: '\\]', display: true},  // Block equations
-      {left: '\\(', right: '\\)', display: false}  // Inline equations
-    ],
-    throwOnError: false,  // Silently fail on invalid LaTeX
-    output: 'html'        // Preferred output format
-  });
+    if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\(', right: '\\)', display: false}
+            ],
+            throwOnError: false,
+            output: 'html'
+        });
+    }
 });
 
 function loadMatrix(){
-  const raw_matrix = JSON.parse(localStorage.getItem('Matrix'));
-  if (raw_matrix) {
-    rows = raw_matrix.rows;
-    cols = raw_matrix.cols;
-    // Create a new Matrix instance and restore the data
-    const matrix = new Matrix([rows, cols]);
-    matrix.entries = raw_matrix.entries; // Restore the data
+    console.log("Loading matrix from localStorage...");
+    const raw_matrix_data = localStorage.getItem('matrix-0-0');
     
-    // Now you can use the methods
-    console.log(matrix.print()); 
+    if (!raw_matrix_data) {
+        console.error("No matrix data found in localStorage");
+        $("#matrix").html("<p>No matrix data found. Please create a matrix first.</p>");
+        return;
+    }
 
+    try {
+        const raw_matrix = JSON.parse(raw_matrix_data);
+        const rows = raw_matrix.rows;
+        const cols = raw_matrix.cols;
+        
+        console.log(`Creating ${rows}x${cols} matrix`);
+        
+        // Check if Matrix class is available
+        if (typeof Matrix === 'undefined') {
+            console.error("Matrix class not found");
+            $("#matrix").html("<p>Error: Matrix calculator not loaded properly.</p>");
+            return;
+        }
+        
+        // Create a new Matrix instance and restore the data
+        const matrix = new Matrix([rows, cols]);
+        matrix.entries = raw_matrix.entries;
+        
+        console.log("Matrix loaded:", matrix.print());
+        renderMatrixTable(matrix);
+        
+    } catch (error) {
+        console.error("Error loading matrix:", error);
+        $("#matrix").html("<p>Error loading matrix data.</p>");
+    }
+}
 
+function renderMatrixTable(matrix) {
+    const rows = matrix.rows;
+    const cols = matrix.cols;
+    
     var table = "<table class='table table-not-bordered'>";
-    // Build the table HTML
     
     for (var i = 0; i < rows; i++) {
         table += "<tr>";
@@ -37,9 +69,9 @@ function loadMatrix(){
             // Determine what to show in the input box
             let inputValue = '';
             if (denominator === 1) {
-                inputValue = numerator; // Show integer
+                inputValue = numerator.toString(); // Convert to string
             } else {
-                inputValue = `${numerator}/${denominator}`; // Show fraction
+                inputValue = `${numerator}/${denominator}`;
             }
             
             table += `<td style='padding: 2px; margin: 2px;'>
@@ -62,14 +94,17 @@ function loadMatrix(){
     table += "</table>";
     $("#matrix").html(table);
     
-    // Now render the LaTeX for each cell
-    renderMatrixLatex(matrix);
-  }
+    // Render LaTeX after a short delay to ensure DOM is updated
+    setTimeout(() => {
+        renderMatrixLatex(matrix);
+    }, 100);
 }
 
 function renderMatrixLatex(matrix) {
     const rows = matrix.rows;
     const cols = matrix.cols;
+    
+    console.log("Rendering LaTeX for matrix...");
     
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
@@ -77,63 +112,67 @@ function renderMatrixLatex(matrix) {
             const numerator = entry[0];
             const denominator = entry[1];
             const latexId = `latex-display-${i}-${j}`;
+            const element = document.getElementById(latexId);
+            
+            if (!element) {
+                console.warn(`Element ${latexId} not found`);
+                continue;
+            }
             
             try {
+                let latexString;
                 if (denominator === 1) {
-                    // Render as simple number
-                    katex.render(
-                        numerator.toString(),
-                        document.getElementById(latexId),
-                        { throwOnError: false }
-                    );
+                    latexString = numerator.toString();
                 } else {
-                    // Render as fraction
-                    katex.render(
-                        `\\frac{${numerator}}{${denominator}}`,
-                        document.getElementById(latexId),
-                        { throwOnError: false }
-                    );
+                    latexString = `\\frac{${numerator}}{${denominator}}`;
                 }
+                
+                katex.render(latexString, element, { 
+                    throwOnError: false,
+                    displayMode: false
+                });
+                
             } catch (error) {
                 console.error("KaTeX rendering error:", error);
-                document.getElementById(latexId).innerHTML = 
-                    '<span style="color:red">Error</span>';
+                element.innerHTML = '<span style="color:red">Error</span>';
             }
         }
     }
 }
 
+// Use loadTheme function instead of duplicating code
 $(document).ready(function() {
-    //let matrix;
-    //console.log("trying to fix entries");
-    if (localStorage.getItem('themePreference') === 'dark') {
-        $('<link>', {
-            rel: 'stylesheet',
-            type: 'text/css',
-            href: "..static/css/calc_dark.css",
-            'data-theme': 'dark'
-        }).appendTo('head');
-        $("#light-dark").text("light");
-    }
-    else {
-        $('<link>', {
-            rel: 'stylesheet',
-            type: 'text/css',
-            href: "..static/css/calc_light.css",
-            'data-theme': 'light'
-        }).appendTo('head');
-        $("#light-dark").text("dark");
-    }
-
+    console.log("Document ready, initializing calculator...");
+    loadTheme();
     loadMatrix();
-
+    
+    // Set up event listener for light/dark button
+    $("#light-dark").click(function() {
+        toggleLightDark(this);
+    });
 });
 
+function loadTheme() {
+    const themePreference = localStorage.getItem('themePreference') || 'light';
+    isDark = themePreference === 'dark';
+    
+    $('link[data-theme]').remove();
+    const theme_path = isDark ? "../static/css/calc_dark.css" : "../static/css/calc_light.css";
+    
+    $('<link>', {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: theme_path,
+        'data-theme': isDark ? 'dark' : 'light'
+    }).appendTo('head');
+    
+    $("#light-dark").text(isDark ? "light" : "dark");
+    console.log("Theme loaded:", themePreference);
+}
 
 function toggleLightDark(button){
-    //this runs when the dark/light button is pressed
     isDark = !isDark;
-    $(button).text(isDark ? "dark" : "light");
+    $(button).text(isDark ? "light" : "dark");
 
     $('link[data-theme]').remove();
     const theme_path = isDark ? "../static/css/calc_dark.css" : "../static/css/calc_light.css";
@@ -146,6 +185,8 @@ function toggleLightDark(button){
     }).appendTo('head');
 
     localStorage.setItem('themePreference', isDark ? 'dark' : 'light');
-
     console.log("Mode changed to:", isDark ? "dark" : "light");
+    
+    // Re-render matrix to ensure proper styling
+    loadMatrix();
 }

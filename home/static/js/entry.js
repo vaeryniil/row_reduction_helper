@@ -158,20 +158,16 @@ $(document).ready(function() {
             matrix = finalValidate(matrix);
             console.log("matrix is " + matrix.print());
             
-            localStorage.setItem('Matrix', JSON.stringify(matrix));
+            localStorage.setItem('matrix-0-0', JSON.stringify(matrix));
 
-            $.ajax({
-                url: "../calc/calc.html",
-                success: function(data) {
-                    // Replace the entire page content with calc.html content
-                    $("html").html(data);
-                    // Re-initialize any scripts
-                    //initializeCalcScripts();
-                },
-                error: function() {
-                    console.error("Failed to load calc.html");
-                }    });
-
+        $.get("../calc/calc.html", function(htmlContent) {
+            // Extract and insert the body content
+            const bodyContent = $(htmlContent).filter('body').html();
+            $("#content-container").html(bodyContent);
+            
+            // Load scripts in order
+            loadScriptsSequentially();
+        });
     });
 
     //this toggles the input type between fraction and decimal
@@ -191,14 +187,39 @@ $(document).ready(function() {
         resetDisplay();
 
     });
-
-    
     
     $("#rows, #cols").on("input", function() {
         $("#error-message").html("");
     });
 
 });
+
+
+function loadScriptsSequentially() {
+    const scripts = [
+        "../Matrix.js",
+        "../calc/static/js/calc.js"
+    ];
+    
+    function loadScript(index) {
+        if (index >= scripts.length) {
+            console.log("All scripts loaded, calculator ready!");
+            return;
+        }
+        
+        $.getScript(scripts[index])
+            .done(function() {
+                console.log("Loaded:", scripts[index]);
+                loadScript(index + 1);
+            })
+            .fail(function() {
+                console.error("Failed to load:", scripts[index]);
+                loadScript(index + 1); // Continue anyway
+            });
+    }
+    
+    loadScript(0);
+}
 
 
 // function to bring up a matrix table given rows and cols
