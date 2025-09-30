@@ -2,6 +2,32 @@ console.log("=== CALC.JS LOADING ===");
 
 let isDark = false;
 
+
+console.log('Current URL:', window.location.href);
+console.log('Project structure check:');
+
+// Test CSS path
+fetch('static/css/calc_light.css')
+  .then(response => {
+    console.log('CSS Response status:', response.status, response.statusText);
+    console.log('CSS Response type:', response.headers.get('content-type'));
+    return response.text();
+  })
+  .then(text => console.log('CSS First 100 chars:', text.substring(0, 100)))
+  .catch(err => console.error('CSS Fetch error:', err));
+
+// Test JS path  
+fetch('static/js/calc.js')
+  .then(response => {
+    console.log('JS Response status:', response.status, response.statusText);
+    console.log('JS Response type:', response.headers.get('content-type'));
+    return response.text();
+  })
+  .then(text => console.log('JS First 100 chars:', text.substring(0, 100)))
+  .catch(err => console.error('JS Fetch error:', err));
+
+
+
 // Initialize KaTeX when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof renderMathInElement !== 'undefined') {
@@ -157,7 +183,7 @@ function loadTheme() {
     isDark = themePreference === 'dark';
     
     $('link[data-theme]').remove();
-    const theme_path = isDark ? "../static/css/calc_dark.css" : "../static/css/calc_light.css";
+    const theme_path = isDark ? "static/css/calc_dark.css" : "static/css/calc_light.css";
     
     $('<link>', {
         rel: 'stylesheet',
@@ -175,7 +201,7 @@ function toggleLightDark(button){
     $(button).text(isDark ? "light" : "dark");
 
     $('link[data-theme]').remove();
-    const theme_path = isDark ? "../static/css/calc_dark.css" : "../static/css/calc_light.css";
+    const theme_path = isDark ? "static/css/calc_dark.css" : "static/css/calc_light.css";
     
     $('<link>', {
         rel: 'stylesheet',

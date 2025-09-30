@@ -153,21 +153,15 @@ $(document).ready(function() {
 
             //save with local storage
     $("#submit-matrix").click(function() {
-                
-            console.log("pressed go rref button");
-            matrix = finalValidate(matrix);
-            console.log("matrix is " + matrix.print());
-            
-            localStorage.setItem('matrix-0-0', JSON.stringify(matrix));
-
-        $.get("../calc/calc.html", function(htmlContent) {
-            // Extract and insert the body content
-            const bodyContent = $(htmlContent).filter('body').html();
-            $("#content-container").html(bodyContent);
-            
-            // Load scripts in order
-            loadScriptsSequentially();
-        });
+        console.log("pressed go rref button");
+        matrix = finalValidate(matrix);
+        console.log("matrix is " + matrix.print());
+        
+        // Save matrix to localStorage
+        localStorage.setItem('matrix-0-0', JSON.stringify(matrix));
+        
+        // Simple navigation to calculator page
+        window.location.href = "../calc/calc.html"; // or adjust path as needed
     });
 
     //this toggles the input type between fraction and decimal
@@ -195,31 +189,31 @@ $(document).ready(function() {
 });
 
 
-function loadScriptsSequentially() {
-    const scripts = [
-        "../Matrix.js",
-        "../calc/static/js/calc.js"
-    ];
+// function loadScriptsSequentially() {
+//     const scripts = [
+//         "../Matrix.js",
+//         "../calc/static/js/calc.js"
+//     ];
     
-    function loadScript(index) {
-        if (index >= scripts.length) {
-            console.log("All scripts loaded, calculator ready!");
-            return;
-        }
+//     function loadScript(index) {
+//         if (index >= scripts.length) {
+//             console.log("All scripts loaded, calculator ready!");
+//             return;
+//         }
         
-        $.getScript(scripts[index])
-            .done(function() {
-                console.log("Loaded:", scripts[index]);
-                loadScript(index + 1);
-            })
-            .fail(function() {
-                console.error("Failed to load:", scripts[index]);
-                loadScript(index + 1); // Continue anyway
-            });
-    }
+//         $.getScript(scripts[index])
+//             .done(function() {
+//                 console.log("Loaded:", scripts[index]);
+//                 loadScript(index + 1);
+//             })
+//             .fail(function() {
+//                 console.error("Failed to load:", scripts[index]);
+//                 loadScript(index + 1); // Continue anyway
+//             });
+//     }
     
-    loadScript(0);
-}
+//     loadScript(0);
+// }
 
 
 // function to bring up a matrix table given rows and cols
