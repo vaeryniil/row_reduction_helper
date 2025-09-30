@@ -88,7 +88,13 @@ function renderMatrixTable(matrix) {
             if (denominator === 1) {
                 latexString = numerator.toString();
             } else {
-                latexString = `\\frac{${numerator}}{${denominator}}`;
+                
+                if (isFractionMode) {
+                    latexString = `\\frac{${numerator}}{${denominator}}`;
+                
+                } else {
+                    latexString = (numerator / denominator).toString();
+                }
             }
             
             table += `<td style='padding: 2px; margin: 2px;'>
@@ -119,13 +125,13 @@ function renderMatrixLateX(matrix) {
         for (let j = 0; j < cols; j++) {
             const latexId = `latex-display-${i}-${j}`;
             const element = document.getElementById(latexId);
-            
+            console.log("Rendering LaTeX for element:", latexId, element);
+
             if (!element) {
                 console.warn(`Element ${latexId} not found`);
                 continue;
             }
-            
-            try {
+                        try {
                 // Just render the LaTeX that's already in the element
                 katex.render(element.textContent, element, { 
                     throwOnError: false,
@@ -136,6 +142,8 @@ function renderMatrixLateX(matrix) {
                 console.error("KaTeX rendering error:", error);
                 //element.innerHTML = '<span style="color:red">Error</span>';
             }
+
+
         }
     }
 }
