@@ -3,14 +3,22 @@
 
 let isDark = false;
 let isFractionMode = localStorage.getItem('fractionMode');
+console.log("Initial mode from localStorage ", isFractionMode);
 
 // Use loadTheme function instead of duplicating code
 $(document).ready(function() {
-    console.log("Document ready, init calc");
+    //console.log("Document ready, init calc");
 
     loadTheme();
 
     loadMatrix();
+
+    //for swap button
+    
+
+    //for scale button
+
+    //for add button
     
     $("#light-dark").click(function() {
         toggleLightDark(this);
@@ -62,7 +70,10 @@ function loadMatrix(){
         
         console.log("Matrix loaded:", matrix.print());
         renderMatrixTable(matrix);
-        
+        if (isFractionMode){
+            console.log("page is fraction mode");
+        }
+
     } catch (error) {
         console.error("Error loading matrix:", error);
         $("#matrix").html("<p>Error loading matrix data.</p>");
@@ -95,6 +106,7 @@ function renderMatrixTable(matrix) {
                 } else {
                     latexString = (numerator / denominator).toString();
                 }
+                console.log("final string for box ", rows, " ", cols, " is ", latexString);
             }
             
             table += `<td style='padding: 2px; margin: 2px;'>
@@ -112,41 +124,38 @@ function renderMatrixTable(matrix) {
     console.log(table);
     $("#matrix").html(table);
     console.log("Matrix table maybe?");
-
-    if (isFractionMode) {
-    renderMatrixLateX(matrix);}
 }
 
-function renderMatrixLateX(matrix) {
-    const rows = matrix.size[0];
-    const cols = matrix.size[1];
+// function renderMatrixLateX(matrix) {
+//     const rows = matrix.size[0];
+//     const cols = matrix.size[1];
         
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            const latexId = `latex-display-${i}-${j}`;
-            const element = document.getElementById(latexId);
-            console.log("Rendering LaTeX for element:", latexId, element);
+//     for (let i = 0; i < rows; i++) {
+//         for (let j = 0; j < cols; j++) {
+//             const latexId = `latex-display-${i}-${j}`;
+//             const element = document.getElementById(latexId);
+//             console.log("Rendering LaTeX for element:", latexId, element);
 
-            if (!element) {
-                console.warn(`Element ${latexId} not found`);
-                continue;
-            }
-                        try {
-                // Just render the LaTeX that's already in the element
-                katex.render(element.textContent, element, { 
-                    throwOnError: false,
-                    displayMode: false
-                });
+//             if (!element) {
+//                 console.warn(`Element ${latexId} not found`);
+//                 continue;
+//             }
+//                         try {
+//                 // Just render the LaTeX that's already in the element
+//                 katex.render(element.textContent, element, { 
+//                     throwOnError: false,
+//                     displayMode: false
+//                 });
                 
-            } catch (error) {
-                console.error("KaTeX rendering error:", error);
-                //element.innerHTML = '<span style="color:red">Error</span>';
-            }
+//             } catch (error) {
+//                 console.error("KaTeX rendering error:", error);
+//                 //element.innerHTML = '<span style="color:red">Error</span>';
+//             }
 
 
-        }
-    }
-}
+//         }
+//     }
+// }
 
 
 function loadTheme() {

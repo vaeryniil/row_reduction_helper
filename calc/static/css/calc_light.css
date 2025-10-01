@@ -4,6 +4,37 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    /* Center horizontally */
+    padding: 1rem;
+    background-color: #fcfcfd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    /* Center text content */
+}
+
+#light-dark{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: 2px solid #dcdcdc7c;
+    border-radius: 3px;
+    display: inline-flex;
+    background-color:  #fffefef7;
+    height: 28px;
+    width: 45px;
+    margin: 8px auto;
+    color: rgba(67, 67, 67, 0.834);
+    text-align: center;
+    align-items: center;
+}
+
 
 /* Matrix Table Styling */
 .table-not-bordered {
@@ -57,12 +88,6 @@ h1 {
 
 }
 
-.matrix-box:focus {
-    border-color: #80bdff;
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
-}
-
 .katex, .katex-display {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.2rem !important;
@@ -104,4 +129,15 @@ h1 {
   justify-content: center;
   pointer-events: none;
   overflow: hidden;
+}
+
+.op-button {
+
+  
+}
+
+.op-button:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
