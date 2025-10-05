@@ -27,6 +27,7 @@ h1 {
     color: rgba(220, 220, 220, 0.834);
     text-align: center;
     align-items: center;
+    z-index: 2;
 }
 
 

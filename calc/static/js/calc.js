@@ -23,7 +23,9 @@ $(document).ready(function() {
     });
 
     //for swap button
-    $('#swap').click(function() {
+    $('#swap').click(function(og_matrix) {
+        console.log("in swap button");
+        console.log(og_matrix.print());
         $('#btn-abt').text("swap two rows");
         
         $('#operation-input').html(`
@@ -33,10 +35,16 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="swap-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
             `); 
+
+        $("#submit-op").click(function() {
+            $("#error-message").text(""); // Clear previous error messages
+            let operation = $('#op-input').text();
+            console.log("Operation to perform:", operation);
+        });
     });
 
     //for scale button
-    $('#scale').click(function() {
+    $('#scale').click(function(og_matrix) {
         $('#btn-abt').text(" multiply or divide a row by some value");
 
         $('#operation-input').html(`
@@ -46,10 +54,15 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="scale-factor"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
             `); 
+        $("#submit-op").click(function(og_matrix) {
+            $("#error-message").text(""); // Clear previous error messages
+            let operation = $('#op-input').text();
+            console.log("Operation to perform:", operation);
+        });
     });
 
     //for add button
-    $("#add").click(function() {
+    $("#add").click(function(og_matrix) {
         $('#btn-abt').text("replace a row by adding or subtracting it to a multiple of another row");
         $('#operation-input').html(`
             <label for="add-factor">add row </label>    
@@ -58,14 +71,14 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="add-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
         `); 
+        
+        $("#submit-op").click(function(og_matrix) {
+            $("#error-message").text(""); // Clear previous error messages
+            let operation = $('#op-input').text();
+            console.log("Operation to perform:", operation);
+        });
     });
 
-    //for go button
-    $("#submit-op").click(function() {
-        $("#error-message").text(""); // Clear previous error messages
-        let operation = $('#op-input').text();
-        console.log("Operation to perform:", operation);
-    });
 });
 
 
@@ -118,6 +131,8 @@ function loadMatrix(){
             console.log("page is fraction mode");
         }
 
+        console.log("in loadmatrix:")
+        console.log(matrix.print());
         return matrix;
 
     } catch (error) {

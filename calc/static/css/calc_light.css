@@ -33,6 +33,7 @@ body {
     color: rgba(67, 67, 67, 0.834);
     text-align: center;
     align-items: center;
+    z-index: 2;
 }
 
 
@@ -132,8 +133,8 @@ h1 {
 }
 
 .op-button {
-    background-color: #29d1f29f;
-    border: 2px solid #3eb8ff55;
+    background-color: #29d0f26d;
+    border: 2px solid #3eb8ff2c;
     border-radius: 4px;
     color: #ffffff;
     cursor: pointer;
