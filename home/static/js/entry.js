@@ -258,6 +258,7 @@ function generateTable(rows, cols) {
     return matrix;
 }
 
+
 function finalValidate(matrix){
     console.log("in final validate")
     let size = matrix.size;
@@ -285,8 +286,7 @@ function finalValidate(matrix){
 };
 
 function deleteFraction(id, latex_id, matrix, flags){
-
-    console.log("in delete");    
+    //console.log("in delete");    
     const [i, j] = id.match(/\d+/g).map(Number); 
     let n = matrix.get_entry(i+1, j+1)[0];
     let d = matrix.get_entry(i+1, j+1)[1];
