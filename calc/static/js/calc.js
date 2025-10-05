@@ -85,18 +85,20 @@ $(document).ready(function() {
         $("#scale-factor").keyup(function() {
             let val = $(this).val();
             validateInput(val);
-            console.log("validated input: ", row);//only accepts ints rn
-            $(this).val(row);
+            console.log("validated input: ", val);//only accepts ints rn
+            $(this).val(val);
         });
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
             let row = $('#scale-box').val(); 
             let factor = $('#scale-factor').val();
+            console.log("r0w in go is ", row, " and ", factor);
             //1 is mulitplication, 0 is division
-            //let operator = 1;
-            //og_matrix.scale(parseInt(row, 10), operator, [parseInt(factor, 10), 1]);
-            
+            let operator = 1;
+            let operand = [parseInt(factor, 10), 1];
+            og_matrix.scale(parseInt(row, 10), operator, operand);
+            console.log("Matrix after scale:", og_matrix.print());
         });
     });
 
