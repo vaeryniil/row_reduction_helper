@@ -58,7 +58,8 @@ body {
 }
 
 .table-not-bordered td:nth-last-child(2) {
-    border-right: 2px solid red !important;
+    border-right: 3px dotted rgba(255, 17, 0, 0.6) !important;
+    border-radius: 1px;
 }
 
 #matrix {
@@ -135,6 +136,16 @@ h1 {
   overflow: hidden;
 }
 
+#btn-abt {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    min-height: 24px;
+    min-width: 200px;
+    color: #212529;
+    text-align: center;
+}
+
 .op-button {
     background-color: #29d0f26d;
     border: 2px solid #3eb8ff2c;
@@ -145,7 +156,8 @@ h1 {
     margin: 0.5rem;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s, border-color 0.3s;
-  
+    z-index: 2;
+
 }
 
 .op-button:focus, .op-input:focus {

@@ -12,6 +12,8 @@ $(document).ready(function() {
     loadTheme();
 
     let og_matrix = loadMatrix();
+    let rows = og_matrix.size[0];
+    //let cols = og_matrix.size[1];
     //console.log(og_matrix);
 
     if (isFractionMode){
@@ -29,12 +31,26 @@ $(document).ready(function() {
         $('#btn-abt').text("swap two rows");
         
         $('#operation-input').html(`
-            <label for="swap-factor">swap rows </label>
+            <label for="swap-factor">swap rows  </label>
             <input type="text" class="op-input" id="swap-box1"></input>
-            <label for="swap-factor"> and </label>
+            <label for="swap-factor">  and  </label>
             <input type="text" class="op-input" id="swap-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
             `); 
+
+        $("#swap-box1").keyup(function() {
+            let val = $(this).val();
+            let row = validateRows(val, rows);
+            console.log("validated row: ", row);
+            $(this).val(row);
+        });
+
+        $("#swap-box2").keyup(function() {
+            let val = $(this).val();
+            let row = validateRows(val, rows);
+            console.log("validated row: ", row);
+            $(this).val(row);
+        });
 
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
@@ -44,17 +60,29 @@ $(document).ready(function() {
     });
 
     //for scale button
-    $('#scale').click(function(og_matrix) {
+    $('#scale').click(function() {
         $('#btn-abt').text(" multiply or divide a row by some value");
 
         $('#operation-input').html(`
-            <label for="scale-factor">scale row </label>
+            <label for="scale-factor">scale row  </label>
             <input type="text" class="op-input" id="scale-box"></input>
-            <label for="scale-factor"> by </label>
+            <label for="scale-factor">  by  </label>
             <input type="text" class="op-input" id="scale-factor"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
             `); 
-        $("#submit-op").click(function(og_matrix) {
+
+        $("#scale-box").keyup(function() {
+            let val = $(this).val();
+            let row = validateRows(val, rows);
+            console.log("validated row: ", row);
+            $(this).val(row);
+        });
+        $("#scale-factor").keyup(function() {
+            let val = $(this).val();
+            validateInput(val);
+        });
+        
+        $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
             let operation = $('#op-input').text();
             console.log("Operation to perform:", operation);
@@ -62,17 +90,33 @@ $(document).ready(function() {
     });
 
     //for add button
-    $("#add").click(function(og_matrix) {
+    $("#add").click(function() {
         $('#btn-abt').text("replace a row by adding or subtracting it to a multiple of another row");
         $('#operation-input').html(`
-            <label for="add-factor">add row </label>    
-            <input type="text" class="op-input" id="add-factor"></input>
-            <label for="add-factor"> to row </label>
+            <label for="add-factor">add row  </label>    
+            <input type="text" class="op-input" id="add-box1"></input>
+            <label for="add-factor">  to row  </label>
             <input type="text" class="op-input" id="add-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
         `); 
+
+        $("#add-box1").keyup(function() {
+            let val = $(this).val();
+            let row = validateRows(val, rows);
+            console.log("validated row: ", row);
+            $(this).val(row);
+        });
+
+        $("#add-box2").keyup(function() {
+            let val = $(this).val();
+            let row = validateRows(val, rows);
+            console.log("validated row: ", row);
+            $(this).val(row);
+        });
+
         
-        $("#submit-op").click(function(og_matrix) {
+        
+        $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
             let operation = $('#op-input').text();
             console.log("Operation to perform:", operation);
@@ -81,6 +125,17 @@ $(document).ready(function() {
 
 });
 
+function validateRows(value, rows) {
+    let num = value.replace(/[^0-9]/g, '');
+    
+    if (parseInt(num, 10) > rows) {
+        num = (rows).toString();
+    }
+    else if (parseInt(num, 10) < 1) {
+        num = "1";
+    } 
+    return num;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof renderMathInElement !== 'undefined') {
