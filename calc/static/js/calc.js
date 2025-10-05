@@ -12,7 +12,7 @@ $(document).ready(function() {
     loadTheme();
 
     let og_matrix = loadMatrix();
-    //console.log("Matrix size:", matrix.size);
+    //console.log(og_matrix);
 
     if (isFractionMode){
         renderKatex(og_matrix);
@@ -23,9 +23,9 @@ $(document).ready(function() {
     });
 
     //for swap button
-    $('#swap').click(function(og_matrix) {
-        console.log("in swap button");
-        console.log(og_matrix.print());
+    $('#swap').click(function() {
+        //console.log("in swap button");
+        //console.log(og_matrix.print());
         $('#btn-abt').text("swap two rows");
         
         $('#operation-input').html(`

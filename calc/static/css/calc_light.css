@@ -57,6 +57,9 @@ body {
     width: auto;
 }
 
+.table-not-bordered td:nth-last-child(2) {
+    border-right: 2px solid red !important;
+}
 
 #matrix {
     display: grid;
