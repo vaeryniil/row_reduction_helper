@@ -54,13 +54,13 @@ $(document).ready(function() {
 
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
-            let row1 = $('#swap-box1').text(); 
-            let row2 = $('#swap-box2').text();
+            const row1 = $('#swap-box1').val(); 
+            const row2 = $('#swap-box2').val();
             console.log("Rows to swap:", row1, row2);
             // then logic to perform the swap operation on the matrix
-            og_matrix.swap(row1, row2);
+            og_matrix.swap(parseInt(row1, 10), parseInt(row2, 10));
             console.log("Matrix after swap:", og_matrix.print());
-            renderMatrixTable(og_matrix);
+            //renderMatrixTable(og_matrix);
         });
     });
 
@@ -139,6 +139,11 @@ function validateRows(value, rows) {
     else if (parseInt(num, 10) < 1) {
         num = "1";
     } 
+    return num;
+}
+
+function validateInput(value) {
+    let num = value.replace(/[^0-9\/\-\.]/g, '');
     return num;
 }
 
