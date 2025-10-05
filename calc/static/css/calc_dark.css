@@ -130,8 +130,20 @@ katex, .katex-display {
   
 }
 
-.op-button:focus {
+.op-button:focus, .op-input:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.op-input {
+    background-color: #3f3f3f;
+    border: 2px solid #5a5a5a;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 1rem;
+    width: 50px !important;
+    height: 33px;
+    font-size: 1.2rem;
+    padding: 0.5rem;
 }

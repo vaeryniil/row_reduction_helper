@@ -62,12 +62,14 @@ function toggleInputType(button){
 
     // Update button text
     $(".matrix-input").each(function () {
-        $(this).attr("placeholder", isFractionMode ? "a/b" : "0.0");
+        $(this).attr("placeholder", isFractionMode ? "a/b" : "a/b");
     });
     localStorage.setItem('fractionMode', isFractionMode);
 
     console.log("Mode changed to:", isFractionMode ? "decimal" : "fraction");
 }
+
+//function 
 
 
 function toggleLightDark(button){
@@ -395,7 +397,7 @@ function validateFraction(input_id, latex_id, matrix, flags) {
 
         matrix.add_value(i+1, j+1, numerator, denominator);
         if(denominator === 1){flags.tens_flag = true;}//trying to enter a tens place fraction
-        console.log("tens flag is " + flags.tens_flag);
+        //console.log("tens flag is " + flags.tens_flag);
     }
     //grrr
 

@@ -144,8 +144,18 @@ h1 {
   
 }
 
-.op-button:focus {
+.op-button:focus, .op-input:focus {
     border-color: #80bdff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+.op-input {
+    width: 50px !important;
+    height: 33px;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+
 }

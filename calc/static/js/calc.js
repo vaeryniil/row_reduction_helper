@@ -11,15 +11,45 @@ $(document).ready(function() {
 
     loadTheme();
 
-    loadMatrix();
+    let size = loadMatrix();
+    console.log("Matrix size:", size);
 
     //for swap button
-    
+    $('#swap').click(function() {
+        $('#btn-abt').text("swap two rows");
+        
+        $('#operation-input').html(`
+            <label for="swap-factor">swap rows </label>
+            <input type="text" class="op-input" id="swap-box1"></input>
+            <label for="swap-factor"> and </label>
+            <input type="text" class="op-input" id="swap-box2"></input>
+        `); 
+
+    });
 
     //for scale button
+    $('#scale').click(function() {
+        $('#btn-abt').text(" multiply or divide a row by some value");
+
+        $('#operation-input').html(`
+            <label for="scale-factor">scale row </label>
+            <input type="text" class="op-input" id="scale-box"></input>
+            <label for="scale-factor"> by </label>
+            <input type="text" class="op-input" id="scale-factor"></input>
+        `); 
+    });
 
     //for add button
-    
+    $("#add").click(function() {
+        $('#btn-abt').text("replace a row by adding or subtracting it to a multiple of another row");
+        $('#operation-input').html(`
+            <label for="add-factor">add row </label>    
+            <input type="text" class="op-input" id="add-factor"></input>
+            <label for="add-factor"> to row </label>
+            <input type="text" class="op-input" id="add-box2"></input>
+        `); 
+    });
+
     $("#light-dark").click(function() {
         toggleLightDark(this);
     });
@@ -73,6 +103,8 @@ function loadMatrix(){
         if (isFractionMode){
             console.log("page is fraction mode");
         }
+
+        return (rows, cols);
 
     } catch (error) {
         console.error("Error loading matrix:", error);
@@ -172,7 +204,7 @@ function loadTheme() {
         'data-theme': isDark ? 'dark' : 'light'
     }).appendTo('head');
     
-    $("#light-dark").text(isDark ? "light" : "dark");
+    $("#light-dark").text(isDark ? "dark" : "light");
     console.log("Theme loaded:", themePreference);
 }
 
