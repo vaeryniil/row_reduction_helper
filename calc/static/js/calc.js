@@ -11,8 +11,12 @@ $(document).ready(function() {
 
     loadTheme();
 
-    let size = loadMatrix();
-    console.log("Matrix size:", size);
+    let og_matrix = loadMatrix();
+    console.log("Matrix size:", matrix.size);
+
+    if (isFractionMode){
+        renderKatex(og_matrix);
+    }
 
     //for swap button
     $('#swap').click(function() {
@@ -104,7 +108,7 @@ function loadMatrix(){
             console.log("page is fraction mode");
         }
 
-        return (rows, cols);
+        return matrix;
 
     } catch (error) {
         console.error("Error loading matrix:", error);
@@ -150,44 +154,44 @@ function renderMatrixTable(matrix) {
         }
         table += "</tr>";
     }
-    
-    
     table += "</table>";
     console.log(table);
     $("#matrix").html(table);
-    console.log("Matrix table maybe?");
+    console.log("Matrix table should be done");
 }
 
-// function renderMatrixLateX(matrix) {
-//     const rows = matrix.size[0];
-//     const cols = matrix.size[1];
+function renderKatex(matrix) {
+    const rows = matrix.size[0];
+    const cols = matrix.size[1];
         
-//     for (let i = 0; i < rows; i++) {
-//         for (let j = 0; j < cols; j++) {
-//             const latexId = `latex-display-${i}-${j}`;
-//             const element = document.getElementById(latexId);
-//             console.log("Rendering LaTeX for element:", latexId, element);
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            console.log("Rendering LaTeX for cell:", i, j);
+            console.log("Matrix entry:", matrix.entries[i][j]);
+            const latexId = `latex-display-${i}-${j}`;
+            const element = document.getElementById(latexId);
+            console.log("Rendering LaTeX for element:", latexId, element);
 
-//             if (!element) {
-//                 console.warn(`Element ${latexId} not found`);
-//                 continue;
-//             }
-//                         try {
-//                 // Just render the LaTeX that's already in the element
-//                 katex.render(element.textContent, element, { 
-//                     throwOnError: false,
-//                     displayMode: false
-//                 });
+            if (!element) {
+                console.warn(`Element ${latexId} not found`);
+                continue;
+            }
+                        try {
+                // Just render the LaTeX that's already in the element
+                katex.render(element.textContent, element, { 
+                    throwOnError: false,
+                    displayMode: false
+                });
                 
-//             } catch (error) {
-//                 console.error("KaTeX rendering error:", error);
-//                 //element.innerHTML = '<span style="color:red">Error</span>';
-//             }
+            } catch (error) {
+                console.error("KaTeX rendering error:", error);
+                //element.innerHTML = '<span style="color:red">Error</span>';
+            }
 
 
-//         }
-//     }
-// }
+        }
+    }
+}
 
 
 function loadTheme() {
