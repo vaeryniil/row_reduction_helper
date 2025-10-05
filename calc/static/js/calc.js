@@ -12,11 +12,15 @@ $(document).ready(function() {
     loadTheme();
 
     let og_matrix = loadMatrix();
-    console.log("Matrix size:", matrix.size);
+    //console.log("Matrix size:", matrix.size);
 
     if (isFractionMode){
         renderKatex(og_matrix);
     }
+
+    $("#light-dark").click(function() {
+        toggleLightDark(this);
+    });
 
     //for swap button
     $('#swap').click(function() {
@@ -27,8 +31,8 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="swap-box1"></input>
             <label for="swap-factor"> and </label>
             <input type="text" class="op-input" id="swap-box2"></input>
-        `); 
-
+            <button type="button" id="submit-op" class="btn btn-default">go</button>
+            `); 
     });
 
     //for scale button
@@ -40,7 +44,8 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="scale-box"></input>
             <label for="scale-factor"> by </label>
             <input type="text" class="op-input" id="scale-factor"></input>
-        `); 
+            <button type="button" id="submit-op" class="btn btn-default">go</button>
+            `); 
     });
 
     //for add button
@@ -51,11 +56,15 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="add-factor"></input>
             <label for="add-factor"> to row </label>
             <input type="text" class="op-input" id="add-box2"></input>
+            <button type="button" id="submit-op" class="btn btn-default">go</button>
         `); 
     });
 
-    $("#light-dark").click(function() {
-        toggleLightDark(this);
+    //for go button
+    $("#submit-op").click(function() {
+        $("#error-message").text(""); // Clear previous error messages
+        let operation = $('#op-input').text();
+        console.log("Operation to perform:", operation);
     });
 });
 
@@ -73,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+//loads matrix from localStorage and runs renderMatrixTable
 function loadMatrix(){
     console.log("Loading matrix from localStorage...");
     const raw_matrix_data = localStorage.getItem('matrix-0-0');
@@ -116,6 +126,7 @@ function loadMatrix(){
     }
 }
 
+//builds matrix html from matrix object
 function renderMatrixTable(matrix) {
     const rows = matrix.size[0];
     const cols = matrix.size[1];
@@ -160,17 +171,18 @@ function renderMatrixTable(matrix) {
     console.log("Matrix table should be done");
 }
 
+//renders latex if is fraction mode
 function renderKatex(matrix) {
     const rows = matrix.size[0];
     const cols = matrix.size[1];
         
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
-            console.log("Rendering LaTeX for cell:", i, j);
-            console.log("Matrix entry:", matrix.entries[i][j]);
+            //console.log("Rendering LaTeX for cell:", i, j);
+            //console.log("Matrix entry:", matrix.entries[i][j]);
             const latexId = `latex-display-${i}-${j}`;
             const element = document.getElementById(latexId);
-            console.log("Rendering LaTeX for element:", latexId, element);
+            //console.log("Rendering LaTeX for element:", latexId, element);
 
             if (!element) {
                 console.warn(`Element ${latexId} not found`);
@@ -187,8 +199,6 @@ function renderKatex(matrix) {
                 console.error("KaTeX rendering error:", error);
                 //element.innerHTML = '<span style="color:red">Error</span>';
             }
-
-
         }
     }
 }

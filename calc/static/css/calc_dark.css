@@ -146,4 +146,6 @@ katex, .katex-display {
     height: 33px;
     font-size: 1.2rem;
     padding: 0.5rem;
+    text-align: center;
 }
+
