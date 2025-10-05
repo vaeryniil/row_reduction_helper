@@ -66,6 +66,7 @@ h1 {
 .table-not-bordered td:nth-last-child(2) {
     border-right: 3 px dotted  rgba(255, 17, 0, .6) !important;
     border-radius: 1px;
+    z-index: 5;
 }
 
 /* Dark mode styles */
@@ -74,7 +75,7 @@ h1 {
     border-color: #969696;
     color: #ffffff;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     /*background: transparent;*/    
     width: 50px !important;
     height: 33px;
@@ -90,7 +91,7 @@ h1 {
 }
 
 
-katex, .katex-display {
+.katex, .katex-display {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.2rem !important;
   color: #495057 !important;
@@ -121,6 +122,19 @@ katex, .katex-display {
 /* Dark mode */
 .latex-overlay {
   color: #e9ecef;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  display: flex;
+  text-align: center;
+  z-index: 4;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 #btn-abt {

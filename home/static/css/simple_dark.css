@@ -50,16 +50,14 @@ body {
     color: #ffffff;
 }
 
-katex, .katex-display {
+.katex, .katex-display {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.2rem !important;
-  color: #495057 !important;
+  /*color: #495057 !important;*/
+  color: #e9ecef !important;
+  background-color: transparent !important;
 }
 
-/* Dark mode */
-.katex, .katex-display {
-  color: #e9ecef !important;
-}
 
 /* Additional KaTeX-specific refinements */
 .katex .katex-mathml {
@@ -81,4 +79,15 @@ katex, .katex-display {
 /* Dark mode */
 .latex-overlay {
   color: #e9ecef;
+  z-index: 4;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  display: flex;
+  text-align: center;
+  pointer-events: none;
+  overflow: hidden;
 }
