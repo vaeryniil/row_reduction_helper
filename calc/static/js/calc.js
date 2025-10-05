@@ -54,8 +54,13 @@ $(document).ready(function() {
 
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
-            let operation = $('#op-input').text();
-            console.log("Operation to perform:", operation);
+            let row1 = $('#swap-box1').text(); 
+            let row2 = $('#swap-box2').text();
+            console.log("Rows to swap:", row1, row2);
+            // then logic to perform the swap operation on the matrix
+            og_matrix.swap(row1, row2);
+            console.log("Matrix after swap:", og_matrix.print());
+            renderMatrixTable(og_matrix);
         });
     });
 
@@ -84,8 +89,8 @@ $(document).ready(function() {
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
-            let operation = $('#op-input').text();
-            console.log("Operation to perform:", operation);
+            let row = $('#scale-box').text(); 
+            assert
         });
     });
 

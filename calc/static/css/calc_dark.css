@@ -64,7 +64,7 @@ h1 {
 }
 
 .table-not-bordered td:nth-last-child(2) {
-    border-right: 3 px dotted  rgba(255, 17, 0, .6) !important;
+    border-right: 3px dotted  rgba(255, 17, 0, .6) !important;
     border-radius: 1px;
     z-index: 5;
 }
@@ -75,13 +75,13 @@ h1 {
     border-color: #969696;
     color: #ffffff;
     position: relative;
-    z-index: 3;
+    z-index: 2;
     /*background: transparent;*/    
     width: 50px !important;
     height: 33px;
     font-size: 1.2rem;
     padding: 0.5rem;
-    border: 2px;
+    border: 2px solid #4d4d4d;
     border-radius: 4px;
     text-align: center;
     /*transition: border-color 0.3s;*/
@@ -95,6 +95,7 @@ h1 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.2rem !important;
   color: #495057 !important;
+  background-color: transparent !important;
 }
 
 /* Dark mode */
