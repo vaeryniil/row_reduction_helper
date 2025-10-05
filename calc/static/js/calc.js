@@ -85,12 +85,18 @@ $(document).ready(function() {
         $("#scale-factor").keyup(function() {
             let val = $(this).val();
             validateInput(val);
+            console.log("validated input: ", row);//only accepts ints rn
+            $(this).val(row);
         });
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
-            let row = $('#scale-box').text(); 
-            assert
+            let row = $('#scale-box').val(); 
+            let factor = $('#scale-factor').val();
+            //1 is mulitplication, 0 is division
+            //let operator = 1;
+            //og_matrix.scale(parseInt(row, 10), operator, [parseInt(factor, 10), 1]);
+            
         });
     });
 
@@ -123,16 +129,20 @@ $(document).ready(function() {
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
-            let operation = $('#op-input').text();
-            console.log("Operation to perform:", operation);
+            let row1 = $('#add-box1').val(); 
+            let row2 = $('#add-box2').val();
+            console.log("Rows to add:", row1, row2);
+            //og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor=1);
+            //some things were up here i could not figure it out
+            console.log(og_matrix.print());
         });
     });
 
 });
 
+
 function validateRows(value, rows) {
     let num = value.replace(/[^0-9]/g, '');
-    
     if (parseInt(num, 10) > rows) {
         num = (rows).toString();
     }
@@ -142,10 +152,12 @@ function validateRows(value, rows) {
     return num;
 }
 
-function validateInput(value) {
+
+function validateInput(value) {//will update to take fractions or decimals
     let num = value.replace(/[^0-9\/\-\.]/g, '');
     return num;
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof renderMathInElement !== 'undefined') {

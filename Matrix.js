@@ -118,9 +118,6 @@ class Matrix {
     // operand is entered as an array of two entries, the first corresponding to the numerator and the second the denominator
     scale (row1, operator, operand) {
     
-        //console.log(row1); // scaffolding
-        //console.log(operator); // scaffolding
-        //console.log(operand[0]); // scaffolding
         let numerator = operand[0];
         let denominator = operand[1];
         if (operand[1] == 0) {
@@ -137,8 +134,6 @@ class Matrix {
             //console.log(operand) //scaffolding
         }
 
-         //scaling the row
-        //console.log(this.entries[row1-1].length); //scaffolding
         let row_len = this.entries[row1-1].length;
         //console.log("Row length is:"); //scaffolding
         //console.log(row_len); // scaffolding
