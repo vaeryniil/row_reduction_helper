@@ -106,18 +106,36 @@ $(document).ready(function() {
     $("#add").click(function() {
         $('#btn-abt').text("replace a row by adding or subtracting it to a multiple of another row");
         $('#operation-input').html(`
-            <label for="add-factor">add row  </label>    
+            <label for="add-factor">row </label>    
             <input type="text" class="op-input" id="add-box1"></input>
-            <label for="add-factor">  to row  </label>
+            <label for="add-factor" id="same-row"> = row </label>
+            <button type="button" id="add-minus" class="btn btn-default">+</button>
+            <label for="add-factor"> row </label>
             <input type="text" class="op-input" id="add-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
-        `); 
+     
+                            
+            `);  //<div id="latex-display-${i}-${j}" 
+                         //class="latex-overlay katex-render"></div>
 
         $("#add-box1").keyup(function() {
             let val = $(this).val();
             let row = validateRows(val, rows);
             console.log("validated row: ", row);
             $(this).val(row);
+            $("#same-row").text(" = row " + row.toString() + " ");
+        });
+
+        $("#add-minus").click(function() {
+            console.log("in add-minus");    
+            let sign = $(this).text();  
+            console.log("sign is " + sign);    
+            if (sign === "+") {
+                $(this).text("-");
+            }   
+            else {
+                $(this).text("+");
+            }
         });
 
         $("#add-box2").keyup(function() {
@@ -126,15 +144,13 @@ $(document).ready(function() {
             console.log("validated row: ", row);
             $(this).val(row);
         });
-
-        
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
             let row1 = $('#add-box1').val(); 
             let row2 = $('#add-box2').val();
             console.log("Rows to add:", row1, row2);
-            //og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor=1);
+            og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor=[1,1]);
             //some things were up here i could not figure it out
             console.log(og_matrix.print());
         });
@@ -189,9 +205,7 @@ function loadMatrix(){
         const raw_matrix = JSON.parse(raw_matrix_data);
         const rows = raw_matrix.size[0];
         const cols = raw_matrix.size[1];
-        console.log("Raw matrix data:", raw_matrix);
-
-        console.log(`Creating ${rows}x${cols} matrix`);
+        //console.log("Raw matrix data:", raw_matrix);
         
         // Check if Matrix class is available
         if (typeof Matrix === 'undefined') {
@@ -210,8 +224,8 @@ function loadMatrix(){
             console.log("page is fraction mode");
         }
 
-        console.log("in loadmatrix:")
-        console.log(matrix.print());
+        //console.log("in loadmatrix:")
+        //console.log(matrix.print());
         return matrix;
 
     } catch (error) {
@@ -260,9 +274,9 @@ function renderMatrixTable(matrix) {
         table += "</tr>";
     }
     table += "</table>";
-    console.log(table);
+    //console.log(table);
     $("#matrix").html(table);
-    console.log("Matrix table should be done");
+    //console.log("Matrix table should be done");
 }
 
 //renders latex if is fraction mode

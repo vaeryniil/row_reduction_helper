@@ -162,12 +162,12 @@ class Matrix {
         for (let i = 0; i < row_len; i++) { 
     
             let temp_tuple = fraction_multiplier(this.entries[scale_row-1][i],multiplier); //this scales the appropriate row before adding
-            //console.log(temp_tuple); // scaffolding
-            //console.log(this.entries[scale_row - 1][i]); //scaffolding
+            console.log(temp_tuple); // scaffolding
+            console.log(this.entries[scale_row - 1][i]); //scaffolding
 
             //if the denominators of the two arrays are the same, add the arrays, reduce,  and edit the matrix
             if (temp_tuple[1] == this.entries[change_row - 1][i][1]) {
-                //console.log("same"); //scaffolding
+                console.log("same"); //scaffolding
                 this.entries[change_row-1][i] = reduce_frac(temp_tuple[0] + this.entries[change_row - 1][i][0],this.entries[change_row - 1][i][1]);
             }
             
@@ -176,11 +176,11 @@ class Matrix {
 
             //console.log('different'); //scaffolding
             let large_den_temp1 = [this.entries[change_row - 1][i][0] * temp_tuple[1],this.entries[change_row - 1][i][1] * temp_tuple[1]];
-            //console.log(large_den_temp1); //scaffolding
+            console.log(large_den_temp1); //scaffolding
             let large_den_temp2 = [temp_tuple[0] * this.entries[change_row - 1][i][1],temp_tuple[1] * this.entries[change_row - 1][i][1]];
-            //console.log(large_den_temp2); //scaffolding
+            console.log(large_den_temp2); //scaffolding
             let new_tuple_temp = reduce_frac(large_den_temp1[0] + large_den_temp2[0],large_den_temp1[1]);
-            //console.log(new_tuple_temp); // scaffolding
+            console.log(new_tuple_temp); // scaffolding
             this.entries[change_row-1][i] = new_tuple_temp;
         }
     }
