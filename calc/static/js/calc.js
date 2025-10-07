@@ -11,7 +11,9 @@ $(document).ready(function() {
 
     loadTheme();
 
-    let og_matrix = loadMatrix();
+    let values = loadMatrix();
+    let og_matrix = values[0];
+    let html_to_save = values[1];
     let rows = og_matrix.size[0];
     //let cols = og_matrix.size[1];
     //console.log(og_matrix);
@@ -26,8 +28,6 @@ $(document).ready(function() {
 
     //for swap button
     $('#swap').click(function() {
-        //console.log("in swap button");
-        //console.log(og_matrix.print());
         $('#btn-abt').text("swap two rows");
         
         $('#operation-input').html(`
@@ -60,7 +60,8 @@ $(document).ready(function() {
             // then logic to perform the swap operation on the matrix
             og_matrix.swap(parseInt(row1, 10), parseInt(row2, 10));
             console.log("Matrix after swap:", og_matrix.print());
-            //renderMatrixTable(og_matrix);
+            updateMatrix(og_matrix, html_to_save);
+
         });
     });
 
@@ -99,6 +100,8 @@ $(document).ready(function() {
             let operand = [parseInt(factor, 10), 1];
             og_matrix.scale(parseInt(row, 10), operator, operand);
             console.log("Matrix after scale:", og_matrix.print());
+            updateMatrix(og_matrix, html_to_save);
+
         });
     });
 
@@ -126,15 +129,18 @@ $(document).ready(function() {
             $("#same-row").text(" = row " + row.toString() + " ");
         });
 
+        let sign = '';
         $("#add-minus").click(function() {
             console.log("in add-minus");    
-            let sign = $(this).text();  
+            sign = $(this).text();  
             console.log("sign is " + sign);    
             if (sign === "+") {
                 $(this).text("-");
+                sign = '-'; 
             }   
             else {
                 $(this).text("+");
+                sign = '+'; 
             }
         });
 
@@ -147,16 +153,34 @@ $(document).ready(function() {
         
         $("#submit-op").click(function() {
             $("#error-message").text(""); // Clear previous error messages
+            let factor = [1, 1]; //default factor of 1
             let row1 = $('#add-box1').val(); 
             let row2 = $('#add-box2').val();
             console.log("Rows to add:", row1, row2);
-            og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor=[1,1]);
+            if (sign === '-'){factor = [-1, 1];} 
+            og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor);
             //some things were up here i could not figure it out
             console.log(og_matrix.print());
+            updateMatrix(og_matrix, html_to_save);
+
         });
     });
-
 });
+
+function updateMatrix(matrix, html_to_save){ 
+    console.log("Updating matrix...");
+    html_to_save += $("#operation-input").html();
+    console.log("html to save is ", html_to_save);
+    //then save state and save to local storage and write html to old matrix
+    matrix.update_state();
+    const state = matrix.state[0];
+    const redo_num = matrix.state[1];
+    console.log("New matrix state:", state);
+    localStorage.setItem(`matrix-${state}-${redo_num}`, JSON.stringify(matrix));
+    //localStorage.setItem(`matrix-html-${state}-${redo_num}`, html_to_save);
+    //console.log("Matrix and HTML saved to localStorage with state", state);
+    $('#old-matrix').append(html_to_save);
+}
 
 
 function validateRows(value, rows) {
@@ -219,14 +243,14 @@ function loadMatrix(){
         matrix.entries = raw_matrix.entries;
         
         console.log("Matrix loaded:", matrix.print());
-        renderMatrixTable(matrix);
+        let html = renderMatrixTable(matrix);
         if (isFractionMode){
             console.log("page is fraction mode");
         }
 
         //console.log("in loadmatrix:")
         //console.log(matrix.print());
-        return matrix;
+        return [matrix, html];
 
     } catch (error) {
         console.error("Error loading matrix:", error);
@@ -276,6 +300,7 @@ function renderMatrixTable(matrix) {
     table += "</table>";
     //console.log(table);
     $("#matrix").html(table);
+    return table;
     //console.log("Matrix table should be done");
 }
 
