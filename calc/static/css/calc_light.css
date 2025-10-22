@@ -2,6 +2,7 @@ body {
     background-color: #ffffff;
     color: #212529;
     font-family: Arial, sans-serif;
+    min-height: 150vh;
 }
 
 .container {

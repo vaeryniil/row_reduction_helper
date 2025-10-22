@@ -179,7 +179,47 @@ function updateMatrix(matrix, html_to_save){
     localStorage.setItem(`matrix-${state}-${redo_num}`, JSON.stringify(matrix));
     //localStorage.setItem(`matrix-html-${state}-${redo_num}`, html_to_save);
     //console.log("Matrix and HTML saved to localStorage with state", state);
+
     $('#old-matrix').append(html_to_save);
+
+
+    if (isFractionMode) {
+        renderOldKaTeX(); // Call your KaTeX rendering function
+    }
+    
+    scrollToMatrix();
+}
+
+
+function scrollToMatrix() {
+    const matrixElement = document.getElementById('matrix');
+    
+    if (matrixElement) {
+        $('html, body').animate({
+            scrollTop: $(matrixElement).offset().top - 80
+        }, 1200); // 1200ms duration
+    }
+}
+
+function renderOldKaTeX() {
+    // Find all latex display elements in the newly added content
+    $('#old-matrix .matrix-box [id^="latex-display-"]').each(function() {
+        try {
+            const element = this;
+            const latexContent = element.textContent || element.innerText;
+            
+            // Only render if there's actual LaTeX content
+            if (latexContent.trim()) {
+                katex.render(latexContent, element, { 
+                    throwOnError: false,
+                    displayMode: false
+                });
+            }
+        } catch (error) {
+            console.error("KaTeX rendering error for element", this.id, ":", error);
+            this.innerHTML = '<span style="color:red">Render Error</span>';
+        }
+    });
 }
 
 
