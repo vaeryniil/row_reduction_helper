@@ -179,7 +179,8 @@ function updateMatrix(matrix, html_to_save){
     localStorage.setItem(`matrix-${state}-${redo_num}`, JSON.stringify(matrix));
     //localStorage.setItem(`matrix-html-${state}-${redo_num}`, html_to_save);
     //console.log("Matrix and HTML saved to localStorage with state", state);
-
+    $("#matrix-title").show();
+    
     $('#old-matrix').append(html_to_save);
 
 
