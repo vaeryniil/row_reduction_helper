@@ -17,6 +17,8 @@ $(document).ready(function() {
     let rows = og_matrix.size[0];
     //let cols = og_matrix.size[1];
     //console.log(og_matrix);
+    
+    //while (true){
 
     if (isFractionMode){
         renderKatex(og_matrix);
@@ -37,18 +39,18 @@ $(document).ready(function() {
             <input type="text" class="op-input" id="swap-box2"></input>
             <button type="button" id="submit-op" class="btn btn-default">go</button>
             `); 
-
+        let val1; let  val2;
         $("#swap-box1").keyup(function() {
-            let val = $(this).val();
-            let row = validateRows(val, rows);
-            console.log("validated row: ", row);
+            val1 = $(this).val();
+            let row = validateRows(val1, rows);
+            //console.log("validated row: ", row);
             $(this).val(row);
         });
 
         $("#swap-box2").keyup(function() {
-            let val = $(this).val();
-            let row = validateRows(val, rows);
-            console.log("validated row: ", row);
+            val2 = $(this).val();
+            let row = validateRows(val2, rows);
+            //console.log("validated row: ", row);
             $(this).val(row);
         });
 
@@ -56,12 +58,18 @@ $(document).ready(function() {
             $("#error-message").text(""); // Clear previous error messages
             const row1 = $('#swap-box1').val(); 
             const row2 = $('#swap-box2').val();
-            console.log("Rows to swap:", row1, row2);
+            //console.log("Rows to swap:", row1, row2);
+            $('#swap-box1').attr('value', row1).prop('readonly', true);
+            $('#swap-box2').attr('value', row2).prop('readonly', true);
+
+            const html_input = $("#operation-input").html();
             // then logic to perform the swap operation on the matrix
             og_matrix.swap(parseInt(row1, 10), parseInt(row2, 10));
-            console.log("Matrix after swap:", og_matrix.print());
-            updateMatrix(og_matrix, html_to_save);
-
+            //console.log("Matrix after swap:", og_matrix.print());
+            updateMatrix(og_matrix, html_to_save, html_input);
+            
+            //$('#swap-box1').val(''); 
+            //$('#swap-box2').val(''); 
         });
     });
 
@@ -80,7 +88,7 @@ $(document).ready(function() {
         $("#scale-box").keyup(function() {
             let val = $(this).val();
             let row = validateRows(val, rows);
-            console.log("validated row: ", row);
+            //console.log("validated row: ", row);
             $(this).val(row);
         });
         $("#scale-factor").keyup(function() {
@@ -94,14 +102,20 @@ $(document).ready(function() {
             $("#error-message").text(""); // Clear previous error messages
             let row = $('#scale-box').val(); 
             let factor = $('#scale-factor').val();
-            console.log("r0w in go is ", row, " and ", factor);
+            //console.log("r0w in go is ", row, " and ", factor);
+            $('#scale-box').attr('value', row).prop('readonly', true);
+            $('#scale-factor').attr('value', factor).prop('readonly', true);
+
+            const html_input = $("#operation-input").html();
+
             //1 is mulitplication, 0 is division
             let operator = 1;
             let operand = [parseInt(factor, 10), 1];
             og_matrix.scale(parseInt(row, 10), operator, operand);
-            console.log("Matrix after scale:", og_matrix.print());
-            updateMatrix(og_matrix, html_to_save);
-
+            //console.log("Matrix after scale:", og_matrix.print());
+            updateMatrix(og_matrix, html_to_save, html_input);
+            $('#scale-box').val('');
+            $('#scale-factor').val('');
         });
     });
 
@@ -124,16 +138,16 @@ $(document).ready(function() {
         $("#add-box1").keyup(function() {
             let val = $(this).val();
             let row = validateRows(val, rows);
-            console.log("validated row: ", row);
+            //console.log("validated row: ", row);
             $(this).val(row);
             $("#same-row").text(" = row " + row.toString() + " ");
         });
 
         let sign = '';
         $("#add-minus").click(function() {
-            console.log("in add-minus");    
+            //console.log("in add-minus");    
             sign = $(this).text();  
-            console.log("sign is " + sign);    
+            //console.log("sign is " + sign);    
             if (sign === "+") {
                 $(this).text("-");
                 sign = '-'; 
@@ -147,7 +161,7 @@ $(document).ready(function() {
         $("#add-box2").keyup(function() {
             let val = $(this).val();
             let row = validateRows(val, rows);
-            console.log("validated row: ", row);
+            //console.log("validated row: ", row);
             $(this).val(row);
         });
         
@@ -156,20 +170,28 @@ $(document).ready(function() {
             let factor = [1, 1]; //default factor of 1
             let row1 = $('#add-box1').val(); 
             let row2 = $('#add-box2').val();
-            console.log("Rows to add:", row1, row2);
+            //console.log("Rows to add:", row1, row2);
+            $('#add-box1').attr('value', row1).prop('readonly', true);
+            $('#add-box2').attr('value', row2).prop('readonly', true);
+            const html_input = $("#operation-input").html();
+
             if (sign === '-'){factor = [-1, 1];} 
             og_matrix.add(parseInt(row1, 10), parseInt(row2, 10), factor);
             //some things were up here i could not figure it out
             console.log(og_matrix.print());
-            updateMatrix(og_matrix, html_to_save);
-
+            updateMatrix(og_matrix, html_to_save, html_input);
+            $('#add-box1').val(''); 
+            $('#add-box2').val(''); 
+            $("#same-row").text(" = row + row ");
+            });
         });
-    });
+    //}
 });
 
-function updateMatrix(matrix, html_to_save){ 
+function updateMatrix(matrix, html_to_save, html_input){ 
     console.log("Updating matrix...");
-    html_to_save += $("#operation-input").html();
+    //add an edit button?
+    html_to_save += html_input;
     console.log("html to save is ", html_to_save);
     //then save state and save to local storage and write html to old matrix
     matrix.update_state();
